@@ -46,7 +46,7 @@ const sections = [
     title: '论文工厂',
     english: 'PAPER FACTORY',
     number: '04',
-    subtitle: '探索 AI 辅助数学研究的可能性',
+    subtitle: 'ai4math',
     note: '这里将容纳不定期的文章、想法和短记录。',
     items: ['长一点的文章', '短一点的想法', '最近的记录'],
   },

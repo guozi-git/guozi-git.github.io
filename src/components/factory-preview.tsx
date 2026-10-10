@@ -367,7 +367,7 @@ export function FactoryPreview({ embedded = false }: { embedded?: boolean }) {
               <h2 id="factory-heading">
                 论文工厂<span>。</span>
               </h2>
-              <p className={s.subtitle}>探索 AI 辅助数学研究的可能性。</p>
+              <p className={s.subtitle}>ai4math</p>
             </div>
             <div className={s.summaryLine}>
               <span>
