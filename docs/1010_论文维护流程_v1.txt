@@ -1,0 +1,90 @@
+论文工厂维护流程 · 2026-10-10 · v1
+
+一、当前状态
+正式首页第四入口已接入论文工厂；/preview/ 使用相同组件，不再维护两份页面。
+当前变更仅在本地分支 codex/paper-factory-maintenance，未推送或发布。
+旧正式网站 Git 回退标记：codex/before-paper-factory-20261010（644b214）。
+历史预览和原首页另保存在项目 trash/ 中。现有 86 篇数据未重新评分，三篇待修订稿未替换。
+
+二、以后交付什么
+新增论文：提供英文原题、原文摘要、完整 MSC（主分类在前）、原 PDF、页数，以及已确认的审稿数据。
+更新原文：说明论文编号并提供新版 PDF、页数；标题和摘要有变化时同时更新。
+更新审稿：说明编号，提供正确性结论及评分、理由、局限。待确认稿不提前填写价值分。
+无需自行编辑页面代码。不会根据论文内容自动猜评分或重写摘要。
+页数由输入者核对；工具校验文件头、大小和 SHA-256，不自动解析 PDF 页数或重审正文。
+
+三、先导出工作包
+在项目源码目录运行：
+npm run papers:update -- --export P045 --output .preview/1010_P045更新_v1.json
+
+这个命令不改论文，只生成可编辑 JSON；同名文件已存在时拒绝覆盖。
+修改 paper 中需要更新的字段。也可只保留 id 和要改的字段，其他字段自动保留。
+不要把工作包放在 public 中；.preview 和 trash 不上传 GitHub。
+
+仅更新审稿说明的示例：
+{
+  "mode": "update",
+  "paper": { "id": "P045", "limitation": "填写本次确认后的适用范围与局限" }
+}
+
+更换 PDF：在顶层加入 "pdf": "新版文件.pdf"，文件路径相对工作包所在目录；paper 中明确写新版 pages。
+同一个编号覆盖同一路径，工具自动更新 bytes 与 sha256。网页使用内容哈希作为版本参数。
+确认旧摘要、旧评分是否仍适用于新版是人工步骤，工具不自动修改学术结论。
+
+四、新增论文
+使用 mode 为 add，并提供未占用的 P 编号。可从导出工作包复制结构，逐项替换全部论文内容。
+必需字段：id、originalTitle、abstract、msc、pages、status、correctness、reviewNote、limitation、scores、reasons、level、maturity、confidence。
+自动字段：topic、symbol、pdf、bytes、sha256。无需手写，也不要将本地私有路径加入 paper。
+有评分时 scores 与 reasons 各 5 项，顺序为创新性、学术意义、技术深度、一般性、内容完整度。
+分值范围 0–5，步长 0.5；研究水平 level 和成熟度 maturity 单独判断。
+未评分时 scores、level、maturity、confidence 都为 null，reasons 为 []。
+status 仅接受通过、有条件通过、待确认；后两者必须填写 reviewNote。
+主 MSC 归并为既有五大方向。遇到新主分类会报错，先扩展 scripts/paper-maintenance.mjs 中 groups，再确认页面方向顺序。
+
+五、预览变更、应用、验收
+npm run papers:update -- --input .preview/1010_P045更新_v1.json
+默认只校验并列出变更字段，不写文件。
+
+npm run papers:update -- --input .preview/1010_P045更新_v1.json --apply
+校验通过后自动备份旧数据、资源清单和被替换 PDF，随后应用变更。一次只运行一个导入操作。
+备份路径由命令返回，位于源码目录 trash/paper-updates/，不进入公开仓库。
+应用命令只更新本地，不构建、不推送、不发布。
+
+npm run papers:check
+npm run papers:test
+npm run lint
+npm run format:check
+npm run content:check
+npm run build
+npm run typecheck
+npm start -- --port 3109
+npm run test:static -- http://127.0.0.1:3109/
+
+已有同端口服务时无需重复启动；重新构建后刷新页面即可。
+总数、已评价数、待确认数、排序和实际分数选项自动更新。PDF 导出白名单自动登记。
+GitHub 验证与发布构建也会检查数据、PDF 和维护工具测试；校验失败则阻止构建。
+浏览时打开主页，不默认带 #factory。页内不展示文件大小、页数、审稿日期和重复编号。
+
+六、撤销最近一次本地导入
+先停止后续编辑，确认目标备份来自最近一次操作。恢复会整体还原当时的数据清单与资源清单，不做逐篇合并。
+npm run papers:update -- --restore "trash/paper-updates/命令返回的备份目录名"
+先预览；确认无误后再次添加 --apply。
+恢复时当前文件也会保存在 trash。新增 PDF 会移到 trash，不删除原文件。
+恢复后重新执行校验和 build。备份只保存在本机，换设备时应另外保存需要的历史文件。
+
+七、Git 与上线
+确认本地效果后，明确授权才推送 GitHub。发布前检查实际 Pages 状态，不能把旧发布说明里的状态当作当前事实。
+若 main 已开启自动部署，推送 main 本身可能触发上线，因此不要未经确认推送 main。
+登录与二次验证由网站所有者在 GitHub 界面完成，不需要在对话里发送令牌或密码。
+新版本发布后需要回退时，git revert 对应发布提交再部署，不强制推送、不改写旧历史。
+旧站基线标签保留在本地；需要远端保留时随经确认的发布操作推送该标签。
+
+主要文件
+src/lib/factory-papers.json：论文内容与审稿数据
+public/papers/：原文 PDF
+scripts/paper-maintenance.mjs：导入、导出、校验、备份与恢复
+scripts/paper-maintenance.test.mjs：导入恢复测试
+src/lib/factory-papers.ts：类型、统计、分类与评分说明
+src/components/orbit.tsx：正式首页及统一展开交互
+src/components/factory-preview.tsx：论文列表、详情、筛选和阅读入口
+scripts/public-assets.json：公开资源清单

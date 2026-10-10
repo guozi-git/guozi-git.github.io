@@ -58,7 +58,7 @@ try {
       '#interests/badminton',
       '#interests/swimming',
       '#interests/gaming',
-      '#blog',
+      '#factory',
     ]) {
       await page.goto(`${site}${hash}`);
       await expect(page).toHaveTitle('果子 · 个人网站');
@@ -81,9 +81,20 @@ try {
           await page.keyboard.press('Escape');
         }
       }
-      if (hash === '#blog') {
-        await page.locator('.blog-entry summary').click();
-        await expect(page.locator('.blog-article p')).toHaveCount(9);
+      if (hash === '#factory') {
+        await expect(page.getByRole('heading', { name: '论文汇总', exact: true })).toBeVisible();
+        await page.getByLabel('搜索论文').fill('P045');
+        await page.locator('[data-paper="P045"]').click();
+        const pdf = page.getByRole('link', { name: '阅读原文' });
+        const href = await pdf.getAttribute('href');
+        const url = new URL(href, site);
+        expect(url.pathname).toBe(`${site.pathname}papers/P045.pdf`);
+        expect(url.searchParams.get('v')).toMatch(/^[a-f0-9]{16}$/);
+        const response = await page.request.get(url.href);
+        expect(response.status()).toBe(200);
+        expect(response.headers()['content-type']).toContain('application/pdf');
+        await expect(page.locator('a[download]')).toHaveCount(0);
+        await page.getByRole('button', { name: '返回论文汇总' }).click();
       }
       if (hash) {
         await page.getByRole('button', { name: '返回', exact: true }).click();

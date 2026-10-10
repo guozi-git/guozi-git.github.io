@@ -4,7 +4,7 @@ import '@/styles/globals.css';
 
 const title = '果子 · 个人网站';
 const description =
-  '你好，我是果子。这里记录我的数学研究、兴趣爱好、突发奇想的小作品，以及生活中的一些随笔。';
+  '你好，我是果子。这里记录我的数学研究、兴趣爱好、突发奇想的小作品，以及 AI 辅助数学研究的探索。';
 const publicUrl = process.env.NEXT_PUBLIC_SITE_URL;
 const siteUrl = new URL(
   `${(publicUrl || `http://127.0.0.1:3000${process.env.NEXT_PUBLIC_BASE_PATH || ''}`).replace(/\/$/, '')}/`,
@@ -25,7 +25,12 @@ export const metadata: Metadata = {
     siteName: title,
     url: publicUrl ? siteUrl.href : undefined,
     images: [
-      { url: shareImage, width: 1200, height: 630, alt: '果子的个人网站：兴趣、论文、造物与随笔' },
+      {
+        url: shareImage,
+        width: 1200,
+        height: 630,
+        alt: '果子的个人网站：兴趣、论文、造物与论文工厂',
+      },
     ],
   },
   twitter: { card: 'summary_large_image', title, description, images: [shareImage] },

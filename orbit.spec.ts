@@ -289,7 +289,7 @@ test('five entrances, return, keyboard focus and browser history', async ({ page
   page.on('pageerror', (error) => errors.push(error.message));
   await page.goto('/');
   await page.screenshot({ path: '.preview/desktop.png', fullPage: true });
-  for (const title of ['兴趣爱好', '论文发表', '兴趣造物', '随笔记录', '自我介绍']) {
+  for (const title of ['兴趣爱好', '论文发表', '兴趣造物', '论文工厂', '自我介绍']) {
     const trigger = page.getByRole('button', { name: `打开${title}`, exact: true });
     await trigger.click();
     await expect(page.getByRole('dialog')).toBeVisible();
@@ -307,8 +307,8 @@ test('five entrances, return, keyboard focus and browser history', async ({ page
       await expect(page.locator('.publication-card').first()).toBeFocused();
     } else if (title === '兴趣造物') {
       await expect(page.locator('.project-card')).toBeFocused();
-    } else if (title === '随笔记录') {
-      await expect(page.locator('.blog-entry summary').first()).toBeFocused();
+    } else if (title === '论文工厂') {
+      await expect(page.getByRole('button', { name: '评分说明' })).toBeFocused();
     } else {
       await expect(page.getByRole('button', { name: '返回', exact: true })).toBeFocused();
     }

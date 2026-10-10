@@ -24,7 +24,7 @@ jobs:
           node-version: '24.21.0'
           cache: npm
       - run: npm ci
-      - run: npm run lint && npm run format:check && npm run content:check
+      - run: npm run lint && npm run format:check && npm run content:check && npm run papers:test
       - run: npm run build && npm run typecheck
       - run: npx playwright install --with-deps chromium
       - name: Check exported files in a browser

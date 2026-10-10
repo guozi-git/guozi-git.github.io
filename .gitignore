@@ -11,3 +11,5 @@ Thumbs.db
 .vercel/
 .preview/
 playwright-report/
+
+trash/

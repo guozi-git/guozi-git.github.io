@@ -1,5 +1,7 @@
 # 首次发布到 GitHub Pages
 
+2026-10-10 本地准备记录：论文工厂已接入正式入口，尚未推送或部署。下方首次发布状态为历史记录，下一次发布前需重新确认实际 Pages 设置。新维护流程见 [论文维护流程](1010_论文维护流程_v1.txt)。
+
 仓库：[guozi-git/guozi-website](https://github.com/guozi-git/guozi-website)，可见性 Public，默认分支 main。源码和工作流已上传，线上验证已通过。预定网站地址为 `https://guozi-git.github.io/guozi-website/`；Pages 尚未启用，此地址尚未发布。
 
 ## 上传源码（已完成，保留作为迁移参考）

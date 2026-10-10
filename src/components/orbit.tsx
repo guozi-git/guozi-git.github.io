@@ -10,7 +10,8 @@ import { profile } from '@/lib/profile';
 import { Publications } from '@/components/publications';
 import { Interests } from '@/components/interests';
 import { Projects } from '@/components/projects';
-import { Blog } from '@/components/blog';
+import { FactoryPreview } from '@/components/factory-preview';
+import factoryStyles from './factory-preview.module.css';
 
 const sections = [
   {
@@ -41,11 +42,11 @@ const sections = [
     items: ['作品与演示', '制作的起点', '过程与进展'],
   },
   {
-    id: 'blog',
-    title: '随笔记录',
-    english: 'JOURNAL',
+    id: 'factory',
+    title: '论文工厂',
+    english: 'PAPER FACTORY',
     number: '04',
-    subtitle: '给日常留一点空白',
+    subtitle: '探索 AI 辅助数学研究的可能性',
     note: '这里将容纳不定期的文章、想法和短记录。',
     items: ['长一点的文章', '短一点的想法', '最近的记录'],
   },
@@ -204,7 +205,8 @@ export function Orbit() {
     }
     if (pushedRef.current) {
       window.history.go(
-        window.history.state?.publicationDetail ||
+        window.history.state?.factoryDetail ||
+          window.history.state?.publicationDetail ||
           window.history.state?.interestDetail ||
           window.history.state?.projectDetail
           ? -2
@@ -320,7 +322,7 @@ export function Orbit() {
       </div>
       {active && (
         <div
-          className="detail-backdrop"
+          className={`detail-backdrop ${active.id === 'factory' ? factoryStyles.orbitBackdrop : ''}`}
           onClick={(event) => {
             if (event.target === event.currentTarget) close();
           }}
@@ -329,8 +331,9 @@ export function Orbit() {
             ref={dialogRef}
             role="dialog"
             aria-modal="true"
-            aria-labelledby="detail-title"
-            className={`detail theme-${active.id}`}
+            aria-label={active.id === 'factory' ? '论文工厂' : undefined}
+            aria-labelledby={active.id === 'factory' ? undefined : 'detail-title'}
+            className={`detail theme-${active.id} ${active.id === 'factory' ? factoryStyles.orbitPanel : ''}`}
             onKeyDown={(event) => {
               if (event.key === 'Escape') {
                 event.preventDefault();
@@ -339,7 +342,7 @@ export function Orbit() {
               if (event.key === 'Tab') {
                 const controls = Array.from(
                   event.currentTarget.querySelectorAll<HTMLElement>(
-                    'button:not([disabled]), a[href], summary, [tabindex="0"]',
+                    'button:not([disabled]), a[href], input, select, summary, [tabindex="0"]',
                   ),
                 ).filter((control) => control.getClientRects().length > 0);
                 const first = controls[0];
@@ -354,81 +357,109 @@ export function Orbit() {
               }
             }}
           >
-            <div className="detail-hero">
-              {active.id === 'about' ? (
-                <Image
-                  className="about-hero-photo"
-                  src={assetPath(profile.photo)}
-                  alt={profile.photoAlt}
-                  fill
-                  sizes="(max-width: 600px) 94vw, 880px"
-                />
-              ) : (
-                <span className="scene" aria-hidden="true" />
-              )}
-              <span className="detail-tint" />
-              <button ref={closeRef} className="back-button" onClick={close}>
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" aria-hidden="true">
-                  <path
-                    d="m14 5-7 7 7 7"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-                返回
-              </button>
-              <div className="detail-heading">
-                <p>
-                  {active.number} / {active.english}
-                </p>
-                <h2 id="detail-title">{active.title}</h2>
-                <span>{active.subtitle}</span>
-              </div>
-              <span className="hero-decoration" aria-hidden="true" hidden={active.id === 'about'}>
-                ✳
-              </span>
-            </div>
-            <div className={`detail-body${active.id === 'about' ? ' about-body' : ''}`}>
-              {active.id === 'about' ? (
-                <div className="detail-lead">
-                  <span className="eyebrow">SELF INTRODUCTION</span>
-                  <h3>{profile.introduction}</h3>
-                  <div className="about-prose">
-                    {profile.paragraphs.map((paragraph) => (
-                      <p key={paragraph}>{paragraph}</p>
-                    ))}
+            {active.id === 'factory' ? (
+              <>
+                <button
+                  ref={closeRef}
+                  className={`back-button ${factoryStyles.outerBack}`}
+                  onClick={close}
+                >
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" aria-hidden="true">
+                    <path
+                      d="m14 5-7 7 7 7"
+                      stroke="currentColor"
+                      strokeWidth="1.7"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                  返回
+                </button>
+                <FactoryPreview embedded />
+              </>
+            ) : (
+              <>
+                <div className="detail-hero">
+                  {active.id === 'about' ? (
+                    <Image
+                      className="about-hero-photo"
+                      src={assetPath(profile.photo)}
+                      alt={profile.photoAlt}
+                      fill
+                      sizes="(max-width: 600px) 94vw, 880px"
+                    />
+                  ) : (
+                    <span className="scene" aria-hidden="true" />
+                  )}
+                  <span className="detail-tint" />
+                  <button ref={closeRef} className="back-button" onClick={close}>
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" aria-hidden="true">
+                      <path
+                        d="m14 5-7 7 7 7"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                    返回
+                  </button>
+                  <div className="detail-heading">
+                    <p>
+                      {active.number} / {active.english}
+                    </p>
+                    <h2 id="detail-title">{active.title}</h2>
+                    <span>{active.subtitle}</span>
                   </div>
+                  <span
+                    className="hero-decoration"
+                    aria-hidden="true"
+                    hidden={active.id === 'about'}
+                  >
+                    ✳
+                  </span>
                 </div>
-              ) : active.id === 'publications' ? (
-                <Publications />
-              ) : active.id === 'interests' ? (
-                <Interests />
-              ) : active.id === 'projects' ? (
-                <Projects />
-              ) : active.id === 'blog' ? (
-                <Blog />
-              ) : (
-                <>
-                  <div className="detail-lead">
-                    <span className="eyebrow">A SPACE FOR {active.english}</span>
-                    <h3>留一个位置，给未来的内容。</h3>
-                    <p>{active.note}</p>
-                  </div>
-                  <div className="content-slots">
-                    {active.items.map((item, index) => (
-                      <div className="content-slot" key={item}>
-                        <span>0{index + 1}</span>
-                        <h4>{item}</h4>
-                        <span className="slot-status">待加入</span>
+                <div className={`detail-body${active.id === 'about' ? ' about-body' : ''}`}>
+                  {active.id === 'about' ? (
+                    <div className="detail-lead">
+                      <span className="eyebrow">SELF INTRODUCTION</span>
+                      <h3>{profile.introduction}</h3>
+                      <div className="about-prose">
+                        {profile.paragraphs.map((paragraph) => (
+                          <p key={paragraph}>{paragraph}</p>
+                        ))}
                       </div>
-                    ))}
-                  </div>
-                  <p className="prototype-note">当前只体验构图与展开动效；这里没有真实个人资料。</p>
-                </>
-              )}
-            </div>
+                    </div>
+                  ) : active.id === 'publications' ? (
+                    <Publications />
+                  ) : active.id === 'interests' ? (
+                    <Interests />
+                  ) : active.id === 'projects' ? (
+                    <Projects />
+                  ) : (
+                    <>
+                      <div className="detail-lead">
+                        <span className="eyebrow">A SPACE FOR {active.english}</span>
+                        <h3>留一个位置，给未来的内容。</h3>
+                        <p>{active.note}</p>
+                      </div>
+                      <div className="content-slots">
+                        {active.items.map((item, index) => (
+                          <div className="content-slot" key={item}>
+                            <span>0{index + 1}</span>
+                            <h4>{item}</h4>
+                            <span className="slot-status">待加入</span>
+                          </div>
+                        ))}
+                      </div>
+                      <p className="prototype-note">
+                        当前只体验构图与展开动效；这里没有真实个人资料。
+                      </p>
+                    </>
+                  )}
+                </div>
+              </>
+            )}
           </section>
         </div>
       )}

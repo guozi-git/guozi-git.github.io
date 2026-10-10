@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build && node scripts/prepare-export.mjs",
+    "build": "npm run papers:check && next build && node scripts/prepare-export.mjs",
     "start": "node scripts/serve-static.mjs",
     "typecheck": "tsc --noEmit",
     "lint": "eslint . --max-warnings=0",
@@ -12,7 +12,10 @@
     "format:check": "prettier --check .",
     "test:browser": "playwright test",
     "test:static": "node scripts/check-static.mjs",
-    "content:check": "node scripts/check-content.mjs"
+    "content:check": "node scripts/check-content.mjs && npm run papers:check",
+    "papers:check": "node scripts/paper-maintenance.mjs --check",
+    "papers:update": "node scripts/paper-maintenance.mjs",
+    "papers:test": "node --test scripts/paper-maintenance.test.mjs"
   },
   "engines": {
     "node": ">=24 <25",
