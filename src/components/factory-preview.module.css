@@ -789,8 +789,8 @@
     left: 4%;
   }
 }
-@media (prefers-reduced-motion: reduce) {
-  .factory * {
+@media all {
+  :global(html[data-motion='reduced']) .factory * {
     animation: none !important;
     transition: none !important;
   }

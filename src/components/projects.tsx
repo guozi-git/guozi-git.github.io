@@ -1,4 +1,5 @@
 'use client';
+import { reducedMotion } from '@/lib/motion';
 
 import { assetPath } from '@/lib/asset-path';
 
@@ -26,7 +27,7 @@ export function Projects() {
       region.querySelector<HTMLButtonElement>('.project-back')?.focus({ preventScroll: true });
     } else if (openedRef.current)
       region.querySelector<HTMLButtonElement>('.project-card')?.focus({ preventScroll: true });
-    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    if (!reducedMotion()) {
       const animation = region.animate(
         [
           { opacity: 0, transform: 'translateY(12px)' },

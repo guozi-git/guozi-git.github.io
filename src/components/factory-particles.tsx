@@ -1,4 +1,5 @@
 'use client';
+import { reducedMotion } from '@/lib/motion';
 import { useEffect, useRef } from 'react';
 
 export function FactoryParticles({ mode }: { mode: 'divider' | 'star' }) {
@@ -8,7 +9,6 @@ export function FactoryParticles({ mode }: { mode: 'divider' | 'star' }) {
     if (!canvas) return;
     const context = canvas.getContext('2d');
     if (!context) return;
-    const media = matchMedia('(prefers-reduced-motion: reduce)');
     let frame = 0;
     let width = 0;
     let height = 0;
@@ -132,7 +132,7 @@ export function FactoryParticles({ mode }: { mode: 'divider' | 'star' }) {
       // One brief meteor every 7.5 seconds, with a different starting position.
       const cycle = Math.floor(time / 7.5);
       const phase = (time % 7.5) - 2;
-      if (!media.matches && phase >= 0 && phase < 1.35) {
+      if (!reducedMotion() && phase >= 0 && phase < 1.35) {
         const progress = phase / 1.35;
         const x = (0.1 + (cycle % 3) * 0.14 + progress * 0.67) * width;
         const y = (0.02 + (cycle % 2) * 0.19 + progress * 0.42) * height;
@@ -168,15 +168,15 @@ export function FactoryParticles({ mode }: { mode: 'divider' | 'star' }) {
       cancelAnimationFrame(frame);
       last = 0;
       draw();
-      if (!media.matches) frame = requestAnimationFrame(tick);
+      if (!reducedMotion()) frame = requestAnimationFrame(tick);
     }
     resize.observe(canvas);
-    media.addEventListener('change', start);
+    window.addEventListener('site-motion-change', start);
     start();
     return () => {
       cancelAnimationFrame(frame);
       resize.disconnect();
-      media.removeEventListener('change', start);
+      window.removeEventListener('site-motion-change', start);
     };
   }, [mode]);
   return (

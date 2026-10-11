@@ -1,4 +1,5 @@
 'use client';
+import { reducedMotion } from '@/lib/motion';
 
 import { assetPath } from '@/lib/asset-path';
 
@@ -52,7 +53,7 @@ export function Interests() {
       region
         .querySelector<HTMLButtonElement>(`[data-hobby="${previousHobby.current}"]`)
         ?.focus({ preventScroll: true });
-    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    if (!reducedMotion()) {
       const animation = region.animate(
         [
           { opacity: 0, transform: 'translateY(12px)' },
@@ -71,9 +72,7 @@ export function Interests() {
       const description = region?.querySelector<HTMLElement>('.equipment-description');
       description?.focus({ preventScroll: true });
       description?.scrollIntoView({
-        behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches
-          ? 'instant'
-          : 'smooth',
+        behavior: reducedMotion() ? 'instant' : 'smooth',
         block: 'nearest',
       });
     } else if (previousGear.current)

@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { MotionToggle } from '@/components/motion-toggle';
 import { assetPath } from '@/lib/asset-path';
 import '@/styles/globals.css';
 
@@ -40,7 +41,10 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="zh-CN">
-      <body>{children}</body>
+      <body>
+        {children}
+        <MotionToggle />
+      </body>
     </html>
   );
 }

@@ -1,6 +1,6 @@
 @font-face {
   font-family: 'Factory Script';
-  src: url('../../public/fonts/liu-jian-mao-cao.ttf') format('truetype');
+  src: url('../../public/fonts/factory-script-subset.otf') format('opentype');
   font-display: swap;
 }
 .root {
@@ -41,7 +41,7 @@
 .door:focus-visible {
   filter: brightness(1.25);
 }
-.door h3 {
+.root .door h3 {
   position: absolute;
   left: 27%;
   top: 50%;
@@ -51,8 +51,10 @@
   font:
     400 clamp(76px, 9vw, 112px)/1.4 'Factory Script',
     cursive;
+  font-synthesis: none;
   letter-spacing: 0.12em;
   background: linear-gradient(130deg, #fff3d6, #e0cda8 40%, #b39870 64%, #f1e4c9);
+  -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
   filter: drop-shadow(0 0 22px #ead4a31a);
@@ -80,9 +82,10 @@
 .workshopDoor {
   background: radial-gradient(ellipse at 92% 22%, #5662791d, transparent 60%), #10151e;
 }
-.workshopDoor h3 {
+.root .workshopDoor h3 {
   left: 76%;
   background: linear-gradient(160deg, #d1d6e2, #a4adbf 55%, #7a8398);
+  -webkit-background-clip: text;
   background-clip: text;
   filter: none;
 }
@@ -107,19 +110,24 @@
 .homeBack {
   display: grid;
   place-items: center;
-  width: 38px;
+  width: fit-content;
+  padding: 0 16px;
   height: 38px;
   border: 1px solid #d7c8f125;
-  border-radius: 50%;
+  border-radius: 999px;
   background: #dad0f608;
   color: #cfc6df;
   text-decoration: none;
-  font: 24px/1 Arial !important;
+  font:
+    13px/1.4 Arial,
+    sans-serif !important;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
 }
 .atelier > .innerBack {
   position: absolute;
-  top: 26px;
-  right: 26px;
+  top: 76px;
+  left: 26px;
   z-index: 3;
 }
 .homeBack {
@@ -344,11 +352,11 @@
   .gateway {
     height: max(650px, 90svh);
   }
-  .door h3 {
+  .root .door h3 {
     font-size: 78px;
     left: 26%;
   }
-  .workshopDoor h3 {
+  .root .workshopDoor h3 {
     left: 76%;
   }
   .atelier {
@@ -391,14 +399,14 @@
     padding: 75px 22px 0;
   }
 }
-@media (prefers-reduced-motion: reduce) {
-  .root *,
-  .root *::before {
+@media all {
+  :global(html[data-motion='reduced']) .root *,
+  :global(html[data-motion='reduced']) .root *::before {
     animation: none !important;
     transition: none !important;
   }
 }
-.atelierDoor h3 {
+.root .atelierDoor h3 {
   background-image:
     radial-gradient(ellipse at center, #fff4d6cc 0 0.55px, transparent 0.95px),
     radial-gradient(ellipse at center, #31231799 0 0.65px, transparent 1px),
@@ -421,6 +429,7 @@
     0 0,
     2px 1px,
     0 0;
+  -webkit-background-clip: text;
   background-clip: text;
   -webkit-background-clip: text;
   filter: drop-shadow(0.6px 0.8px 0 #fff0c72b) drop-shadow(1.5px 2px 1px #000b)

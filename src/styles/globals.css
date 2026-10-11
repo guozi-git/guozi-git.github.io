@@ -1699,10 +1699,10 @@ h1 span {
     min-height: 240px;
   }
 }
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
+@media all {
+  html[data-motion='reduced'] *,
+  html[data-motion='reduced'] *::before,
+  html[data-motion='reduced'] *::after {
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
   }
@@ -2082,7 +2082,7 @@ h1 span {
   color: #9a9f90;
   margin: 0;
 }
-@media (prefers-reduced-motion: no-preference) {
+@media all {
   .game-card[open] .game-sections {
     animation: game-reveal 0.3s ease-out;
   }
@@ -2663,10 +2663,10 @@ summary:focus-visible {
   background: #496bc4;
   color: white;
 }
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
+@media all {
+  html[data-motion='reduced'] *,
+  html[data-motion='reduced'] *::before,
+  html[data-motion='reduced'] *::after {
     scroll-behavior: auto !important;
     transition-duration: 0.01ms !important;
     animation-duration: 0.01ms !important;
@@ -2817,11 +2817,11 @@ summary:focus-visible {
 .paper-back:active {
   transform: scale(0.97);
 }
-@media (prefers-reduced-motion: reduce) {
-  .paper-back {
+@media all {
+  html[data-motion='reduced'] .paper-back {
     transition: none;
   }
-  .paper-back:active {
+  html[data-motion='reduced'] .paper-back:active {
     transform: none;
   }
 }
@@ -3147,4 +3147,26 @@ summary:focus-visible {
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
   }
+}
+
+.motion-toggle {
+  position: fixed;
+  right: max(14px, env(safe-area-inset-right));
+  bottom: max(14px, env(safe-area-inset-bottom));
+  z-index: 1000;
+  padding: 8px 12px;
+  border: 1px solid #ffffff45;
+  border-radius: 999px;
+  background: #172134c9;
+  color: #f3f5fb;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  font:
+    12px/1.4 Arial,
+    sans-serif;
+  cursor: pointer;
+}
+.motion-toggle:focus-visible {
+  outline: 2px solid #cdbbff;
+  outline-offset: 3px;
 }

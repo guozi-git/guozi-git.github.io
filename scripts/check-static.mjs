@@ -99,7 +99,7 @@ try {
         await page.getByRole('button', { name: '返回论文汇总' }).click();
       }
       if (hash) {
-        await page.getByRole('button', { name: '返回', exact: true }).click();
+        await page.getByRole('button', { name: 'Home', exact: true }).click();
         await expect(page.getByRole('dialog')).toHaveCount(0);
         expect(new URL(page.url()).pathname).toBe(site.pathname);
       }

@@ -1,4 +1,5 @@
 'use client';
+import { reducedMotion } from '@/lib/motion';
 
 import { assetPath } from '@/lib/asset-path';
 
@@ -94,7 +95,7 @@ export function Orbit() {
       activeRef.current = next;
       flushSync(() => setActive(next));
     };
-    if (!source || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    if (!source || reducedMotion()) {
       commit();
       busyRef.current = false;
       return;
@@ -377,7 +378,7 @@ export function Orbit() {
                       strokeLinejoin="round"
                     />
                   </svg>
-                  返回
+                  Home
                 </button>
                 <FactoryPreview embedded />
               </>
@@ -406,7 +407,7 @@ export function Orbit() {
                         strokeLinejoin="round"
                       />
                     </svg>
-                    返回
+                    Home
                   </button>
                   <div className="detail-heading">
                     <p>

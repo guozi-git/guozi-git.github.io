@@ -13,3 +13,5 @@
 图片不代表作者拍摄过对应场馆，也不把商品图当作本人装备实拍。个人文章、照片及第三方素材的权利分别保留，不因源码公开而统一套用开源许可证。
 
 当前设计标题改用 Liu Jian Mao Cao（刘建毛草），来源 https://github.com/google/fonts/tree/main/ofl/liujianmaocao ，SIL Open Font License 1.1；许可证位于 public/fonts/OFL-liu-jian-mao-cao.txt。背景、金粉字效和动态粒子均使用 CSS / Canvas 绘制。
+
+入口字体使用保留六字「匠心造小作坊」轮廓的派生子集 Guozi Factory Script（factory-script-subset.otf），遵循同一 OFL 许可证；完整源字体保留，仅子集由 CSS 打包加载。

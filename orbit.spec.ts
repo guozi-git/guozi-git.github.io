@@ -1,5 +1,12 @@
 import { test, expect } from '@playwright/test';
 import { publications } from './src/lib/publications';
+test.beforeEach(async ({ page }, testInfo) => {
+  if (
+    !/^(site motion|opening and closing|Escape during opening|five entrances)/.test(testInfo.title)
+  ) {
+    await page.addInitScript(() => localStorage.setItem('guozi-motion', 'reduced'));
+  }
+});
 
 test('first project preview, detail, history and mobile', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' });
@@ -25,7 +32,7 @@ test('first project preview, detail, history and mobile', async ({ page }) => {
   await expect(page.locator('.project-card')).toBeVisible();
   await page.goForward();
   await expect(page.locator('#project-title')).toBeVisible();
-  await page.getByRole('button', { name: '返回', exact: true }).click();
+  await page.getByRole('button', { name: 'Home', exact: true }).click();
   await expect(page.getByRole('dialog')).toHaveCount(0);
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/#projects/personal-website');
@@ -147,7 +154,7 @@ test('interest stack, linked equipment, empty sections and layered return', asyn
   await expect(page.locator('.hobby-row')).toHaveCount(3);
   await page.goForward();
   await expect(page.locator('.equipment-card')).toHaveCount(3);
-  await page.getByRole('button', { name: '返回', exact: true }).click();
+  await page.getByRole('button', { name: 'Home', exact: true }).click();
   await expect(page.getByRole('dialog')).toHaveCount(0);
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/#interests/badminton');
@@ -210,7 +217,7 @@ test('three publication cards, sources, nested history and keyboard return', asy
   await expect(cards).toHaveCount(3);
   await page.goForward();
   await expect(page.locator('#paper-title')).toBeVisible();
-  await page.getByRole('button', { name: '返回', exact: true }).click();
+  await page.getByRole('button', { name: 'Home', exact: true }).click();
   await expect(page.getByRole('dialog')).toHaveCount(0);
 });
 
@@ -254,7 +261,7 @@ test('opening and closing include visible intermediate geometry', async ({ page 
   await page.waitForTimeout(800);
   const expanded = await page.getByRole('dialog').boundingBox();
   expect(intermediate!.width).toBeLessThan(expanded!.width - 20);
-  await page.getByRole('button', { name: '返回', exact: true }).click();
+  await page.getByRole('button', { name: 'Home', exact: true }).click();
   await page.waitForTimeout(180);
   const shrinking = await page.getByRole('dialog').boundingBox();
   expect(shrinking!.width).toBeLessThan(expanded!.width - 20);
@@ -310,7 +317,7 @@ test('five entrances, return, keyboard focus and browser history', async ({ page
     } else if (title === '论文工厂') {
       await expect(page.locator('[data-door="atelier"]')).toBeFocused();
     } else {
-      await expect(page.getByRole('button', { name: '返回', exact: true })).toBeFocused();
+      await expect(page.getByRole('button', { name: 'Home', exact: true })).toBeFocused();
     }
     await page.keyboard.press('Escape');
     await expect(page.getByRole('dialog')).toHaveCount(0);
@@ -338,7 +345,7 @@ test('mobile layout and directly linked section with reduced motion', async ({ p
   await page.getByRole('button', { name: '打开兴趣爱好', exact: true }).click();
   await expect(page.getByRole('dialog')).toBeVisible();
   await page.screenshot({ path: '.preview/mobile-detail.png', fullPage: true });
-  await page.getByRole('button', { name: '返回', exact: true }).click();
+  await page.getByRole('button', { name: 'Home', exact: true }).click();
   await expect(page.getByRole('dialog')).toHaveCount(0);
   await page.goto('/#about');
   await expect(page.getByRole('dialog')).toBeVisible();
@@ -356,7 +363,7 @@ test('mobile layout and directly linked section with reduced motion', async ({ p
   await page.screenshot({ path: '.preview/about-mobile.png', fullPage: true });
   await page.setViewportSize({ width: 1440, height: 1000 });
   await page.screenshot({ path: '.preview/about-desktop.png', fullPage: true });
-  await page.getByRole('button', { name: '返回', exact: true }).click();
+  await page.getByRole('button', { name: 'Home', exact: true }).click();
   await expect(page.getByRole('dialog')).toHaveCount(0);
   await expect(page).toHaveURL(/\/$/);
 });
@@ -444,4 +451,37 @@ test('factory gateway, six reserved papers and workshop preserve layered navigat
   await expect(right).toBeFocused();
   await page.goForward();
   await expect(page.getByLabel('搜索论文')).toBeVisible();
+});
+
+test('site motion overrides system preference and mobile calligraphy loads', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/');
+  await page.getByRole('button', { name: '打开论文工厂', exact: true }).click();
+  await expect.poll(() => page.evaluate(() => document.getAnimations().length)).toBeGreaterThan(0);
+  const canvas = page.locator('canvas[data-particles="divider"]');
+  await expect(canvas).toBeVisible();
+  const snapshot = () => canvas.evaluate((c) => (c as HTMLCanvasElement).toDataURL());
+  const first = await snapshot();
+  await expect.poll(snapshot).not.toBe(first);
+  await page.evaluate(() => document.fonts.load('78px "Factory Script"', '匠心造小作坊'));
+  expect(
+    await page.evaluate(() => document.fonts.check('78px "Factory Script"', '匠心造小作坊')),
+  ).toBe(true);
+  const heading = page.locator('[data-door="atelier"] h3');
+  await expect(heading).toHaveCSS('font-size', '78px');
+  await expect(heading).toHaveCSS('font-weight', '400');
+  await page.getByRole('button', { name: '动态效果', exact: true }).click();
+  await page.waitForTimeout(100);
+  const stopped = await snapshot();
+  await page.waitForTimeout(300);
+  expect(await snapshot()).toBe(stopped);
+  await page.reload();
+  await expect(page.getByRole('button', { name: '动态效果', exact: true })).toHaveAttribute(
+    'aria-pressed',
+    'false',
+  );
+  await page.getByRole('button', { name: '动态效果', exact: true }).click();
+  const restarted = await snapshot();
+  await expect.poll(snapshot).not.toBe(restarted);
 });

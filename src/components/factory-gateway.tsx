@@ -66,8 +66,8 @@ export function FactoryGateway({ embedded = false }: { embedded?: boolean }) {
       }}
     >
       {!embedded && (
-        <a className={s.homeBack} href={assetPath('/')} aria-label="返回个人空间">
-          ‹
+        <a className={s.homeBack} href={assetPath('/')} aria-label="Home">
+          Home
         </a>
       )}
       {view === 'gate' ? (
@@ -104,8 +104,8 @@ export function FactoryGateway({ embedded = false }: { embedded?: boolean }) {
         </div>
       ) : view === 'atelier' ? (
         <section className={s.atelier} aria-label="六篇精选论文展厅">
-          <button data-gateway-back className={s.innerBack} aria-label="返回入口" onClick={back}>
-            ‹
+          <button data-gateway-back className={s.innerBack} aria-label="返回上一级" onClick={back}>
+            ‹ 返回上一级
           </button>
           <div className={s.constellation}>
             <div className={s.nebula} aria-hidden="true" />
@@ -143,8 +143,13 @@ export function FactoryGateway({ embedded = false }: { embedded?: boolean }) {
       ) : (
         <div className={s.workshop}>
           <div className={s.workshopNav}>
-            <button data-gateway-back className={s.innerBack} aria-label="返回入口" onClick={back}>
-              ‹
+            <button
+              data-gateway-back
+              className={s.innerBack}
+              aria-label="返回上一级"
+              onClick={back}
+            >
+              ‹ 返回上一级
             </button>
             <span>小作坊 / AI4math</span>
           </div>

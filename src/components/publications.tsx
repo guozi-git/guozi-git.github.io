@@ -1,4 +1,5 @@
 'use client';
+import { reducedMotion } from '@/lib/motion';
 
 import { useEffect, useRef, useState } from 'react';
 import { publications, type Publication } from '@/lib/publications';
@@ -91,7 +92,7 @@ export function Publications() {
         ?.focus({ preventScroll: true });
       if (panel) panel.scrollTop = scrollRef.current;
     }
-    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    if (!reducedMotion()) {
       const animation = region.animate(
         [
           { opacity: 0, transform: 'translateY(12px)' },

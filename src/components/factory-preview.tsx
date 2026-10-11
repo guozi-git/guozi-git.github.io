@@ -1,4 +1,5 @@
 'use client';
+import { reducedMotion } from '@/lib/motion';
 
 import { assetPath } from '@/lib/asset-path';
 import { useEffect, useRef, useState, type CSSProperties } from 'react';
@@ -209,7 +210,7 @@ export function FactoryPreview({ embedded = false }: { embedded?: boolean }) {
       current.querySelector<HTMLElement>('[data-inner-back]')?.focus({ preventScroll: true });
       if (panel) panel.scrollTop = 0;
     }
-    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    if (!reducedMotion()) {
       const animation = current.animate(
         [
           { opacity: 0.25, transform: 'translateY(10px)' },
