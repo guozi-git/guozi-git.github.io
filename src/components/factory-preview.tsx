@@ -224,7 +224,11 @@ export function FactoryPreview({ embedded = false }: { embedded?: boolean }) {
     lastTrigger.current = next;
     scroll.current = region.current?.closest('.detail')?.scrollTop ?? 0;
     window.history.pushState(
-      { ...window.history.state, factoryDetail: true },
+      {
+        ...window.history.state,
+        factoryDetail: true,
+        factoryDepth: (window.history.state?.factoryDepth ?? 0) + 1,
+      },
       '',
       `#factory/${next}`,
     );
@@ -233,7 +237,7 @@ export function FactoryPreview({ embedded = false }: { embedded?: boolean }) {
   function back() {
     if (window.history.state?.factoryDetail) window.history.back();
     else {
-      window.history.replaceState(null, '', '#factory');
+      window.history.replaceState(null, '', '#factory/workshop');
       setView('overview');
     }
   }
@@ -364,10 +368,7 @@ export function FactoryPreview({ embedded = false }: { embedded?: boolean }) {
           <section className={s.overview}>
             <div className={s.intro} data-factory-heading>
               <p className={s.eyebrow}>THE PAPER FACTORY</p>
-              <h2 id="factory-heading">
-                论文工厂<span>。</span>
-              </h2>
-              <p className={s.subtitle}>AI4math</p>
+              <h2 id="factory-heading">AI4math</h2>
             </div>
             <div className={s.summaryLine}>
               <span>

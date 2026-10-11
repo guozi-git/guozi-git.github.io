@@ -10,7 +10,7 @@ import { profile } from '@/lib/profile';
 import { Publications } from '@/components/publications';
 import { Interests } from '@/components/interests';
 import { Projects } from '@/components/projects';
-import { FactoryPreview } from '@/components/factory-preview';
+import { FactoryGateway as FactoryPreview } from '@/components/factory-gateway';
 import factoryStyles from './factory-preview.module.css';
 
 const sections = [
@@ -204,6 +204,10 @@ export function Orbit() {
       return;
     }
     if (pushedRef.current) {
+      if (activeRef.current.id === 'factory' && window.history.state?.factoryDepth) {
+        window.history.go(-(window.history.state.factoryDepth + 1));
+        return;
+      }
       window.history.go(
         window.history.state?.factoryDetail ||
           window.history.state?.publicationDetail ||

@@ -308,7 +308,7 @@ test('five entrances, return, keyboard focus and browser history', async ({ page
     } else if (title === '兴趣造物') {
       await expect(page.locator('.project-card')).toBeFocused();
     } else if (title === '论文工厂') {
-      await expect(page.getByRole('button', { name: '评分说明' })).toBeFocused();
+      await expect(page.locator('[data-door="atelier"]')).toBeFocused();
     } else {
       await expect(page.getByRole('button', { name: '返回', exact: true })).toBeFocused();
     }
@@ -411,4 +411,37 @@ test('responsive game pages, loaded assets and layered Escape', async ({ page })
     }
   }
   expect(errors).toEqual([]);
+});
+
+test('factory gateway, six reserved papers and workshop preserve layered navigation', async ({
+  page,
+}) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.goto('/#factory');
+  const left = page.locator('[data-door="atelier"]');
+  const right = page.locator('[data-door="workshop"]');
+  await expect(left).toBeVisible();
+  const box = await left.boundingBox();
+  await page.mouse.click(box!.x + box!.width * 0.25, box!.y + box!.height * 0.48);
+  await expect(page.getByRole('article')).toHaveCount(6);
+  await expect(page.getByRole('heading', { name: '待呈现', exact: true })).toHaveCount(6);
+  await page.reload();
+  await expect(page.getByRole('region', { name: '六篇精选论文展厅' })).toBeVisible();
+  await page.keyboard.press('Escape');
+  await expect(left).toBeFocused();
+  const rightBox = await right.boundingBox();
+  await page.mouse.click(
+    rightBox!.x + rightBox!.width * 0.76,
+    rightBox!.y + rightBox!.height * 0.48,
+  );
+  await page.getByLabel('搜索论文').fill('P045');
+  await expect(page.locator('[data-paper]')).toHaveCount(1);
+  await page.locator('[data-paper="P045"]').click();
+  await expect(page.getByRole('link', { name: /阅读原文/ })).toBeVisible();
+  await page.keyboard.press('Escape');
+  await expect(page.getByLabel('搜索论文')).toBeVisible();
+  await page.keyboard.press('Escape');
+  await expect(right).toBeFocused();
+  await page.goForward();
+  await expect(page.getByLabel('搜索论文')).toBeVisible();
 });

@@ -11,3 +11,5 @@
 - 产品图片来源记录在 product-image-sources.json，部分键名沿用原始下载文件名，页面使用其 WebP 副本。来源记录不等于重新分发许可声明。
 
 图片不代表作者拍摄过对应场馆，也不把商品图当作本人装备实拍。个人文章、照片及第三方素材的权利分别保留，不因源码公开而统一套用开源许可证。
+
+当前设计标题改用 Liu Jian Mao Cao（刘建毛草），来源 https://github.com/google/fonts/tree/main/ofl/liujianmaocao ，SIL Open Font License 1.1；许可证位于 public/fonts/OFL-liu-jian-mao-cao.txt。背景、金粉字效和动态粒子均使用 CSS / Canvas 绘制。

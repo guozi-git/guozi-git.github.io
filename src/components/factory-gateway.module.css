@@ -1,0 +1,433 @@
+@font-face {
+  font-family: 'Factory Script';
+  src: url('../../public/fonts/liu-jian-mao-cao.ttf') format('truetype');
+  font-display: swap;
+}
+.root {
+  position: relative;
+  min-height: 80svh;
+  background: #09090f;
+  color: #e6e4ee;
+  isolation: isolate;
+  font-family: Arial, 'Microsoft YaHei', sans-serif;
+}
+.root * {
+  box-sizing: border-box;
+}
+.root button {
+  font: inherit;
+  cursor: pointer;
+}
+.root :is(button, a):focus-visible {
+  outline: 2px solid #cdbbff;
+  outline-offset: 5px;
+}
+.gateway {
+  position: relative;
+  height: max(680px, 90svh);
+  overflow: hidden;
+}
+.door {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  padding: 0;
+  transition: filter 0.6s;
+  background: #0b0b10;
+}
+.door:hover,
+.door:focus-visible {
+  filter: brightness(1.25);
+}
+.door h3 {
+  position: absolute;
+  left: 27%;
+  top: 50%;
+  transform: translate(-50%, -50%) rotate(-4deg);
+  margin: 0;
+  writing-mode: vertical-rl;
+  font:
+    400 clamp(76px, 9vw, 112px)/1.4 'Factory Script',
+    cursive;
+  letter-spacing: 0.12em;
+  background: linear-gradient(130deg, #fff3d6, #e0cda8 40%, #b39870 64%, #f1e4c9);
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 0 22px #ead4a31a);
+}
+.atelierDoor {
+  background:
+    radial-gradient(ellipse at 3% 76%, #b997591a, transparent 53%),
+    radial-gradient(ellipse at 46% 20%, #503b6219, transparent 50%), #0c0b10;
+}
+.atelierDoor::before {
+  content: '';
+  position: absolute;
+  inset: -20%;
+  background: conic-gradient(
+    from 60deg at 30% 60%,
+    transparent 20%,
+    #d6b67c09 30%,
+    transparent 45%,
+    #7461ac12 70%,
+    transparent 85%
+  );
+  filter: blur(30px);
+  animation: drift 18s ease-in-out infinite alternate;
+}
+.workshopDoor {
+  background: radial-gradient(ellipse at 92% 22%, #5662791d, transparent 60%), #10151e;
+}
+.workshopDoor h3 {
+  left: 76%;
+  background: linear-gradient(160deg, #d1d6e2, #a4adbf 55%, #7a8398);
+  background-clip: text;
+  filter: none;
+}
+.particleVeil {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.goldRoom {
+  background: #0b0911;
+}
+.atelier {
+  min-height: 90svh;
+  position: relative;
+  padding: 75px 25px 35px;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse at 45% 48%, #45345d30, transparent 55%),
+    radial-gradient(ellipse at 90% 5%, #34274733, transparent 48%), #0a0910;
+}
+.innerBack,
+.homeBack {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border: 1px solid #d7c8f125;
+  border-radius: 50%;
+  background: #dad0f608;
+  color: #cfc6df;
+  text-decoration: none;
+  font: 24px/1 Arial !important;
+}
+.atelier > .innerBack {
+  position: absolute;
+  top: 26px;
+  right: 26px;
+  z-index: 3;
+}
+.homeBack {
+  position: absolute;
+  top: 26px;
+  left: 26px;
+  z-index: 4;
+}
+.constellation {
+  position: relative;
+  width: min(860px, 100%);
+  aspect-ratio: 800/720;
+  margin: 10px auto;
+}
+.starMap {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  stroke: #b9a2e323;
+  stroke-width: 0.6;
+}
+.nebula {
+  position: absolute;
+  inset: 16%;
+  border-radius: 50%;
+  background: conic-gradient(
+    from 30deg,
+    transparent,
+    #d0a9ff17,
+    transparent,
+    #cfb3790c,
+    transparent
+  );
+  filter: blur(35px);
+  animation: rotate 35s linear infinite;
+}
+.paperSlot {
+  position: absolute;
+  width: 22%;
+  height: 24%;
+  transform: translate(-50%, -50%);
+  border: 1px solid #d3c4ef26;
+  border-radius: 13px;
+  overflow: hidden;
+  background: linear-gradient(145deg, #30273788, #131019e8);
+  box-shadow: 0 12px 45px #0005;
+  transition:
+    translate 0.5s,
+    border-color 0.5s,
+    box-shadow 0.5s;
+}
+.paperSlot:nth-of-type(1) {
+  left: 50%;
+  top: 13%;
+}
+.paperSlot:nth-of-type(2) {
+  left: 81%;
+  top: 32%;
+}
+.paperSlot:nth-of-type(3) {
+  left: 81%;
+  top: 69%;
+}
+.paperSlot:nth-of-type(4) {
+  left: 50%;
+  top: 87%;
+}
+.paperSlot:nth-of-type(5) {
+  left: 19%;
+  top: 69%;
+}
+.paperSlot:nth-of-type(6) {
+  left: 19%;
+  top: 32%;
+}
+.paperSlot:hover {
+  translate: 0 -6px;
+  border-color: #deceff77;
+  box-shadow:
+    0 12px 45px #0006,
+    0 0 35px #bd96ef15;
+}
+.cover {
+  position: relative;
+  height: 75%;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse at 65% 85%, #a89bce33, transparent 65%),
+    linear-gradient(145deg, #362c4d, #161320 65%);
+}
+.coverNumber {
+  position: absolute;
+  left: 14px;
+  top: 12px;
+  font: 10px Arial;
+  letter-spacing: 0.18em;
+  color: #e7ddf39c;
+}
+.coverOrbit {
+  position: absolute;
+  width: 65%;
+  aspect-ratio: 1;
+  left: 20%;
+  top: 25%;
+  border: 1px solid #e0d4fa60;
+  border-radius: 50%;
+  transform: rotate(-30deg) scaleY(0.5);
+  box-shadow:
+    0 0 12px #c5aaff20,
+    inset 0 0 13px #bea4e620;
+}
+.coverOrbit::after {
+  content: '';
+  position: absolute;
+  inset: -14%;
+  border: 1px solid #e8defb30;
+  border-radius: 50%;
+}
+.coverLight {
+  position: absolute;
+  width: 110%;
+  height: 2px;
+  left: -5%;
+  top: 65%;
+  transform: rotate(-28deg);
+  background: linear-gradient(90deg, transparent, #d8c6ff, #fff3d9, transparent);
+  box-shadow: 0 0 20px 2px #c6a5ff66;
+  animation: breathe 6s ease-in-out infinite;
+  animation-delay: calc(var(--slot) * -0.9s);
+}
+.paperSlot:nth-of-type(2) .cover {
+  background: radial-gradient(ellipse at 20% 85%, #c9b39044, transparent 65%), #211e29;
+}
+.paperSlot:nth-of-type(2) .coverOrbit {
+  transform: rotate(35deg) scaleY(0.6);
+}
+.paperSlot:nth-of-type(3) .coverOrbit {
+  border-radius: 28%;
+  transform: rotate(45deg);
+  width: 45%;
+}
+.paperSlot:nth-of-type(4) .cover {
+  background: radial-gradient(ellipse at 60% 90%, #9278c777, transparent 65%), #171522;
+}
+.paperSlot:nth-of-type(4) .coverOrbit {
+  transform: rotate(-55deg) scaleY(0.6);
+}
+.paperSlot:nth-of-type(5) .coverOrbit {
+  width: 75%;
+  left: 10%;
+  transform: scaleY(0.45);
+}
+.paperSlot:nth-of-type(6) .cover {
+  background: radial-gradient(ellipse at 60% 90%, #9995c15c, transparent 65%), #191c29;
+}
+.paperSlot:nth-of-type(6) .coverOrbit {
+  transform: rotate(65deg) scaleY(0.5);
+}
+.paperCopy {
+  height: 25%;
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  gap: 9px;
+}
+.paperCopy > span:first-child {
+  font-size: 8px;
+  color: #8f839f;
+}
+.paperCopy h3 {
+  font-size: 11px !important;
+  letter-spacing: 0.08em !important;
+  font-weight: 400 !important;
+  margin: 0;
+  color: #dcd4e8;
+}
+.dot {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: #baaad2;
+  margin-left: auto;
+}
+.workshop {
+  background: #07121f;
+}
+.workshopNav {
+  display: flex;
+  padding: 78px 38px 0;
+  justify-content: space-between;
+  align-items: center;
+  color: #aecbd8;
+}
+.workshopNav span {
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  opacity: 0.7;
+}
+@keyframes rotate {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes drift {
+  to {
+    transform: translate(8%, 3%) rotate(12deg);
+  }
+}
+@keyframes breathe {
+  0%,
+  100% {
+    opacity: 0.35;
+    translate: 0 -5px;
+  }
+  50% {
+    opacity: 0.95;
+    translate: 0 7px;
+  }
+}
+@media (max-width: 600px) {
+  .gateway {
+    height: max(650px, 90svh);
+  }
+  .door h3 {
+    font-size: 78px;
+    left: 26%;
+  }
+  .workshopDoor h3 {
+    left: 76%;
+  }
+  .atelier {
+    padding: 110px 5px 80px;
+    display: flex;
+    align-items: center;
+  }
+  .constellation {
+    aspect-ratio: 800/880;
+  }
+  .paperSlot {
+    width: 27%;
+    height: 23%;
+    border-radius: 9px;
+  }
+  .paperSlot:nth-of-type(2),
+  .paperSlot:nth-of-type(3) {
+    left: 83%;
+  }
+  .paperSlot:nth-of-type(5),
+  .paperSlot:nth-of-type(6) {
+    left: 17%;
+  }
+  .paperCopy {
+    padding: 0 7px;
+    gap: 4px;
+  }
+  .paperCopy h3 {
+    font-size: 9px !important;
+  }
+  .paperCopy > span:first-child {
+    font-size: 6px;
+  }
+  .coverNumber {
+    font-size: 8px;
+    left: 8px;
+    top: 8px;
+  }
+  .workshopNav {
+    padding: 75px 22px 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .root *,
+  .root *::before {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+.atelierDoor h3 {
+  background-image:
+    radial-gradient(ellipse at center, #fff4d6cc 0 0.55px, transparent 0.95px),
+    radial-gradient(ellipse at center, #31231799 0 0.65px, transparent 1px),
+    linear-gradient(
+      122deg,
+      #72634b 1%,
+      #e4d5af 19%,
+      #b4a17c 35%,
+      #f4e7c5 43%,
+      #bba17a 52%,
+      #887356 65%,
+      #d2c19a 81%,
+      #88775c
+    );
+  background-size:
+    3px 4px,
+    5px 3px,
+    100% 100%;
+  background-position:
+    0 0,
+    2px 1px,
+    0 0;
+  background-clip: text;
+  -webkit-background-clip: text;
+  filter: drop-shadow(0.6px 0.8px 0 #fff0c72b) drop-shadow(1.5px 2px 1px #000b)
+    drop-shadow(0 0 18px #cbb78412);
+}
+.atelierDoor {
+  background:
+    radial-gradient(ellipse at 8% 90%, #b2a0850e, transparent 60%),
+    linear-gradient(118deg, #050607, #151417 42%, #09090c 68%);
+}
