@@ -423,20 +423,31 @@ test('factory gateway, collection dossier and workshop preserve layered navigati
   const box = await left.boundingBox();
   await page.mouse.click(box!.x + box!.width * 0.25, box!.y + box!.height * 0.48);
   await page
-    .getByRole('button', { name: '打开档案 01：Nesterov 流何时收敛到一点？', exact: true })
+    .getByRole('button', {
+      name: '打开档案 01：半代数凸谷中的 Nesterov 流仍可持续漂移',
+      exact: true,
+    })
     .click();
   await expect(page.getByRole('img', { name: /五维评分雷达图/ })).toBeVisible();
+  await expect(page.getByText('正确性检验通过', { exact: false })).toBeVisible();
+  await expect(page.getByRole('img', { name: /创新性 94 \/ 100/ })).toBeVisible();
+  await expect(page.getByText(/正确性 5\.0/)).toHaveCount(0);
+  await expect(page.getByText(/评价可信度/)).toHaveCount(0);
+  await expect(page.getByRole('heading', { name: '整体评价', exact: true })).toBeVisible();
   await expect(page.getByRole('link', { name: /阅读原文/ })).toHaveAttribute(
     'href',
     /atelier\/P089.pdf/,
   );
   await page.reload();
   await expect(
-    page.getByRole('heading', { name: /Point convergence and curvature selection/ }),
+    page.getByRole('heading', { name: /Persistent Drift and Point Selection/ }),
   ).toBeVisible();
   await page.keyboard.press('Escape');
   await expect(
-    page.getByRole('button', { name: '打开档案 01：Nesterov 流何时收敛到一点？', exact: true }),
+    page.getByRole('button', {
+      name: '打开档案 01：半代数凸谷中的 Nesterov 流仍可持续漂移',
+      exact: true,
+    }),
   ).toBeVisible();
   await page.reload();
   await expect(page.getByRole('region', { name: '匠心造收藏档案' })).toBeVisible();

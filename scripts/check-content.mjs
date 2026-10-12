@@ -47,7 +47,14 @@ for (const paper of collection) {
     paper.priority === undefined || (Number.isSafeInteger(paper.priority) && paper.priority >= 0),
   );
   assert(paper.scores.length === 5 && paper.reasons.length === 5);
-  assert(paper.scores.every((score) => score >= 0 && score <= 5 && Number.isInteger(score * 2)));
+  assert(paper.scoreScale === 100);
+  assert(typeof paper.correctnessPassed === 'boolean');
+  assert(!('correctness' in paper), 'Correctness must be pass/fail, not a score');
+  assert(
+    [paper.level, paper.maturity, paper.confidence, ...paper.scores].every(
+      (score) => Number.isInteger(score) && score >= 0 && score <= paper.scoreScale,
+    ),
+  );
   const pdf = readFileSync(`public${paper.pdf}`);
   assert.equal(pdf.subarray(0, 5).toString(), '%PDF-');
   assert.equal(pdf.length, paper.bytes);

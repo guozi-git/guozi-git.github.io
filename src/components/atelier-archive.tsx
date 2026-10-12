@@ -127,9 +127,7 @@ export function AtelierArchive({ onBack }: { onBack: () => void }) {
               COLLECTION {accession(paper.collectionNumber)} · {paper.topic}
             </span>
             <h2 lang="en">{paper.originalTitle}</h2>
-            <p>
-              审查通过 · 正确性 {paper.correctness.toFixed(1)} / 5 · 评价置信度：{paper.confidence}
-            </p>
+            <p>{paper.correctnessPassed ? '正确性检验通过' : '正确性检验不通过'}</p>
           </header>
           <section className={s.abstract}>
             <h3>Abstract</h3>
@@ -140,15 +138,19 @@ export function AtelierArchive({ onBack }: { onBack: () => void }) {
             <div className={s.verdict}>
               <span>研究水平</span>
               <strong>
-                {paper.level.toFixed(1)}
-                <small> / 5</small>
+                {paper.level}
+                <small> / {paper.scoreScale}</small>
               </strong>
               <p>
-                稿件成熟度 <b>{paper.maturity.toFixed(1)}</b> / 5
+                稿件成熟度 <b>{paper.maturity}</b> / {paper.scoreScale}
               </p>
             </div>
             <div className={s.radar}>
-              <ScoreRadar id={`atelier-${paper.id}`} scores={paper.scores} />
+              <ScoreRadar
+                id={`atelier-${paper.id}`}
+                scores={paper.scores}
+                maxScore={paper.scoreScale}
+              />
             </div>
           </section>
           <section className={s.reasons}>
@@ -160,7 +162,7 @@ export function AtelierArchive({ onBack }: { onBack: () => void }) {
                 <div key={d.name}>
                   <dt>
                     {d.name}
-                    <b>{paper.scores[i].toFixed(1)}</b>
+                    <b>{paper.scores[i]}</b>
                   </dt>
                   <dd>{paper.reasons[i]}</dd>
                 </div>
@@ -170,6 +172,10 @@ export function AtelierArchive({ onBack }: { onBack: () => void }) {
           <section className={s.limits}>
             <h3>适用范围与局限</h3>
             <p>{paper.limitation}</p>
+          </section>
+          <section className={s.limits}>
+            <h3>整体评价</h3>
+            <p>{paper.overallAssessment}</p>
           </section>
           <footer className={s.footer}>
             <span>THE COLLECTION · {accession(paper.collectionNumber)}</span>

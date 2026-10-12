@@ -81,7 +81,16 @@ export function AbstractContent({ text }: { text: string }) {
     </div>
   );
 }
-export function ScoreRadar({ scores, id }: { scores: readonly number[]; id: string }) {
+export function ScoreRadar({
+  scores,
+  id,
+  maxScore = 5,
+}: {
+  scores: readonly number[];
+  id: string;
+  maxScore?: number;
+}) {
+  const formatScore = (value: number) => (maxScore === 5 ? value.toFixed(1) : String(value));
   const center = { x: 200, y: 163 };
   const point = (index: number, radius: number) => {
     const angle = -Math.PI / 2 + (index * Math.PI * 2) / 5;
@@ -90,7 +99,7 @@ export function ScoreRadar({ scores, id }: { scores: readonly number[]; id: stri
   const polygon = (values: readonly number[]) =>
     values
       .map((value, index) => {
-        const p = point(index, (value / 5) * 98);
+        const p = point(index, (value / maxScore) * 98);
         return `${p.x},${p.y}`;
       })
       .join(' ');
@@ -100,13 +109,15 @@ export function ScoreRadar({ scores, id }: { scores: readonly number[]; id: stri
         <title id={`radar-title-${id}`}>五维评分雷达图</title>
         <desc id={`radar-desc-${id}`}>
           {scoreDimensions
-            .map((dimension, index) => `${dimension.name} ${scores[index].toFixed(1)} / 5`)
+            .map(
+              (dimension, index) => `${dimension.name} ${formatScore(scores[index])} / ${maxScore}`,
+            )
             .join('；')}
         </desc>
         {[1, 2, 3, 4, 5].map((level) => (
           <polygon
             key={level}
-            points={polygon([level, level, level, level, level])}
+            points={polygon(Array(5).fill((level * maxScore) / 5))}
             className={s.radarGrid}
           />
         ))}
@@ -130,12 +141,12 @@ export function ScoreRadar({ scores, id }: { scores: readonly number[]; id: stri
             y={center.y - (level / 5) * 98 - 4}
             className={s.radarScale}
           >
-            {level}
+            {(level * maxScore) / 5}
           </text>
         ))}
         <polygon points={polygon(scores)} className={s.radarValue} />
         {scoreDimensions.map((dimension, index) => {
-          const p = point(index, (scores[index] / 5) * 98);
+          const p = point(index, (scores[index] / maxScore) * 98);
           const label = point(index, 137);
           return (
             <g key={dimension.name}>
@@ -143,7 +154,7 @@ export function ScoreRadar({ scores, id }: { scores: readonly number[]; id: stri
               <text x={label.x} y={label.y - 3} textAnchor="middle" className={s.radarLabel}>
                 {dimension.name}
                 <tspan x={label.x} dy="19" className={s.radarNumber}>
-                  {scores[index].toFixed(1)}
+                  {formatScore(scores[index])}
                 </tspan>
               </text>
             </g>
