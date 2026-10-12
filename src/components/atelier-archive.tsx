@@ -61,7 +61,6 @@ export function AtelierArchive({ onBack }: { onBack: () => void }) {
         >
           ‹ {selected ? '返回收藏目录' : '返回上一级'}
         </button>
-        <span>匠心造 / THE COLLECTION</span>
       </nav>
       {!selected ? (
         <>

@@ -57,6 +57,7 @@ export function FactoryGateway({ embedded = false }: { embedded?: boolean }) {
   return (
     <div
       ref={root}
+      data-factory-view={view}
       className={`${s.root} ${view === 'atelier' ? s.goldRoom : ''}`}
       onKeyDown={(e) => {
         if (e.key === 'Escape' && view !== 'gate') {
@@ -128,7 +129,6 @@ export function FactoryGateway({ embedded = false }: { embedded?: boolean }) {
             >
               ‹ 返回上一级
             </button>
-            <span>小作坊 / AI4math</span>
           </div>
           <FactoryPreview embedded />
         </div>

@@ -89,13 +89,15 @@
   align-items: center;
   gap: 9px;
   padding: 9px 17px;
-  border-radius: 24px;
+  min-height: var(--glass-control-height);
+  border-radius: var(--glass-control-radius);
   border: 1px solid #e0f0ff2b;
   background: linear-gradient(130deg, #e8f5ff16, #d9efff07);
-  box-shadow: inset 0 1px 0 #ffffff12;
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  font-size: 12px !important;
+  box-shadow: var(--glass-control-shadow);
+  backdrop-filter: blur(var(--glass-blur)) saturate(135%);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(135%);
+  font-size: 13px !important;
+  line-height: 1.4;
   color: #ccd8e4 !important;
   transition: background 0.2s;
 }
@@ -189,13 +191,13 @@
 .ratingPanel,
 .rulePanel {
   border: 1px solid #d8edff30;
-  border-radius: 25px;
+  border-radius: var(--glass-card-radius);
   background: linear-gradient(125deg, #deefff13, #b9dfff07);
   box-shadow:
     inset 0 1px 0 #ffffff12,
     0 20px 65px #00000014;
-  backdrop-filter: blur(28px) saturate(135%);
-  -webkit-backdrop-filter: blur(28px) saturate(135%);
+  backdrop-filter: blur(var(--glass-blur)) saturate(135%);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(135%);
   overflow: hidden;
 }
 .toolbar {
@@ -568,7 +570,7 @@
   background: transparent;
 }
 .embedded .content {
-  padding: 93px 42px 35px !important;
+  padding: 40px 42px 35px !important;
 }
 .embedded .intro {
   padding-top: 0;
@@ -596,13 +598,13 @@
   z-index: 4;
   left: 29px;
   top: 23px;
-  min-height: 0;
-  font-size: 11px;
+  min-height: var(--glass-control-height);
+  font-size: 13px;
   padding: 9px 16px;
   color: #c2d7e6;
   background: linear-gradient(145deg, #dceeff19, #b2d6ff08);
   border-color: #e1f2ff33;
-  box-shadow: inset 0 1px 0 #ffffff14;
+  box-shadow: var(--glass-control-shadow);
 }
 .orbitPanel .outerBack:hover {
   background: #dceeff26;
@@ -662,7 +664,7 @@
   .panel,
   .ratingPanel,
   .rulePanel {
-    border-radius: 21px;
+    border-radius: var(--glass-card-radius);
   }
   .paper {
     padding: 19px 17px;
@@ -766,13 +768,13 @@
     min-height: 630px;
   }
   .embedded .content {
-    padding: 82px 20px 28px !important;
+    padding: 40px 20px 28px !important;
   }
   .orbitPanel .outerBack {
     left: 19px;
     top: 18px;
     padding: 8px 12px;
-    font-size: 10px;
+    font-size: 13px;
   }
   .mathIcon {
     scale: 0.7;
@@ -1028,12 +1030,14 @@
 }
 .abstractText {
   font-family: Georgia, 'Times New Roman', serif;
-  font-size: 15px;
-  line-height: 1.55;
+  font-size: 16px;
+  line-height: 1.75;
+  max-width: 72ch;
+  margin-inline: auto;
   letter-spacing: 0;
   color: #c0d0df;
-  text-align: justify;
-  hyphens: auto;
+  text-align: left;
+  hyphens: manual;
   overflow-wrap: break-word;
 }
 .abstractText p,
@@ -1056,8 +1060,8 @@
 }
 @media (max-width: 600px) {
   .abstractText {
-    font-size: 14px;
-    line-height: 1.55;
+    font-size: 15px;
+    line-height: 1.75;
   }
   .abstract .subheading h4 {
     font-size: 15px !important;
@@ -1155,6 +1159,94 @@
   }
   .toolbar select {
     max-width: 100%;
-    font-size: 11px;
+    font-size: 14px;
+  }
+}
+
+/* Keep the primary back action and the quieter Home action on one row. */
+.orbitPanel:has([data-factory-view='atelier'], [data-factory-view='workshop']) .outerBack {
+  left: auto;
+  right: 38px;
+  min-height: 44px;
+  font-size: 12px;
+  background: transparent;
+  box-shadow: none;
+}
+.embedded:has([data-inner-back]) .content {
+  padding: 23px 42px 35px !important;
+}
+.embedded [data-inner-back] {
+  min-height: 44px;
+  max-width: calc(100% - 110px);
+  font-size: 13px !important;
+}
+.toolbar select {
+  min-height: 44px;
+  max-width: 180px;
+  padding: 8px 10px;
+  font-size: 14px;
+  border: 1px solid #d7eaff24;
+  border-radius: 12px;
+  background: #d7eaff06;
+}
+.search input {
+  min-height: 44px;
+  font-size: 16px;
+}
+.paperId,
+.paperMeta,
+.paperLevel small {
+  font-size: 12px;
+  letter-spacing: 0;
+}
+.sortCaption {
+  font-size: 12px;
+}
+@media (max-width: 600px) {
+  .orbitPanel:has([data-factory-view='atelier'], [data-factory-view='workshop']) .outerBack {
+    right: 20px;
+  }
+  .embedded:has([data-inner-back]) .content {
+    padding: 18px 20px 28px !important;
+  }
+  .toolbar {
+    gap: 10px;
+    padding: 12px 16px;
+  }
+  .toolbar select {
+    min-width: 0;
+    max-width: none;
+  }
+  .toolbar select[aria-label='研究方向'] {
+    flex: 1 1 155px;
+  }
+  .toolbar select[aria-label='研究水平分数'] {
+    flex: 1 1 100px;
+  }
+  .paper {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 12px;
+    padding: 20px 16px;
+  }
+  .paperCopy {
+    grid-column: 1 / -1;
+    gap: 8px;
+  }
+  .paperTitle[lang='en'] {
+    font-size: 15px;
+    line-height: 1.6;
+  }
+  .paperLevel {
+    flex-direction: row;
+    align-items: baseline;
+    gap: 7px;
+  }
+  .paperLevel strong {
+    font-size: 21px;
+  }
+  .paper .arrow {
+    display: block;
+    justify-self: end;
   }
 }

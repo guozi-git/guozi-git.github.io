@@ -256,8 +256,10 @@ export function Orbit() {
       <div className="site-shell" inert={!!active}>
         <header className="site-header">
           <Link className="wordmark" href="/" aria-label="首页">
-            <span className="brand-star">✳</span> A LITTLE UNIVERSE
-            <span className="brand-dot">.</span>
+            <span className="brand-star">✳</span>
+            <span className="brand-name">
+              A LITTLE UNIVERSE<span className="brand-dot">.</span>
+            </span>
           </Link>
           <span className="edition">PERSONAL SPACE / VOL. 01</span>
         </header>

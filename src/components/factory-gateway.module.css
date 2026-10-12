@@ -117,17 +117,18 @@
   place-items: center;
   width: fit-content;
   padding: 0 16px;
-  height: 38px;
+  min-height: var(--glass-control-height);
   border: 1px solid #d7c8f125;
-  border-radius: 999px;
-  background: #dad0f608;
+  border-radius: var(--glass-control-radius);
+  background: linear-gradient(145deg, #e8f5ff16, #d9efff07);
+  box-shadow: var(--glass-control-shadow);
   color: #cfc6df;
   text-decoration: none;
   font:
     13px/1.4 Arial,
     sans-serif !important;
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(var(--glass-blur)) saturate(135%);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(135%);
 }
 .atelier > .innerBack {
   position: absolute;
@@ -322,7 +323,7 @@
 }
 .workshopNav {
   display: flex;
-  padding: 78px 38px 0;
+  padding: 23px 130px 0 38px;
   justify-content: space-between;
   align-items: center;
   color: #aecbd8;
@@ -401,7 +402,26 @@
     top: 8px;
   }
   .workshopNav {
-    padding: 75px 22px 0;
+    padding: 18px 115px 0 20px;
+  }
+}
+.workshop:has([data-inner-back]) .workshopNav {
+  display: none;
+}
+.workshopNav button {
+  min-height: 44px;
+}
+.root:is([data-factory-view='atelier'], [data-factory-view='workshop']) .homeBack {
+  left: auto;
+  right: 38px;
+  top: 23px;
+  min-height: 44px;
+  background: transparent;
+}
+@media (max-width: 600px) {
+  .root:is([data-factory-view='atelier'], [data-factory-view='workshop']) .homeBack {
+    right: 20px;
+    top: 18px;
   }
 }
 @media all {
