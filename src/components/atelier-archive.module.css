@@ -64,6 +64,13 @@
   letter-spacing: 0.2em;
   color: #978c74;
 }
+.shelves {
+  display: grid;
+  gap: 40px;
+}
+.coverLine {
+  display: block;
+}
 .cabinet {
   display: grid;
   grid-template-columns: 34px 1fr 9px;

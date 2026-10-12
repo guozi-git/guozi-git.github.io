@@ -12,7 +12,7 @@
     "format:check": "prettier --check .",
     "test:browser": "playwright test",
     "test:static": "node scripts/check-static.mjs",
-    "content:check": "node scripts/check-content.mjs && npm run papers:check",
+    "content:check": "node scripts/check-content.mjs && node --test scripts/atelier-order.test.mjs && npm run papers:check",
     "papers:check": "node scripts/paper-maintenance.mjs --check",
     "papers:update": "node scripts/paper-maintenance.mjs",
     "papers:test": "node --test scripts/paper-maintenance.test.mjs"

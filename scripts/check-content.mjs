@@ -40,7 +40,12 @@ log('Content IDs, collection grouping, local assets and swimming values verified
 const collection = JSON.parse(readFileSync('src/lib/atelier-papers.json', 'utf8'));
 const publicAssets = JSON.parse(readFileSync('scripts/public-assets.json', 'utf8'));
 unique(collection, 'id');
+unique(collection, 'collectionNumber');
 for (const paper of collection) {
+  assert(Number.isSafeInteger(paper.collectionNumber) && paper.collectionNumber > 0);
+  assert(
+    paper.priority === undefined || (Number.isSafeInteger(paper.priority) && paper.priority >= 0),
+  );
   assert(paper.scores.length === 5 && paper.reasons.length === 5);
   assert(paper.scores.every((score) => score >= 0 && score <= 5 && Number.isInteger(score * 2)));
   const pdf = readFileSync(`public${paper.pdf}`);

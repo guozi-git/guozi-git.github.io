@@ -1,6 +1,10 @@
 [
   {
     "id": "P089",
+    "collectionNumber": 1,
+    "priority": 100,
+    "coverLines": ["Nesterov 流", "何时收敛到一点？"],
+    "coverTopic": "动力系统",
     "originalTitle": "Point convergence and curvature selection in smooth convex Nesterov flows",
     "question": "Nesterov 流何时收敛到一点？",
     "scope": "光滑凸目标 · 正则零初速",

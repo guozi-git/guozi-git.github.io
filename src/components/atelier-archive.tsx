@@ -1,17 +1,26 @@
 'use client';
 import { useEffect, useRef, useState } from 'react';
 import papers from '@/lib/atelier-papers.json';
+import { orderAtelierPapers } from '@/lib/atelier-order';
 import { scoreDimensions } from '@/lib/factory-papers';
 import { assetPath } from '@/lib/asset-path';
 import { AbstractContent, ScoreRadar } from './factory-preview';
 import s from './atelier-archive.module.css';
 
+const collection = orderAtelierPapers(papers);
+const accession = (number: number) => String(number).padStart(2, '0');
+
 export function AtelierArchive({ onBack }: { onBack: () => void }) {
-  const [selected, setSelected] = useState(false);
+  const [selected, setSelected] = useState<string | null>(null);
   const root = useRef<HTMLElement>(null);
-  const paper = papers[0];
+  const paper = collection.find((entry) => entry.id === selected);
   useEffect(() => {
-    const sync = () => setSelected(window.location.hash === `#factory/atelier/${paper.id}`);
+    const sync = () => {
+      const match = collection.find(
+        (entry) => window.location.hash === `#factory/atelier/${entry.id}`,
+      );
+      setSelected(match?.id ?? null);
+    };
     const timer = setTimeout(sync, 0);
     window.addEventListener('popstate', sync);
     window.addEventListener('hashchange', sync);
@@ -20,24 +29,24 @@ export function AtelierArchive({ onBack }: { onBack: () => void }) {
       window.removeEventListener('popstate', sync);
       window.removeEventListener('hashchange', sync);
     };
-  }, [paper.id]);
+  }, []);
   useEffect(() => {
     const panel = root.current?.closest('.detail');
     if (panel) panel.scrollTop = 0;
   }, [selected]);
-  function open() {
+  function open(id: string) {
     window.history.pushState(
       { ...window.history.state, factoryDepth: 2, atelierDetail: true },
       '',
-      `#factory/atelier/${paper.id}`,
+      `#factory/atelier/${id}`,
     );
-    setSelected(true);
+    setSelected(id);
   }
   function close() {
     if (window.history.state?.atelierDetail) window.history.back();
     else {
       window.history.replaceState({ factoryDepth: 1 }, '', '#factory/atelier');
-      setSelected(false);
+      setSelected(null);
     }
   }
   return (
@@ -62,48 +71,65 @@ export function AtelierArchive({ onBack }: { onBack: () => void }) {
           ‹ {selected ? '返回收藏目录' : '返回上一级'}
         </button>
       </nav>
-      {!selected ? (
+      {!paper ? (
         <>
           <header className={s.masthead}>
             <span>SELECTED MATHEMATICAL WORKS</span>
             <h2>匠心造</h2>
             <p>研究珍藏 · 第一卷</p>
           </header>
-          <div className={s.cabinet}>
-            <div className={s.spine} aria-hidden="true">
-              I · MATHEMATICAL ARCHIVE
-            </div>
-            <button className={s.folio} onClick={open} aria-label={`打开第一篇：${paper.question}`}>
-              <span className={s.accession}>
-                COLLECTION 01 <span>动力系统</span>
-              </span>
-              <span className={s.seal} aria-hidden="true">
-                Ⅰ
-              </span>
-              <h3>
-                Nesterov 流<br />
-                何时收敛到一点？
-              </h3>
-              <p className={s.scope}>{paper.scope}</p>
-              <div className={s.rule} aria-hidden="true">
-                <span>✦</span>
+          <div className={s.shelves}>
+            {collection.map((entry) => (
+              <div className={s.cabinet} key={entry.id}>
+                <div className={s.spine} aria-hidden="true">
+                  {accession(entry.collectionNumber)} · MATHEMATICAL ARCHIVE
+                </div>
+                <button
+                  className={s.folio}
+                  data-atelier-paper={entry.id}
+                  onClick={() => open(entry.id)}
+                  aria-label={`打开档案 ${accession(entry.collectionNumber)}：${entry.question}`}
+                >
+                  <span className={s.accession}>
+                    COLLECTION {accession(entry.collectionNumber)}{' '}
+                    <span>{entry.coverTopic || entry.topic}</span>
+                  </span>
+                  <span className={s.seal} aria-hidden="true">
+                    {accession(entry.collectionNumber)}
+                  </span>
+                  <h3>
+                    {(entry.coverLines || [entry.question]).map((line, index) => (
+                      <span key={index} className={s.coverLine}>
+                        {line}
+                      </span>
+                    ))}
+                  </h3>
+                  <p className={s.scope}>{entry.scope}</p>
+                  <div className={s.rule} aria-hidden="true">
+                    <span>✦</span>
+                  </div>
+                  <p className={s.english} lang="en">
+                    {entry.originalTitle}
+                  </p>
+                  <span className={s.open}>
+                    开启档案 <span aria-hidden="true">↗</span>
+                  </span>
+                </button>
+                <div className={s.foreEdge} aria-hidden="true" />
               </div>
-              <p className={s.english} lang="en">
-                {paper.originalTitle}
-              </p>
-              <span className={s.open}>
-                开启档案 <span aria-hidden="true">↗</span>
-              </span>
-            </button>
-            <div className={s.foreEdge} aria-hidden="true" />
+            ))}
           </div>
         </>
       ) : (
         <article className={s.dossier}>
           <header className={s.title}>
-            <span>COLLECTION 01 · 动力系统与差分方程</span>
+            <span>
+              COLLECTION {accession(paper.collectionNumber)} · {paper.topic}
+            </span>
             <h2 lang="en">{paper.originalTitle}</h2>
-            <p>审查通过 · 正确性 5.0 / 5 · 评价置信度：{paper.confidence}</p>
+            <p>
+              审查通过 · 正确性 {paper.correctness.toFixed(1)} / 5 · 评价置信度：{paper.confidence}
+            </p>
           </header>
           <section className={s.abstract}>
             <h3>Abstract</h3>
@@ -122,7 +148,7 @@ export function AtelierArchive({ onBack }: { onBack: () => void }) {
               </p>
             </div>
             <div className={s.radar}>
-              <ScoreRadar id="atelier-P089" scores={paper.scores} />
+              <ScoreRadar id={`atelier-${paper.id}`} scores={paper.scores} />
             </div>
           </section>
           <section className={s.reasons}>
@@ -146,7 +172,7 @@ export function AtelierArchive({ onBack }: { onBack: () => void }) {
             <p>{paper.limitation}</p>
           </section>
           <footer className={s.footer}>
-            <span>THE COLLECTION · 01</span>
+            <span>THE COLLECTION · {accession(paper.collectionNumber)}</span>
             <a
               href={`${assetPath(paper.pdf)}?v=${paper.sha256.slice(0, 16)}`}
               target="_blank"
