@@ -487,6 +487,23 @@ test('site motion overrides system preference and mobile calligraphy loads', asy
   await page.getByRole('button', { name: '打开论文工厂', exact: true }).click();
   await expect(toggle).toBeHidden();
   await expect(canvas).toBeVisible();
+  // Visibility precedes ResizeObserver initialization on slower CI machines.
+  // Compare stationary pixels only after the backing store matches the layout.
+  await expect(page.locator('html')).toHaveAttribute('data-motion', 'reduced');
+  await expect
+    .poll(() =>
+      canvas.evaluate((element) => {
+        const c = element as HTMLCanvasElement;
+        const dpr = Math.min(window.devicePixelRatio || 1, 3);
+        return (
+          c.clientWidth > 0 &&
+          c.clientHeight > 0 &&
+          c.width === Math.round(c.clientWidth * dpr) &&
+          c.height === Math.round(c.clientHeight * dpr)
+        );
+      }),
+    )
+    .toBe(true);
   const stopped = await snapshot();
   await page.waitForTimeout(300);
   expect(await snapshot()).toBe(stopped);
