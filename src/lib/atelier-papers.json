@@ -1,0 +1,28 @@
+[
+  {
+    "id": "P089",
+    "originalTitle": "Point convergence and curvature selection in smooth convex Nesterov flows",
+    "question": "Nesterov 流何时收敛到一点？",
+    "scope": "光滑凸目标 · 正则零初速",
+    "abstract": "We study point convergence and curvature selection for the equation X″ + αX′/t + ∇F(X) = 0. In finite dimensions, universal convergence from regular zero-velocity data at the singular time holds exactly for α ≥ 3, even when failure below the threshold is sought among globally smooth convex objectives with every positive-order derivative bounded. For each fixed 1 < α < 3, the construction can be refined so that the bounded trajectory has omega-limit equal to the entire compact minimizer segment. A reflected harmonic estimate yields this full-segment refinement. We then study confined valleys with one tangential and one normal coordinate. Exact quadratic valleys admit a positive limiting rescaled normal action and selection of minimum transverse curvature for 1 < α ≤ 2. This conclusion persists for analytic higher normal terms under explicit compact confinement. Exact homogeneous valleys of order 2m, m ≥ 2, admit energy decay without action preparation, while finite-time prepared data yield positive action and coefficient selection for 1 < α ≤ (m + 1)/m. Actual confined nonselecting trajectories show the boundary of that selection range. The local valley conclusions retain their confinement and initialization hypotheses; they do not settle point convergence for general semialgebraic or other tame convex objectives.",
+    "msc": ["34D05", "34A12", "34E10", "90C25"],
+    "topic": "动力系统与差分方程",
+    "scores": [4.5, 4.5, 4.5, 4, 4.5],
+    "level": 4.5,
+    "maturity": 4.5,
+    "correctness": 5,
+    "confidence": "中",
+    "reasons": [
+      "全次临界固定参数的全局 C∞ 冷启动反例、整段 ω 极限集及局部选择阈值具有实质新增；临界收敛和作用量思想本身不重复计分。",
+      "直接回答光滑凸 Nesterov 流普适点收敛的阻尼边界，明确目标值趋优与轨道选点的区别；尚无离散算法结论。",
+      "困难集中于凸性、精确零区、擦碰、旧尾释放、原冷启动接入和静态无限叠加的兼容；局部正作用量也有真实技术内容。",
+      "负面结果覆盖每个 1<α<3 且函数正则性很强；正面结果限于局部一切向一法向，含紧致与准备条件。",
+      "阈值、边界、完整构造、解析与退化选择、开集非空及不选择例形成完整链条；未包括一般可定义类或高阶非齐次统一理论。"
+    ],
+    "limitation": "曲率选择结论限于一切向、一法向的局部谷地，保留紧致限制；高阶齐次情形还要求晚时准备条件。一般半代数或其他温和凸目标的点收敛、任意高维选择及离散算法结论尚未解决。",
+    "pdf": "/atelier/P089.pdf",
+    "sha256": "e2f506d6555a2e51cbaed875d19bf3ca734af71e81ba5199b8cd4a2f788fb80d",
+    "pages": 64,
+    "bytes": 696108
+  }
+]

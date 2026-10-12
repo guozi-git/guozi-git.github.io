@@ -412,7 +412,7 @@ test('responsive game pages, loaded assets and layered Escape', async ({ page })
   expect(errors).toEqual([]);
 });
 
-test('factory gateway, six reserved papers and workshop preserve layered navigation', async ({
+test('factory gateway, collection dossier and workshop preserve layered navigation', async ({
   page,
 }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' });
@@ -422,10 +422,24 @@ test('factory gateway, six reserved papers and workshop preserve layered navigat
   await expect(left).toBeVisible();
   const box = await left.boundingBox();
   await page.mouse.click(box!.x + box!.width * 0.25, box!.y + box!.height * 0.48);
-  await expect(page.getByRole('article')).toHaveCount(6);
-  await expect(page.getByRole('heading', { name: '待呈现', exact: true })).toHaveCount(6);
+  await page
+    .getByRole('button', { name: '打开第一篇：Nesterov 流何时收敛到一点？', exact: true })
+    .click();
+  await expect(page.getByRole('img', { name: /五维评分雷达图/ })).toBeVisible();
+  await expect(page.getByRole('link', { name: /阅读原文/ })).toHaveAttribute(
+    'href',
+    /atelier\/P089.pdf/,
+  );
   await page.reload();
-  await expect(page.getByRole('region', { name: '六篇精选论文展厅' })).toBeVisible();
+  await expect(
+    page.getByRole('heading', { name: /Point convergence and curvature selection/ }),
+  ).toBeVisible();
+  await page.keyboard.press('Escape');
+  await expect(
+    page.getByRole('button', { name: '打开第一篇：Nesterov 流何时收敛到一点？', exact: true }),
+  ).toBeVisible();
+  await page.reload();
+  await expect(page.getByRole('region', { name: '匠心造收藏档案' })).toBeVisible();
   await page.keyboard.press('Escape');
   await expect(left).toBeFocused();
   const rightBox = await right.boundingBox();

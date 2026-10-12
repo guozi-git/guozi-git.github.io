@@ -1,0 +1,454 @@
+.archive {
+  --gold: #cbb784;
+  color: #e5ddc9;
+  background: radial-gradient(ellipse at 50% 8%, #63533513, transparent 55%), #0d0e0d;
+  min-height: 90svh;
+  padding: 78px 38px 70px;
+}
+.archive * {
+  box-sizing: border-box;
+}
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  color: #ac9b78;
+}
+.nav button {
+  border: 1px solid #b8a27640;
+  background: #d2bc8610;
+  border-radius: 24px;
+  padding: 10px 17px;
+  color: #d8c9a6;
+  backdrop-filter: blur(16px);
+}
+.nav > span {
+  font-size: 10px;
+  letter-spacing: 0.16em;
+}
+.archive :is(button, a):focus-visible {
+  outline: 2px solid #d7c593;
+  outline-offset: 5px;
+}
+.masthead {
+  text-align: center;
+  padding: 52px 0 38px;
+}
+.masthead > span,
+.accession,
+.title > span {
+  font-size: 9px;
+  letter-spacing: 0.24em;
+  color: #b5a077;
+}
+.masthead h2 {
+  font:
+    400 36px/1.5 'Songti SC',
+    SimSun,
+    serif !important;
+  letter-spacing: 0.3em !important;
+  margin: 12px 0 7px;
+  padding-left: 0.3em;
+  color: #e0cda2;
+}
+.masthead p {
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  color: #978c74;
+}
+.cabinet {
+  display: grid;
+  grid-template-columns: 34px 1fr 9px;
+  width: min(630px, 100%);
+  margin: auto;
+  box-shadow: 0 26px 70px #0007;
+}
+.spine {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  text-align: center;
+  border: 1px solid #a890563b;
+  font:
+    10px Georgia,
+    serif;
+  letter-spacing: 0.24em;
+  padding: 25px 9px;
+  background: linear-gradient(90deg, #111311, #25251e, #111311);
+  color: #b8a47a;
+}
+.archive .folio {
+  display: block;
+  width: 100%;
+  position: relative;
+  text-align: center;
+  color: #e6d9b8;
+  border: 1px solid #a890565e;
+  border-radius: 0;
+  padding: 30px 38px 26px;
+  background: linear-gradient(115deg, #1e201b, #111410 65%);
+  box-shadow:
+    inset 0 0 0 7px #151712,
+    inset 0 0 0 8px #a8905626;
+  transition: filter 0.3s;
+}
+.folio:hover {
+  filter: brightness(1.14);
+}
+.accession {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+}
+.seal {
+  display: grid;
+  place-items: center;
+  margin: 35px auto 22px;
+  border: 1px solid #ac955c73;
+  outline: 1px solid #ac955c26;
+  outline-offset: 5px;
+  width: 43px;
+  height: 43px;
+  transform: rotate(45deg);
+  font:
+    20px Georgia,
+    serif;
+  color: #d0b980;
+}
+.folio h3 {
+  font:
+    400 clamp(23px, 3.5vw, 34px)/1.6 'Songti SC',
+    SimSun,
+    serif !important;
+  letter-spacing: 0.045em !important;
+  color: #e7d5a9;
+  margin: 0;
+}
+.scope {
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  color: #ac9e80;
+  margin: 20px 0;
+}
+.rule {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: 60%;
+  margin: 25px auto;
+  color: #b29a66;
+  font-size: 12px;
+}
+.rule:before,
+.rule:after {
+  content: '';
+  height: 1px;
+  background: #a28b5147;
+  flex: 1;
+}
+.english {
+  font:
+    15px/1.6 Georgia,
+    serif;
+  max-width: 350px;
+  margin: 0 auto;
+  color: #b7ad97;
+}
+.open {
+  display: flex;
+  justify-content: space-between;
+  border-top: 1px solid #a58c5233;
+  margin-top: 34px;
+  padding-top: 19px;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  color: #ccb787;
+}
+.foreEdge {
+  border: 1px solid #9b855838;
+  background: repeating-linear-gradient(90deg, #76664a55 0 1px, #151610 1px 3px);
+  margin: 8px 0;
+}
+.register {
+  list-style: none;
+  width: min(630px, 100%);
+  padding: 0;
+  margin: 40px auto 0;
+}
+.register li {
+  display: grid;
+  grid-template-columns: 34px 1fr auto;
+  gap: 15px;
+  align-items: center;
+  border-bottom: 1px solid #b7a27325;
+  padding: 16px 0;
+  font-size: 11px;
+  color: #766f5f;
+}
+.register li:first-child {
+  color: #c6b58f;
+}
+.register button {
+  padding: 0;
+  text-align: left;
+  border: 0;
+  background: none;
+  color: inherit;
+}
+.register li > span:last-child {
+  font-size: 10px;
+  letter-spacing: 0.1em;
+}
+.dossier {
+  max-width: 740px;
+  margin: 55px auto 0;
+}
+.title {
+  border-bottom: 1px solid #b09a613d;
+  padding-bottom: 30px;
+}
+.title h2 {
+  font:
+    400 clamp(25px, 4vw, 37px)/1.28 Georgia,
+    'Times New Roman',
+    serif !important;
+  letter-spacing: 0 !important;
+  margin: 22px 0;
+  color: #e4d6b3;
+}
+.title p {
+  font-size: 11px;
+  line-height: 1.8;
+  color: #a7997c;
+}
+.evaluation {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  align-items: center;
+  border-bottom: 1px solid #b09a613d;
+  padding: 20px 0;
+  gap: 20px;
+}
+.verdict > span {
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  color: #b6a582;
+}
+.verdict strong {
+  display: block;
+  font:
+    64px/1.4 Georgia,
+    serif;
+  color: #e0c68e;
+}
+.verdict small {
+  font-size: 16px;
+  color: #91836a;
+}
+.verdict p {
+  font-size: 12px;
+  color: #b8ab90;
+  line-height: 1.8;
+}
+.note {
+  font-size: 11px !important;
+  line-height: 1.8;
+  color: #8e826a !important;
+}
+.radar figure {
+  margin: 0;
+}
+.radar svg {
+  width: 100%;
+  height: auto;
+}
+.radar polygon {
+  stroke: #b59d623d;
+}
+.radar polygon:last-of-type {
+  stroke: #d3b879;
+  fill: #c7a96228;
+}
+.radar line {
+  stroke: #b59d623d;
+}
+.radar circle {
+  fill: #e1c78c;
+}
+.radar text,
+.radar tspan {
+  fill: #cbbb97;
+}
+.dossier h3 {
+  font:
+    400 17px/1.5 'Songti SC',
+    SimSun,
+    serif;
+  letter-spacing: 0.08em;
+  color: #ceba8b;
+  margin: 0 0 24px;
+}
+.reasons {
+  padding: 34px 0;
+  border-bottom: 1px solid #b09a613d;
+}
+.reasons h3 span {
+  font: 9px Arial;
+  letter-spacing: 0.18em;
+  color: #81765e;
+  margin-left: 15px;
+}
+.reasons dl {
+  margin: 0;
+}
+.reasons dl > div {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: 24px;
+  padding: 17px 0;
+  border-bottom: 1px solid #b09a611c;
+}
+.reasons dt {
+  font-size: 12px;
+  color: #caba97;
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+.reasons dt b {
+  font: 16px Georgia;
+}
+.reasons dd {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.95;
+  color: #b2aa98;
+}
+.abstract {
+  padding: 36px 0;
+  border-bottom: 1px solid #b09a613d;
+}
+.abstract h3 {
+  text-align: center;
+  font: 20px Georgia;
+}
+.abstract p {
+  color: #c6bfad;
+}
+.msc {
+  font: 10px/1.8 Arial !important;
+  color: #8d836c !important;
+  margin: 25px 0 0 !important;
+}
+.limits {
+  padding: 32px 0;
+}
+.limits p {
+  font-size: 12px;
+  line-height: 2;
+  color: #afa692;
+}
+.footer {
+  border-top: 1px solid #b09a613d;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 28px;
+  gap: 16px;
+}
+.footer > span {
+  font-size: 9px;
+  letter-spacing: 0.16em;
+  color: #8b7d60;
+}
+.footer a {
+  border: 1px solid #bba46c66;
+  background: #d0b6740d;
+  border-radius: 24px;
+  padding: 12px 22px;
+  text-decoration: none;
+  font-size: 12px;
+  color: #dfc794;
+  backdrop-filter: blur(16px);
+}
+@media (max-width: 600px) {
+  .archive {
+    padding: 78px 20px 46px;
+  }
+  .nav > span {
+    font-size: 8px;
+    letter-spacing: 0.08em;
+  }
+  .masthead {
+    padding: 40px 0 28px;
+  }
+  .masthead h2 {
+    font-size: 29px !important;
+  }
+  .cabinet {
+    grid-template-columns: 23px 1fr 6px;
+  }
+  .spine {
+    font-size: 8px;
+    padding: 20px 5px;
+  }
+  .archive .folio {
+    padding: 24px 18px;
+  }
+  .accession {
+    font-size: 8px;
+    letter-spacing: 0.12em;
+  }
+  .seal {
+    margin: 29px auto 24px;
+  }
+  .folio h3 {
+    font-size: 23px !important;
+  }
+  .scope {
+    font-size: 9px;
+    letter-spacing: 0;
+  }
+  .english {
+    font-size: 13px;
+  }
+  .register {
+    margin-top: 28px;
+  }
+  .dossier {
+    margin-top: 37px;
+  }
+  .evaluation {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+  .verdict {
+    text-align: center;
+    padding-top: 8px;
+  }
+  .verdict strong {
+    font-size: 48px;
+  }
+  .verdict .note {
+    display: none;
+  }
+  .radar {
+    max-width: 360px;
+    width: 100%;
+    margin: auto;
+  }
+  .reasons dl > div {
+    grid-template-columns: 1fr;
+    gap: 9px;
+  }
+  .reasons dt {
+    justify-content: flex-start;
+    gap: 16px;
+  }
+  .title h2 {
+    font-size: 27px !important;
+  }
+  .footer > span {
+    font-size: 8px;
+  }
+}

@@ -1,4 +1,5 @@
-import { existsSync } from 'node:fs';
+import { createHash } from 'node:crypto';
+import { existsSync, readFileSync } from 'node:fs';
 import { log } from 'node:console';
 import assert from 'node:assert/strict';
 import { csCollection, favoriteCombination, otherCollection } from '../src/lib/cs-collection.ts';
@@ -35,3 +36,17 @@ for (const entry of swims) {
 }
 for (const section of hearthstoneNotes) unique(section.entries, 'id');
 log('Content IDs, collection grouping, local assets and swimming values verified.');
+
+const collection = JSON.parse(readFileSync('src/lib/atelier-papers.json', 'utf8'));
+const publicAssets = JSON.parse(readFileSync('scripts/public-assets.json', 'utf8'));
+unique(collection, 'id');
+for (const paper of collection) {
+  assert(paper.scores.length === 5 && paper.reasons.length === 5);
+  assert(paper.scores.every((score) => score >= 0 && score <= 5 && Number.isInteger(score * 2)));
+  const pdf = readFileSync(`public${paper.pdf}`);
+  assert.equal(pdf.subarray(0, 5).toString(), '%PDF-');
+  assert.equal(pdf.length, paper.bytes);
+  assert.equal(createHash('sha256').update(pdf).digest('hex'), paper.sha256);
+  assert(publicAssets.includes(paper.pdf.slice(1)));
+}
+log('Collection records, review dimensions and original PDFs verified.');

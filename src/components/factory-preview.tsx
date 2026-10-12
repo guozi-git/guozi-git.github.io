@@ -44,7 +44,7 @@ export function MathBackdrop() {
     </div>
   );
 }
-function AbstractContent({ text }: { text: string }) {
+export function AbstractContent({ text }: { text: string }) {
   const blocks: { list: boolean; paragraphs: string[] }[] = [];
   for (const paragraph of text.split('\n\n')) {
     const list = paragraph.startsWith('• ');
@@ -81,7 +81,7 @@ function AbstractContent({ text }: { text: string }) {
     </div>
   );
 }
-function ScoreRadar({ scores, id }: { scores: readonly number[]; id: string }) {
+export function ScoreRadar({ scores, id }: { scores: readonly number[]; id: string }) {
   const center = { x: 200, y: 163 };
   const point = (index: number, radius: number) => {
     const angle = -Math.PI / 2 + (index * Math.PI * 2) / 5;

@@ -1,5 +1,6 @@
 'use client';
-import { useEffect, useId, useRef, useState, type CSSProperties } from 'react';
+import { useEffect, useId, useRef, useState } from 'react';
+import { AtelierArchive } from './atelier-archive';
 import { FactoryPreview } from './factory-preview';
 import { FactoryParticles } from './factory-particles';
 import { assetPath } from '@/lib/asset-path';
@@ -115,43 +116,7 @@ export function FactoryGateway({ embedded = false }: { embedded?: boolean }) {
           </div>
         </div>
       ) : view === 'atelier' ? (
-        <section className={s.atelier} aria-label="六篇精选论文展厅">
-          <button data-gateway-back className={s.innerBack} aria-label="返回上一级" onClick={back}>
-            ‹ 返回上一级
-          </button>
-          <div className={s.constellation}>
-            <div className={s.nebula} aria-hidden="true" />
-            <svg
-              className={s.starMap}
-              viewBox="0 0 800 680"
-              preserveAspectRatio="none"
-              fill="none"
-              aria-hidden="true"
-            >
-              <path d="M400 68 648 476H152ZM648 204 400 612 152 204Z" />
-            </svg>
-            <FactoryParticles mode="star" />
-            {['01', '02', '03', '04', '05', '06'].map((number, index) => (
-              <article
-                key={number}
-                className={s.paperSlot}
-                style={{ '--slot': index } as CSSProperties}
-                aria-label={`精选论文展位 ${index + 1}，待呈现`}
-              >
-                <div className={s.cover} aria-hidden="true">
-                  <span className={s.coverOrbit} />
-                  <span className={s.coverLight} />
-                  <span className={s.coverNumber}>{number}</span>
-                </div>
-                <div className={s.paperCopy}>
-                  <span>{number}</span>
-                  <h3>待呈现</h3>
-                  <span className={s.dot} />
-                </div>
-              </article>
-            ))}
-          </div>
-        </section>
+        <AtelierArchive onBack={back} />
       ) : (
         <div className={s.workshop}>
           <div className={s.workshopNav}>
