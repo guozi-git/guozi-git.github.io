@@ -45,14 +45,19 @@
   position: absolute;
   left: 27%;
   top: 50%;
-  transform: translate(-50%, -50%) rotate(-4deg);
+  transform: translate(-50%, -50%);
   margin: 0;
-  writing-mode: vertical-rl;
+  display: grid;
+  grid-template-rows: repeat(3, 1.25em);
+  width: 1.35em;
+  writing-mode: horizontal-tb;
+  white-space: nowrap;
+  text-align: center;
   font:
-    400 clamp(76px, 9vw, 112px)/1.4 'Factory Script',
+    400 clamp(76px, 8vw, 104px)/1.25 'Factory Script',
     cursive;
   font-synthesis: none;
-  letter-spacing: 0.12em;
+  letter-spacing: 0;
   background: linear-gradient(130deg, #fff3d6, #e0cda8 40%, #b39870 64%, #f1e4c9);
   -webkit-background-clip: text;
   background-clip: text;
@@ -439,4 +444,13 @@
   background:
     radial-gradient(ellipse at 8% 90%, #b2a0850e, transparent 60%),
     linear-gradient(118deg, #050607, #151417 42%, #09090c 68%);
+}
+
+.root .door h3 > span {
+  display: block;
+  width: 100%;
+  height: 1.25em;
+  background: inherit;
+  -webkit-background-clip: text;
+  background-clip: text;
 }

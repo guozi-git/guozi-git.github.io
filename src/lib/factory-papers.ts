@@ -55,7 +55,7 @@ export const scoreDimensions = [
     description: '考察定理与证明是否闭合，关键边界和反例是否处理充分，并清楚说明尚未解决的情况。',
   },
 ] as const;
-// Scores retain the 2026-10-09 review calibration; unscored manuscripts sort last.
+// Scores follow each manuscript’s supplied review; unscored manuscripts sort last.
 export const factoryPapers: FactoryPaper[] = [...papers].sort(
   (a, b) => (b.level ?? -1) - (a.level ?? -1) || a.id.localeCompare(b.id),
 );

@@ -88,7 +88,13 @@ export function FactoryGateway({ embedded = false }: { embedded?: boolean }) {
             style={{ clipPath: `url(#${clipId}-left)` }}
             onClick={() => enter('atelier')}
           >
-            <h3>匠心造</h3>
+            <h3 aria-label="匠心造">
+              {Array.from('匠心造').map((character) => (
+                <span key={character} aria-hidden="true">
+                  {character}
+                </span>
+              ))}
+            </h3>
           </button>
           <button
             data-door="workshop"
@@ -96,7 +102,13 @@ export function FactoryGateway({ embedded = false }: { embedded?: boolean }) {
             style={{ clipPath: `url(#${clipId}-right)` }}
             onClick={() => enter('workshop')}
           >
-            <h3>小作坊</h3>
+            <h3 aria-label="小作坊">
+              {Array.from('小作坊').map((character) => (
+                <span key={character} aria-hidden="true">
+                  {character}
+                </span>
+              ))}
+            </h3>
           </button>
           <div className={s.particleVeil}>
             <FactoryParticles mode="divider" />

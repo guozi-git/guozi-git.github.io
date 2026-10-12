@@ -1,13 +1,5 @@
 import { test, expect } from '@playwright/test';
 import { publications } from './src/lib/publications';
-test.beforeEach(async ({ page }, testInfo) => {
-  if (
-    !/^(site motion|opening and closing|Escape during opening|five entrances)/.test(testInfo.title)
-  ) {
-    await page.addInitScript(() => localStorage.setItem('guozi-motion', 'reduced'));
-  }
-});
-
 test('first project preview, detail, history and mobile', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto('/');
@@ -471,17 +463,31 @@ test('site motion overrides system preference and mobile calligraphy loads', asy
   const heading = page.locator('[data-door="atelier"] h3');
   await expect(heading).toHaveCSS('font-size', '78px');
   await expect(heading).toHaveCSS('font-weight', '400');
-  await page.getByRole('button', { name: '动态效果', exact: true }).click();
-  await page.waitForTimeout(100);
+  const toggle = page.getByRole('button', { name: '动态效果', exact: true });
+  await expect(toggle).toBeHidden();
+  await page.getByRole('button', { name: 'Home', exact: true }).click();
+  await expect(toggle).toBeVisible();
+  await expect(toggle).toHaveAttribute('aria-pressed', 'true');
+  await toggle.click();
+  await expect(toggle).toHaveAttribute('aria-pressed', 'false');
+  await page.getByRole('button', { name: '打开论文工厂', exact: true }).click();
+  await expect(toggle).toBeHidden();
+  await expect(canvas).toBeVisible();
   const stopped = await snapshot();
   await page.waitForTimeout(300);
   expect(await snapshot()).toBe(stopped);
   await page.reload();
-  await expect(page.getByRole('button', { name: '动态效果', exact: true })).toHaveAttribute(
-    'aria-pressed',
-    'false',
-  );
-  await page.getByRole('button', { name: '动态效果', exact: true }).click();
+  await expect(toggle).toBeHidden();
   const restarted = await snapshot();
   await expect.poll(snapshot).not.toBe(restarted);
+  await page.getByRole('button', { name: 'Home', exact: true }).click();
+  await expect(toggle).toHaveAttribute('aria-pressed', 'true');
+  for (const name of ['打开兴趣爱好', '打开论文发表', '打开兴趣造物', '打开自我介绍']) {
+    await page.getByRole('button', { name, exact: true }).click();
+    await expect(toggle).toBeHidden();
+    await page.keyboard.press('Escape');
+    await expect(toggle).toBeVisible();
+  }
+  await page.goto('/paper-factory/');
+  await expect(toggle).toBeHidden();
 });

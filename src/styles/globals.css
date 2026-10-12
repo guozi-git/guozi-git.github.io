@@ -3151,13 +3151,18 @@ summary:focus-visible {
 
 .motion-toggle {
   position: fixed;
-  right: max(14px, env(safe-area-inset-right));
-  bottom: max(14px, env(safe-area-inset-bottom));
+  left: 50%;
+  transform: translateX(-50%);
+  top: max(14px, env(safe-area-inset-top));
   z-index: 1000;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  min-height: 40px;
   padding: 8px 12px;
-  border: 1px solid #ffffff45;
+  border: 1px solid #ffffff24;
   border-radius: 999px;
-  background: #172134c9;
+  background: #14233070;
   color: #f3f5fb;
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
@@ -3166,7 +3171,42 @@ summary:focus-visible {
     sans-serif;
   cursor: pointer;
 }
+/* The control belongs to the home screen; its setting still applies inside sections. */
+body:has([role='dialog']) .motion-toggle,
+body:not(:has(.orbit)) .motion-toggle {
+  display: none;
+}
 .motion-toggle:focus-visible {
   outline: 2px solid #cdbbff;
   outline-offset: 3px;
+}
+
+.motion-toggle-track {
+  width: 27px;
+  height: 16px;
+  padding: 3px;
+  border-radius: 20px;
+  background: #72849566;
+  transition: background 0.2s;
+}
+.motion-toggle-track > span {
+  display: block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #b6c3ce;
+  transition: transform 0.2s;
+}
+.motion-toggle[aria-pressed='true'] .motion-toggle-track {
+  background: #96cec7aa;
+}
+.motion-toggle[aria-pressed='true'] .motion-toggle-track > span {
+  transform: translateX(11px);
+  background: #edfffa;
+}
+@media (max-width: 600px) {
+  .motion-toggle {
+    top: max(10px, env(safe-area-inset-top));
+    font-size: 11px;
+  }
 }

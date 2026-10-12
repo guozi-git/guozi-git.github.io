@@ -15,10 +15,10 @@ export function FactoryParticles({ mode }: { mode: 'divider' | 'star' }) {
     let time = 0;
     let last = 0;
     const resize = new ResizeObserver(() => {
-      const bounds = canvas.getBoundingClientRect();
-      width = bounds.width;
-      height = bounds.height;
-      const dpr = Math.min(devicePixelRatio || 1, 2);
+      // Layout dimensions stay sharp while the parent expands with a CSS transform.
+      width = canvas.clientWidth;
+      height = canvas.clientHeight;
+      const dpr = Math.min(devicePixelRatio || 1, 3);
       canvas.width = Math.round(width * dpr);
       canvas.height = Math.round(height * dpr);
       context.setTransform(dpr, 0, 0, dpr, 0, 0);
@@ -57,14 +57,15 @@ export function FactoryParticles({ mode }: { mode: 'divider' | 'star' }) {
     function draw() {
       context!.clearRect(0, 0, width, height);
       context!.globalCompositeOperation = 'lighter';
+      if (mode === 'divider') {
+        drawDivider();
+        return;
+      }
       if (mode === 'star') drawStarField();
-      const count = mode === 'divider' ? 120 : 50;
+      const count = 50;
       for (let i = 0; i < count; i++) {
-        const seed = (i * 0.61803398875) % 1;
-        const t = (seed + time * (mode === 'divider' ? 0.035 : 0.024)) % 1;
-        const lane =
-          mode === 'divider' ? Math.sin(i * 72.7 + time * 0.5) * (8 + (i % 7) * 3) : i % 2;
-        const p = point(t, lane);
+        const t = (((i * 0.61803398875) % 1) + time * 0.024) % 1;
+        const p = point(t, i % 2);
         const alpha = (0.2 + (i % 5) * 0.12) * Math.sin(Math.PI * t);
         context!.fillStyle = i % 3 ? `rgba(199,182,255,${alpha})` : `rgba(255,229,190,${alpha})`;
         context!.shadowColor = i % 3 ? '#b29aff' : '#fbe0af';
@@ -73,19 +74,55 @@ export function FactoryParticles({ mode }: { mode: 'divider' | 'star' }) {
         context!.arc(p.x, p.y, i % 9 === 0 ? 1.9 : 0.65, 0, Math.PI * 2);
         context!.fill();
       }
-      for (let i = 0; i < (mode === 'star' ? 0 : 4); i++) {
-        const head = (i * 0.25 + time * 0.045) % 1;
-        for (let j = 0; j < 36; j++) {
-          const t = (head - j * 0.0018 + 1) % 1;
-          const p = point(t, mode === 'star' ? i % 2 : Math.sin(i) * 3);
-          context!.fillStyle = `rgba(${i % 2 ? '246,221,188' : '208,193,255'},${(1 - j / 36) * 0.7})`;
-          context!.shadowBlur = j === 0 ? 18 : 5;
-          context!.beginPath();
-          context!.arc(p.x, p.y, j === 0 ? 2.1 : 1, 0, Math.PI * 2);
-          context!.fill();
-        }
-      }
       context!.shadowBlur = 0;
+    }
+    function drawDivider() {
+      const ctx = context!;
+      const compact = width < 600;
+      const count = compact ? 900 : 1500;
+      const spread = compact ? 13 : 22;
+      ctx.shadowBlur = 0;
+      for (let i = 0; i < count; i++) {
+        const t = (i * 0.61803398875 + time * (0.009 + (i % 5) * 0.0008)) % 1;
+        // Concentrate crisp stars around the curve, with a sparse outer fringe.
+        const seed = Math.sin(i * 127.1 + 31.7) * 43758.5453;
+        const lane = (seed - Math.floor(seed)) * 2 - 1;
+        const offset = Math.sign(lane) * lane * lane * spread;
+        const p = point(t, offset + Math.sin(t * 18 + time * 0.2) * 2);
+        const fade = Math.min(1, t * 18, (1 - t) * 18);
+        const alpha = (0.24 + (i % 7) * 0.085) * fade;
+        ctx.fillStyle = `rgba(${i % 4 ? '212,207,243' : '245,224,188'},${alpha})`;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, i % 23 === 0 ? 1 : 0.45 + (i % 3) * 0.12, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      // Thin tapered strokes avoid the overexposed blobs of overlapping glowing circles.
+      for (let i = 0; i < 3; i++) {
+        const head = (i / 3 + time * 0.037) % 1;
+        const length = Math.min(0.035, 26 / Math.max(height, 1));
+        for (let j = 24; j > 0; j--) {
+          const t = head - (j / 24) * length;
+          if (t < 0) continue;
+          const a = point(t),
+            b = point(head - ((j - 1) / 24) * length);
+          const intensity = 1 - j / 25;
+          ctx.strokeStyle = `rgba(${i % 2 ? '241,222,190' : '209,198,245'},${intensity * 0.62})`;
+          ctx.lineWidth = 0.35 + intensity * 0.65;
+          ctx.shadowColor = i % 2 ? '#e3cda9' : '#c4b6ed';
+          ctx.shadowBlur = 2 * intensity;
+          ctx.beginPath();
+          ctx.moveTo(a.x, a.y);
+          ctx.lineTo(b.x, b.y);
+          ctx.stroke();
+        }
+        const p = point(head);
+        ctx.shadowBlur = 3;
+        ctx.fillStyle = '#f2ebff';
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, compact ? 0.85 : 1.05, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      ctx.shadowBlur = 0;
     }
     function drawStarField() {
       const ctx = context!;

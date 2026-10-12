@@ -3,27 +3,11 @@ import { useEffect, useState } from 'react';
 export function MotionToggle() {
   const [enabled, setEnabled] = useState(true);
   useEffect(() => {
-    let value = true;
-    try {
-      value = localStorage.getItem('guozi-motion') !== 'reduced';
-    } catch {
-      /* Storage may be unavailable in private browsing. */
-    }
-    document.documentElement.dataset.motion = value ? 'full' : 'reduced';
+    document.documentElement.dataset.motion = enabled ? 'full' : 'reduced';
     window.dispatchEvent(new Event('site-motion-change'));
-    const timer = setTimeout(() => setEnabled(value), 0);
-    return () => clearTimeout(timer);
-  }, []);
+  }, [enabled]);
   function toggle() {
-    const next = !enabled;
-    setEnabled(next);
-    document.documentElement.dataset.motion = next ? 'full' : 'reduced';
-    try {
-      localStorage.setItem('guozi-motion', next ? 'full' : 'reduced');
-    } catch {
-      /* Storage may be unavailable in private browsing. */
-    }
-    window.dispatchEvent(new Event('site-motion-change'));
+    setEnabled((value) => !value);
   }
   return (
     <button
@@ -33,7 +17,10 @@ export function MotionToggle() {
       onClick={toggle}
       aria-label="动态效果"
     >
-      动态效果 · {enabled ? '开' : '关'}
+      <span>动态</span>
+      <span className="motion-toggle-track" aria-hidden="true">
+        <span />
+      </span>
     </button>
   );
 }
