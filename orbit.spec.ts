@@ -283,6 +283,54 @@ test('Escape during opening is preserved, including repeated presses', async ({ 
   await expect(page.getByRole('dialog')).toBeVisible();
 });
 
+test('entrance uses 615ms and the outside background never animates', async ({ page }) => {
+  await page.goto('/');
+  await page.getByRole('button', { name: '打开论文工厂', exact: true }).click();
+  const initial = await page.getByRole('dialog').evaluate((panel) => {
+    const backdrop = panel.parentElement!;
+    return {
+      durations: panel.getAnimations().map((a) => a.effect?.getTiming().duration),
+      outsideAnimations: backdrop.getAnimations().length,
+      background: getComputedStyle(backdrop).backgroundColor,
+      blur: getComputedStyle(backdrop).backdropFilter,
+    };
+  });
+  expect(initial.durations).toContain(615);
+  expect(initial.outsideAnimations).toBe(0);
+  expect(initial.background).toBe('rgb(7, 18, 33)');
+  expect(initial.blur).toBe('none');
+  await page.getByRole('dialog').evaluate(async (panel) => {
+    await Promise.all(panel.getAnimations().map((a) => a.finished));
+  });
+  expect(
+    await page.locator('.detail-backdrop').evaluate((e) => getComputedStyle(e).backgroundColor),
+  ).toBe(initial.background);
+});
+
+test('cold factory loading reserves its final entrance geometry', async ({ page }) => {
+  await page.goto('/');
+  let release!: () => void;
+  const download = new Promise<void>((resolve) => {
+    release = resolve;
+  });
+  await page.route('**/_next/static/chunks/*.js', async (route) => {
+    await download;
+    await route.continue();
+  });
+  try {
+    await page.getByRole('button', { name: '打开论文工厂', exact: true }).click();
+    // The opening must reach normal size even when the content is still downloading.
+    await expect
+      .poll(async () => (await page.getByRole('dialog').boundingBox())?.height ?? 0)
+      .toBeGreaterThan(600);
+  } finally {
+    release();
+  }
+  await expect(page.locator('[data-door="workshop"]')).toBeVisible();
+  await page.getByRole('button', { name: 'Home', exact: true }).click();
+  await expect(page.getByRole('dialog')).toHaveCount(0);
+});
+
 test('five entrances, return, keyboard focus and browser history', async ({ page }) => {
   const errors: string[] = [];
   page.on('pageerror', (error) => errors.push(error.message));
@@ -468,6 +516,62 @@ test('factory gateway, collection dossier and workshop preserve layered navigati
   await expect(right).toBeFocused();
   await page.goForward();
   await expect(page.getByLabel('搜索论文')).toBeVisible();
+});
+
+test('workshop hundred-point review, pending gate and current originals', async ({ page }) => {
+  await page.goto('/#factory/workshop');
+  await expect(page.locator('[data-paper]').first()).toHaveAttribute('data-paper', 'P062');
+  await expect(page.locator('[data-paper="P062"]')).toContainText('90');
+  const scoreSelect = page.getByLabel('研究水平分数');
+  await expect(scoreSelect.locator('option')).toHaveText([
+    '全部分数',
+    '81-90',
+    '71-80',
+    '61-70',
+    '51-60',
+  ]);
+  await scoreSelect.selectOption('71');
+  await expect(page.locator('[data-paper="P062"]')).toHaveCount(0);
+  const filteredScores = await page.locator('[data-paper] strong').allTextContents();
+  expect(filteredScores.length).toBeGreaterThan(0);
+  expect(filteredScores.every((score) => Number(score) >= 71 && Number(score) <= 80)).toBe(true);
+  await scoreSelect.selectOption('81');
+  await page.locator('[data-paper="P062"]').click();
+  await expect(page.getByText('正确性检验通过', { exact: true })).toBeVisible();
+  await expect(page.getByRole('img', { name: /创新性 88 \/ 100/ })).toBeVisible();
+  await expect(page.getByText(/正确性\s*\d|评价置信度/)).toHaveCount(0);
+  await expect(page.getByText('百分制独立重审', { exact: true })).toHaveCount(0);
+  await expect(page.getByText('正确性核验依据', { exact: true })).toHaveCount(0);
+  await expect(page.locator('article dt')).toHaveText([
+    '创新性',
+    '学术意义',
+    '技术深度',
+    '一般性',
+    '内容完整度',
+  ]);
+  const core = page.getByText('核心成果水平', { exact: true });
+  const dimensions = page.getByRole('heading', { name: '五维评价', exact: true });
+  const maturity = page.getByText('稿件成熟度', { exact: true });
+  expect((await core.boundingBox())!.y).toBeLessThan((await dimensions.boundingBox())!.y);
+  expect((await dimensions.boundingBox())!.y).toBeLessThan((await maturity.boundingBox())!.y);
+  await expect(page.getByRole('heading', { name: '整体评价' })).toBeVisible();
+  await expect(page.getByText(/point selection can nevertheless fail in the plane/)).toBeVisible();
+  await page.getByRole('button', { name: '返回论文汇总', exact: true }).click();
+  await page.getByRole('button', { name: '待确认 3', exact: true }).click();
+  await expect(page.locator('[data-paper]')).toHaveCount(3);
+  await page.locator('[data-paper="P014"]').click();
+  await expect(page.getByText('正确性：待确认', { exact: true })).toBeVisible();
+  await expect(page.getByRole('img', { name: /五维评分/ })).toHaveCount(0);
+  await page.reload();
+  await page.getByRole('button', { name: '返回论文汇总', exact: true }).click();
+  await expect(page.locator('[data-paper]')).toHaveCount(3);
+  await page.goto('/#factory/P088');
+  await expect(page.getByRole('link', { name: /阅读证明补充/ })).toHaveAttribute(
+    'href',
+    /P088-supplement.pdf/,
+  );
+  await page.setViewportSize({ width: 390, height: 844 });
+  expect(await page.getByRole('dialog').evaluate((e) => e.scrollWidth <= e.clientWidth)).toBe(true);
 });
 
 test('site motion overrides system preference and mobile calligraphy loads', async ({ page }) => {

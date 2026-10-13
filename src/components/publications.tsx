@@ -98,7 +98,7 @@ export function Publications() {
           { opacity: 0, transform: 'translateY(12px)' },
           { opacity: 1, transform: 'none' },
         ],
-        { duration: 360, easing: 'cubic-bezier(.2,.7,.2,1)' },
+        { duration: 180, easing: 'cubic-bezier(.2,.7,.2,1)' },
       );
       return () => animation.cancel();
     }

@@ -1,0 +1,52 @@
+论文工厂维护流程 · 2026-10-13 · v2
+
+本文件替代v1的评分字段说明。发布仍需用户当次授权，维护命令只修改本地文件。
+
+一、百分制数据
+src/lib/factory-papers.json 保存论文；scoreScale必须为100，分值为0—100整数。
+scores/reasons依次对应创新性、学术意义、技术深度、一般性、内容完整度，各5项。
+level为核心成果水平，maturity为现稿成熟度，独立给分。
+correctness和confidence保留来源报告的核验证据尺度，网页不显示这两个数值。
+status支持通过、有条件通过、待确认、不通过；后3类须填写reviewNote。
+待确认和不通过：scores与level为null，reasons为空；maturity/confidence可保留来源报告的诊断数值或null，不参与价值排名。
+必需文字字段：originalTitle、abstract、limitation、reviewNote、overall、levelReason、maturityReason、verificationReason。
+reviewDate记录数据出处日期，不在论文页面显示。overall为整体评价。
+msc主分类在前；topic、symbol由工具推定；pdf、bytes、sha256由工具生成；原文页数pages需核对。
+标题与摘要保持英文原文，不重新生成摘要；更换原稿时同步核对版本、摘要、MSC与评分适用范围。
+论文排序：level、创新性、学术意义、技术深度降序，再按固定ID排序。待确认单列。
+
+二、导出与更新
+npm run papers:update -- --export P045 --output .preview/1013_P045更新_v1.json
+工作包位于.preview，不放public。同名导出文件已存在时不会覆盖。
+工作包顶层：mode为add/update，paper为更新字段；已有论文可仅写id与变化字段。
+更换原文时添加顶层pdf（相对工作包的路径），并明确paper.pages。
+
+仅替换补充材料示例：
+{
+  "mode": "update",
+  "paper": { "id": "P088", "supplement": { "pages": 83 } },
+  "supplementPdf": "新版证明补充.pdf"
+}
+正文与补充材料可在同一个工作包提供。工具生成固定补充路径/papers/P088-supplement.pdf，核对哈希、登记导出资源、备份原版本。页数不由工具自动解析。
+
+npm run papers:update -- --input .preview/1013_P045更新_v1.json
+默认仅校验及预览。确认变更内容后加--apply应用；一次只运行一个导入。
+备份存于源码trash/paper-updates，不提交公开仓库。
+
+三、检查与本地预览
+npm run papers:check
+npm run papers:test
+npm run typecheck
+npm run lint
+npm run format:check
+npm run content:check
+npm run build
+npm start -- --port 3110
+本地从http://127.0.0.1:3110/首页进入；不默认展开分区。
+浏览器测试使用PLAYWRIGHT_BASE_URL指定该地址后运行npm run test:browser。
+
+四、恢复
+npm run papers:update -- --restore "trash/paper-updates/具体备份目录"
+先预览，添加--apply执行。必须确认该备份对应最后一次需要撤销的操作。
+恢复整体数据和资源清单，不做逐篇合并。新增正文或补充PDF移入trash，既有文件保留备份。
+恢复后重新校验、构建。本地通过且用户明确批准后才能上传。

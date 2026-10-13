@@ -33,7 +33,7 @@ export function Projects() {
           { opacity: 0, transform: 'translateY(12px)' },
           { opacity: 1, transform: 'none' },
         ],
-        { duration: 350, easing: 'ease-out' },
+        { duration: 175, easing: 'ease-out' },
       );
       return () => animation.cancel();
     }

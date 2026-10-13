@@ -84,7 +84,7 @@ try {
       if (hash === '#factory') {
         await page.locator('[data-door="workshop"]').focus();
         await page.keyboard.press('Enter');
-        await expect(page.getByRole('heading', { name: '论文汇总', exact: true })).toBeVisible();
+        await expect(page.getByRole('heading', { name: '研究论文', exact: true })).toBeVisible();
         await page.getByLabel('搜索论文').fill('P045');
         await page.locator('[data-paper="P045"]').click();
         const pdf = page.getByRole('link', { name: '阅读原文' });

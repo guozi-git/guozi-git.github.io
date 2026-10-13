@@ -1,4 +1,5 @@
 import papers from './factory-papers.json';
+import { compareFactoryPapers } from './factory-order';
 
 export interface FactoryPaper {
   id: string;
@@ -13,13 +14,20 @@ export interface FactoryPaper {
   level: number | null;
   maturity: number | null;
   correctness: number;
-  confidence: string | null;
+  confidence: number | null;
   status: string;
   pdf: string;
   pages: number;
   bytes: number;
   sha256: string;
   reviewNote: string;
+  scoreScale: number;
+  reviewDate: string;
+  overall: string;
+  levelReason: string;
+  maturityReason: string;
+  verificationReason: string;
+  supplement?: { pdf: string; pages: number; bytes: number; sha256: string };
 }
 
 export const reviewBatch = {
@@ -56,9 +64,7 @@ export const scoreDimensions = [
   },
 ] as const;
 // Scores follow each manuscript’s supplied review; unscored manuscripts sort last.
-export const factoryPapers: FactoryPaper[] = [...papers].sort(
-  (a, b) => (b.level ?? -1) - (a.level ?? -1) || a.id.localeCompare(b.id),
-);
+export const factoryPapers: FactoryPaper[] = [...papers].sort(compareFactoryPapers);
 const topicOrder = [
   '数值分析与优化',
   '动力系统与差分方程',

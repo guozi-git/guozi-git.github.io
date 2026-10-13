@@ -136,3 +136,38 @@ test('restoring an addition preserves its PDF in trash and removes it from publi
   assert((await readFile(resolve(restored.preserved, 'public/papers/P999.pdf'))).length > 0);
   await assert.rejects(readFile(resolve(f.root, 'public/papers/P999.pdf')));
 });
+
+test('supplement addition, replacement and both restorations preserve bytes and assets', async () => {
+  const f = await fixture();
+  const original = await readFile(f.data, 'utf8');
+  await writeFile(
+    f.input,
+    JSON.stringify({
+      mode: 'update',
+      paper: { id: f.p.id, supplement: { pages: 1 } },
+      supplementPdf: `public${f.p.pdf}`,
+    }),
+  );
+  const added = await importPaper(f.input, { root: f.root, apply: true });
+  const first = JSON.parse(await readFile(f.data, 'utf8'))[0].supplement;
+  const bytes = await readFile(resolve(f.root, `public${first.pdf}`));
+  await writeFile(
+    resolve(f.root, 'supplement-v2.pdf'),
+    Buffer.concat([bytes, Buffer.from('\n% supplement v2\n')]),
+  );
+  await writeFile(
+    f.input,
+    JSON.stringify({
+      mode: 'update',
+      paper: { id: f.p.id, supplement: { pages: 2 } },
+      supplementPdf: 'supplement-v2.pdf',
+    }),
+  );
+  const replaced = await importPaper(f.input, { root: f.root, apply: true });
+  assert.notEqual(JSON.parse(await readFile(f.data, 'utf8'))[0].supplement.sha256, first.sha256);
+  await restoreSnapshot(replaced.backup, { root: f.root, apply: true });
+  assert.deepEqual(await readFile(resolve(f.root, `public${first.pdf}`)), bytes);
+  await restoreSnapshot(added.backup, { root: f.root, apply: true });
+  assert.equal(await readFile(f.data, 'utf8'), original);
+  await assert.rejects(readFile(resolve(f.root, `public${first.pdf}`)));
+});

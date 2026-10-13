@@ -2,45 +2,43 @@
 import { reducedMotion } from '@/lib/motion';
 
 import { assetPath } from '@/lib/asset-path';
-import { useEffect, useRef, useState, type CSSProperties } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { factoryPapers, factoryTopics, reviewBatch, scoreDimensions } from '@/lib/factory-papers';
 import s from './factory-preview.module.css';
 
-const availableScores = [
-  ...new Set(factoryPapers.flatMap((paper) => (paper.level === null ? [] : [paper.level]))),
-]
-  .sort((a, b) => b - a)
-  .map((score) => score.toFixed(1));
-const hasUnscored = factoryPapers.some((paper) => paper.level === null);
+const availableScores = [91, 81, 71, 61, 51].filter((lower) =>
+  factoryPapers.some(
+    (paper) => paper.level !== null && paper.level >= lower && paper.level <= lower + 9,
+  ),
+);
+const rankedPapers = factoryPapers.filter((paper) => paper.level !== null);
+const paperRanks = new Map(rankedPapers.map((paper, index) => [paper.id, index + 1]));
 
-const icons = [
-  { symbol: 'π', x: '6%', y: '19%', size: 70, hue: 188 },
-  { symbol: '∑', x: '94%', y: '14%', size: 84, hue: 220 },
-  { symbol: '∫', x: '94%', y: '49%', size: 53, hue: 188 },
-  { symbol: '∞', x: '6%', y: '61%', size: 56, hue: 228 },
-  { symbol: '∇', x: '6%', y: '88%', size: 49, hue: 186 },
-  { symbol: '√', x: '94%', y: '83%', size: 66, hue: 212 },
-];
+// Level sets of a positive definite quadratic form: a quiet mathematical backdrop.
+function ContourField() {
+  return (
+    <svg className={s.contours} viewBox="0 0 600 300" fill="none" aria-hidden="true">
+      <path d="M0 150H600M300 0V300" stroke="currentColor" opacity=".25" />
+      <g transform="translate(340 145) rotate(-24)">
+        {[24, 44, 66, 90, 116, 144, 174, 206, 240].map((radius) => (
+          <ellipse key={radius} rx={radius} ry={radius * 0.46} stroke="currentColor" />
+        ))}
+        <path
+          d="M-195 -40L-132 -25L-89 -13L-55 -5L-30 -1L0 0"
+          stroke="currentColor"
+          strokeWidth="2"
+        />
+        {[-195, -132, -89, -55, -30, 0].map((x, i) => (
+          <circle key={x} cx={x} cy={[-40, -25, -13, -5, -1, 0][i]} r="3" fill="currentColor" />
+        ))}
+      </g>
+    </svg>
+  );
+}
 export function MathBackdrop() {
   return (
     <div className={s.mathBackdrop} aria-hidden="true">
       <div className={s.dots} />
-      {icons.map((icon) => (
-        <span
-          key={icon.symbol}
-          className={s.mathIcon}
-          style={
-            {
-              '--x': icon.x,
-              '--y': icon.y,
-              '--size': `${icon.size}px`,
-              '--hue': icon.hue,
-            } as CSSProperties
-          }
-        >
-          {icon.symbol}
-        </span>
-      ))}
     </div>
   );
 }
@@ -84,7 +82,7 @@ export function AbstractContent({ text }: { text: string }) {
 export function ScoreRadar({
   scores,
   id,
-  maxScore = 5,
+  maxScore = 100,
 }: {
   scores: readonly number[];
   id: string;
@@ -175,6 +173,7 @@ export function FactoryPreview({ embedded = false }: { embedded?: boolean }) {
   const [query, setQuery] = useState('');
   const [filter, setFilter] = useState('全部方向');
   const [scoreFilter, setScoreFilter] = useState('all');
+  const [reviewFilter, setReviewFilter] = useState<'scored' | 'pending'>('scored');
   const region = useRef<HTMLDivElement>(null);
   const lastTrigger = useRef<string | null>(null);
   const scroll = useRef(0);
@@ -182,15 +181,23 @@ export function FactoryPreview({ embedded = false }: { embedded?: boolean }) {
   const paper = factoryPapers.find((item) => item.id === view);
   const matching = factoryPapers.filter(
     (item) =>
+      (reviewFilter === 'scored' ? item.level !== null : item.level === null) &&
       (filter === '全部方向' || item.topic === filter) &&
       (scoreFilter === 'all' ||
-        (scoreFilter === 'unscored' ? item.level === null : item.level === Number(scoreFilter))) &&
+        (item.level !== null &&
+          item.level >= Number(scoreFilter) &&
+          item.level <= Number(scoreFilter) + 9)) &&
       `${item.originalTitle} ${item.id} ${item.msc.join(' ')}`
         .toLowerCase()
         .includes(query.trim().toLowerCase()),
   );
   useEffect(() => {
-    const sync = () => setView(fromHash());
+    const sync = () => {
+      const next = fromHash();
+      setView(next);
+      if (factoryPapers.some((item) => item.id === next && item.level === null))
+        setReviewFilter('pending');
+    };
     const initial = window.setTimeout(sync, 0);
     window.addEventListener('popstate', sync);
     window.addEventListener('hashchange', sync);
@@ -227,7 +234,7 @@ export function FactoryPreview({ embedded = false }: { embedded?: boolean }) {
           { opacity: 0.25, transform: 'translateY(10px)' },
           { opacity: 1, transform: 'none' },
         ],
-        { duration: 360, easing: 'cubic-bezier(.2,.7,.2,1)' },
+        { duration: 180, easing: 'cubic-bezier(.2,.7,.2,1)' },
       );
       return () => animation.cancel();
     }
@@ -285,10 +292,8 @@ export function FactoryPreview({ embedded = false }: { embedded?: boolean }) {
             <h3 lang="en">{paper.originalTitle}</h3>
             <div className={s.statusLine}>
               <span className={paper.status === '通过' ? s.passed : s.reviewStatus}>
-                {paper.status === '通过' ? '审查通过' : paper.status}
+                {paper.status === '通过' ? '正确性检验通过' : `正确性：${paper.status}`}
               </span>
-              <span>正确性 {paper.correctness.toFixed(1)} / 5</span>
-              {paper.confidence && <span>评价置信度：{paper.confidence}</span>}
             </div>
             <p className={s.mscLine}>MSC {paper.msc.join(' · ')}</p>
             {paper.reviewNote && <p className={s.reviewNotice}>{paper.reviewNote}</p>}
@@ -302,47 +307,49 @@ export function FactoryPreview({ embedded = false }: { embedded?: boolean }) {
               <section className={s.ratingPanel}>
                 <div className={s.ratingSummary}>
                   <div>
-                    <span>研究水平</span>
+                    <span>核心成果水平</span>
                     <strong>
-                      {paper.level?.toFixed(1)}
-                      <small> / 5</small>
+                      {paper.level}
+                      <small> / 100</small>
                     </strong>
+                    <p className={s.metricReason}>{paper.levelReason}</p>
                   </div>
-                  <div>
-                    <span>稿件成熟度</span>
-                    <strong>
-                      {paper.maturity?.toFixed(1)}
-                      <small> / 5</small>
-                    </strong>
-                  </div>
-                  <p>
-                    分别判断
-                    <br />
-                    不取五维平均
-                  </p>
                 </div>
-                <ScoreRadar scores={paper.scores} id={paper.id} />
-                <details className={s.scoreReasons}>
-                  <summary>查看评分理由</summary>
+                <h4 className={s.dimensionHeading}>五维评价</h4>
+                <ScoreRadar scores={paper.scores} id={paper.id} maxScore={100} />
+                <div className={s.scoreReasons}>
                   <dl>
                     {scoreDimensions.map((dimension, index) => (
                       <div key={dimension.name}>
-                        <dt>
-                          {dimension.name}
-                          <span>{paper.scores?.[index].toFixed(1)} / 5</span>
-                        </dt>
+                        <dt>{dimension.name}</dt>
                         <dd>{paper.reasons[index]}</dd>
                       </div>
                     ))}
                   </dl>
-                </details>
+                </div>
+                <div className={`${s.ratingSummary} ${s.maturitySummary}`}>
+                  <div>
+                    <span>稿件成熟度</span>
+                    <strong>
+                      {paper.maturity}
+                      <small> / 100</small>
+                    </strong>
+                    <p className={s.metricReason}>{paper.maturityReason}</p>
+                  </div>
+                </div>
               </section>
             ) : (
               <p className={s.reviewNotice}>正确性待确认，暂不展示研究水平与五维评分。</p>
             )}
             <section className={s.limitations}>
               <h4>适用范围与局限</h4>
-              <p>{paper.limitation}</p>
+              {paper.limitation.split('\n').map((text) => (
+                <p key={text}>{text}</p>
+              ))}
+            </section>
+            <section className={s.overallReview}>
+              <h4>整体评价</h4>
+              <p>{paper.overall}</p>
             </section>
             <div className={s.pdfLinks}>
               <a
@@ -352,6 +359,15 @@ export function FactoryPreview({ embedded = false }: { embedded?: boolean }) {
               >
                 阅读原文 <span aria-hidden="true">↗</span>
               </a>
+              {paper.supplement && (
+                <a
+                  href={`${assetPath(paper.supplement.pdf)}?v=${paper.supplement.sha256.slice(0, 16)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  阅读证明补充 <span aria-hidden="true">↗</span>
+                </a>
+              )}
             </div>
           </article>
         ) : view === 'scoring' ? (
@@ -362,8 +378,29 @@ export function FactoryPreview({ embedded = false }: { embedded?: boolean }) {
             <p className={s.eyebrow}>HOW TO READ THE SCORES</p>
             <h3>评分说明</h3>
             <p className={s.description}>
-              五个维度分别按 0–5 星评价，支持半星；研究水平与成熟度单独判断。
+              采用本轮独立重审的整数百分制。核心成果水平、稿件成熟度和五个维度分别评价。 1—2
+              分的差异表达审稿判断，不代表客观测量精度。
             </p>
+            <div className={s.reviewPrinciples}>
+              <section>
+                <h4>先核验，再评价</h4>
+                <p>
+                  正确性分为通过、有条件通过、待确认、不通过。待确认与不通过稿件不参与正式价值评分和排名；有条件通过须具备具体可靠的修复方案。
+                </p>
+              </section>
+              <section>
+                <h4>成果与成熟度分开看</h4>
+                <p>
+                  成果水平综合判断最重要的已核验贡献、问题价值、原创增量和适用边界；成熟度评价当前稿件的证明依赖、证书、引用与叙述是否完整。有条件通过不代表修复已经执行。
+                </p>
+              </section>
+              <section>
+                <h4>同分排序</h4>
+                <p>
+                  先按核心成果水平降序，再依次比较创新性、学术意义、技术深度，最后按论文编号稳定排序。
+                </p>
+              </section>
+            </div>
             <div className={s.rulePanel}>
               {scoreDimensions.map((dimension, index) => (
                 <div key={dimension.name}>
@@ -375,11 +412,16 @@ export function FactoryPreview({ embedded = false }: { embedded?: boolean }) {
                 </div>
               ))}
             </div>
+            <p className={s.scoreBands}>
+              90–100：本维极强且证据充分 · 80–89：明显较强 · 70–79：扎实并有实质增量 ·
+              60–69：有限但明确的贡献 · 50–59：偏窄或主要整合 · 低于 50：有明显不足
+            </p>
           </section>
         ) : (
           <section className={s.overview}>
             <div className={s.intro} data-factory-heading>
-              <p className={s.eyebrow}>THE PAPER FACTORY</p>
+              <ContourField />
+              <p className={s.eyebrow}>MATHEMATICAL RESEARCH / WORKSPACE</p>
               <h2 id="factory-heading">AI4math</h2>
             </div>
             <div className={s.summaryLine}>
@@ -394,9 +436,31 @@ export function FactoryPreview({ embedded = false }: { embedded?: boolean }) {
               </span>
             </div>
             <div className={s.sectionHeading}>
-              <h3>论文汇总</h3>
+              <h3>研究论文</h3>
               <button className={s.scoringLink} data-score-open onClick={() => open('scoring')}>
                 评分说明 <span aria-hidden="true">↗</span>
+              </button>
+            </div>
+            <div className={s.reviewTabs} role="group" aria-label="审查分组">
+              <button
+                aria-pressed={reviewFilter === 'scored'}
+                onClick={() => {
+                  setReviewFilter('scored');
+                  setScoreFilter('all');
+                  setVisibleCount(20);
+                }}
+              >
+                已评价 <span>{reviewBatch.scored}</span>
+              </button>
+              <button
+                aria-pressed={reviewFilter === 'pending'}
+                onClick={() => {
+                  setReviewFilter('pending');
+                  setScoreFilter('all');
+                  setVisibleCount(20);
+                }}
+              >
+                待确认 <span>{reviewBatch.pending}</span>
               </button>
             </div>
             <div className={s.panel}>
@@ -431,6 +495,7 @@ export function FactoryPreview({ embedded = false }: { embedded?: boolean }) {
                 </select>
                 <select
                   aria-label="研究水平分数"
+                  disabled={reviewFilter === 'pending'}
                   value={scoreFilter}
                   onChange={(event) => {
                     setScoreFilter(event.target.value);
@@ -440,16 +505,14 @@ export function FactoryPreview({ embedded = false }: { embedded?: boolean }) {
                   <option value="all">全部分数</option>
                   {availableScores.map((score) => (
                     <option key={score} value={score}>
-                      {score} 分
+                      {score}-{score + 9}
                     </option>
                   ))}
-                  {hasUnscored && <option value="unscored">未评分</option>}
                 </select>
               </div>
-              <div className={s.sortCaption}>
-                <span>研究水平从高到低</span>
-                <span aria-live="polite">{matching.length} 篇</span>
-              </div>
+              {reviewFilter === 'pending' && (
+                <div className={s.sortCaption}>证明依赖待补齐 · 不参与正式排名</div>
+              )}
               {matching.slice(0, visibleCount).map((item) => (
                 <button
                   key={item.id}
@@ -457,8 +520,10 @@ export function FactoryPreview({ embedded = false }: { embedded?: boolean }) {
                   data-paper={item.id}
                   onClick={() => open(item.id)}
                 >
-                  <span className={s.paperSymbol} aria-hidden="true">
-                    {item.symbol}
+                  <span className={s.rankIndex} aria-hidden="true">
+                    {paperRanks.has(item.id)
+                      ? String(paperRanks.get(item.id)).padStart(2, '0')
+                      : '—'}
                   </span>
                   <span className={s.paperCopy}>
                     <span className={s.paperId}>
@@ -468,12 +533,13 @@ export function FactoryPreview({ embedded = false }: { embedded?: boolean }) {
                       {item.originalTitle}
                     </span>
                     <span className={s.paperMeta}>
-                      {item.status === '通过' ? '审查通过' : item.status}
+                      {item.status === '通过' ? '正确性检验通过' : item.status}
+                      {item.level !== null && <span> · 稿件成熟度 {item.maturity} / 100</span>}
                     </span>
                   </span>
                   <span className={s.paperLevel}>
-                    <strong>{item.level?.toFixed(1) ?? '—'}</strong>
-                    <small>{item.level === null ? '未评分' : '研究水平 / 5'}</small>
+                    <strong>{item.level ?? '—'}</strong>
+                    <small>{item.level === null ? '暂不评分' : '成果水平 / 100'}</small>
                   </span>
                   <span className={s.arrow} aria-hidden="true">
                     ↗

@@ -319,9 +319,11 @@
   margin-left: auto;
 }
 .workshop {
-  background: #07121f;
+  background: radial-gradient(ellipse at 90% 0, #12384366, transparent 55%), #07131c;
 }
 .workshopNav {
+  position: relative;
+  z-index: 2;
   display: flex;
   padding: 23px 130px 0 38px;
   justify-content: space-between;

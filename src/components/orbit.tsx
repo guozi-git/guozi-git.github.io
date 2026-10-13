@@ -8,10 +8,34 @@ import { flushSync } from 'react-dom';
 import Link from 'next/link';
 import Image from 'next/image';
 import { profile } from '@/lib/profile';
-import { Publications } from '@/components/publications';
-import { Interests } from '@/components/interests';
-import { Projects } from '@/components/projects';
-import { FactoryGateway as FactoryPreview } from '@/components/factory-gateway';
+import dynamic from 'next/dynamic';
+const loadPublications = () => import('@/components/publications');
+const loadInterests = () => import('@/components/interests');
+const loadProjects = () => import('@/components/projects');
+const loadFactory = () => import('@/components/factory-gateway');
+// Keep each loading boundary inside the dialog so its opening geometry is committed immediately.
+
+const Publications = dynamic(() => loadPublications().then((m) => m.Publications), {
+  loading: () => null,
+});
+const Interests = dynamic(() => loadInterests().then((m) => m.Interests), { loading: () => null });
+const Projects = dynamic(() => loadProjects().then((m) => m.Projects), { loading: () => null });
+const FactoryPreview = dynamic(() => loadFactory().then((m) => m.FactoryGateway), {
+  loading: () => (
+    <div className={factoryStyles.factoryLoading} role="status">
+      正在载入论文工厂…
+    </div>
+  ),
+});
+function prepareSection(id: string) {
+  const load = {
+    publications: loadPublications,
+    interests: loadInterests,
+    projects: loadProjects,
+    factory: loadFactory,
+  }[id];
+  if (load) void load().catch(() => undefined);
+}
 import factoryStyles from './factory-preview.module.css';
 
 const sections = [
@@ -113,7 +137,7 @@ export function Orbit() {
     }
     const target = panel.getBoundingClientRect();
     const collapsed = `translate(${source.left - target.left}px, ${source.top - target.top}px) scale(${source.width / target.width}, ${source.height / target.height})`;
-    const duration = next ? 820 : 660;
+    const duration = next ? 615 : 330;
     const animate = (
       element: Element | null,
       frames: Keyframe[],
@@ -138,19 +162,6 @@ export function Orbit() {
       { duration, easing: 'cubic-bezier(.22,.7,.18,1)' },
     );
     animate(
-      panel.parentElement,
-      next
-        ? [
-            { backgroundColor: '#eae9e200', backdropFilter: 'blur(0px)' },
-            { backgroundColor: '#eae9e2e8', backdropFilter: 'blur(12px)' },
-          ]
-        : [
-            { backgroundColor: '#eae9e2e8', backdropFilter: 'blur(12px)' },
-            { backgroundColor: '#eae9e200', backdropFilter: 'blur(0px)' },
-          ],
-      { duration },
-    );
-    animate(
       panel.querySelector('.detail-body'),
       next
         ? [
@@ -158,7 +169,7 @@ export function Orbit() {
             { opacity: 1, transform: 'translateY(0)' },
           ]
         : [{ opacity: 1 }, { opacity: 0 }],
-      { duration: next ? 400 : 140, delay: next ? 380 : 0, easing: 'ease-out' },
+      { duration: next ? 300 : 70, delay: next ? 285 : 0, easing: 'ease-out' },
     );
     animate(
       panel.querySelector('.detail-heading'),
@@ -168,12 +179,12 @@ export function Orbit() {
             { opacity: 1, transform: 'translateY(0)' },
           ]
         : [{ opacity: 1 }, { opacity: 0 }],
-      { duration: next ? 420 : 180, delay: next ? 200 : 0 },
+      { duration: next ? 315 : 90, delay: next ? 150 : 0 },
     );
     animate(
       panel.querySelector('.back-button'),
       next ? [{ opacity: 0 }, { opacity: 1 }] : [{ opacity: 1 }, { opacity: 0 }],
-      { duration: 180, delay: next ? 500 : 0 },
+      { duration: next ? 135 : 90, delay: next ? 375 : 0 },
     );
     await Promise.all(
       animationsRef.current.map((animation) => animation.finished.catch(() => undefined)),
@@ -281,6 +292,9 @@ export function Orbit() {
                   key={section.id}
                   className={`sector sector-${index} theme-${section.id}`}
                   onClick={(event) => open(section, event.currentTarget)}
+                  onPointerEnter={() => prepareSection(section.id)}
+                  onFocus={() => prepareSection(section.id)}
+                  onPointerDown={() => prepareSection(section.id)}
                   data-section={section.id}
                   aria-label={`打开${section.title}`}
                 >

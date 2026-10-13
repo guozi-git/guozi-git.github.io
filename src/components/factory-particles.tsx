@@ -14,6 +14,11 @@ export function FactoryParticles({ mode }: { mode: 'divider' | 'star' }) {
     let height = 0;
     let time = 0;
     let last = 0;
+    const lanes = Array.from({ length: 1500 }, (_, i) => {
+      const seed = Math.sin(i * 127.1 + 31.7) * 43758.5453;
+      const lane = (seed - Math.floor(seed)) * 2 - 1;
+      return Math.sign(lane) * lane * lane;
+    });
     const resize = new ResizeObserver(() => {
       // Layout dimensions stay sharp while the parent expands with a CSS transform.
       width = canvas.clientWidth;
@@ -85,9 +90,7 @@ export function FactoryParticles({ mode }: { mode: 'divider' | 'star' }) {
       for (let i = 0; i < count; i++) {
         const t = (i * 0.61803398875 + time * (0.009 + (i % 5) * 0.0008)) % 1;
         // Concentrate crisp stars around the curve, with a sparse outer fringe.
-        const seed = Math.sin(i * 127.1 + 31.7) * 43758.5453;
-        const lane = (seed - Math.floor(seed)) * 2 - 1;
-        const offset = Math.sign(lane) * lane * lane * spread;
+        const offset = lanes[i] * spread;
         const p = point(t, offset + Math.sin(t * 18 + time * 0.2) * 2);
         const fade = Math.min(1, t * 18, (1 - t) * 18);
         const alpha = (0.24 + (i % 7) * 0.085) * fade;

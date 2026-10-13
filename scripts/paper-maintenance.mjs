@@ -6,6 +6,7 @@ import { parseArgs } from 'node:util';
 import process from 'node:process';
 import { log, error } from 'node:console';
 import { format } from 'prettier';
+import { compareFactoryPapers } from '../src/lib/factory-order.ts';
 
 export const repository = fileURLToPath(new URL('../', import.meta.url));
 const dataPath = 'src/lib/factory-papers.json';
@@ -40,6 +41,13 @@ const fields = [
   'bytes',
   'sha256',
   'reviewNote',
+  'scoreScale',
+  'reviewDate',
+  'overall',
+  'levelReason',
+  'maturityReason',
+  'verificationReason',
+  'supplement',
 ];
 const assert = (condition, message) => {
   if (!condition) throw new Error(message);
@@ -58,8 +66,8 @@ function rating(value) {
     typeof value === 'number' &&
     Number.isFinite(value) &&
     value >= 0 &&
-    value <= 5 &&
-    Number.isInteger(value * 2)
+    value <= 100 &&
+    Number.isInteger(value)
   );
 }
 export async function validate(papers, assets, root = repository, overrides = new Map()) {
@@ -76,6 +84,10 @@ export async function validate(papers, assets, root = repository, overrides = ne
     for (const k of ['originalTitle', 'abstract', 'limitation'])
       assert(typeof p[k] === 'string' && p[k].trim(), `${p.id} 缺少 ${k}`);
     assert(typeof p.reviewNote === 'string', `${p.id} 缺少审查状态说明字段`);
+    assert(p.scoreScale === 100, `${p.id} 必须明确使用百分制`);
+    assert(/^\d{4}-\d{2}-\d{2}$/.test(p.reviewDate), `${p.id} 缺少审稿日期`);
+    for (const k of ['overall', 'levelReason', 'maturityReason', 'verificationReason'])
+      assert(typeof p[k] === 'string' && p[k].trim(), `${p.id} 缺少 ${k}`);
     assert(
       Array.isArray(p.msc) && p.msc.length && p.msc.every((c) => /^\d{2}[A-Z]\d{2}$/.test(c)),
       `${p.id} MSC 格式有误`,
@@ -86,23 +98,24 @@ export async function validate(papers, assets, root = repository, overrides = ne
       `${p.id} 主 MSC 分类不匹配；新方向须先扩展 groups`,
     );
     assert(
-      ['通过', '有条件通过', '待确认'].includes(p.status) && rating(p.correctness),
+      ['通过', '有条件通过', '待确认', '不通过'].includes(p.status) && rating(p.correctness),
       `${p.id} 正确性状态或分数无效`,
     );
     if (p.scores === null) {
       assert(
         p.level === null &&
-          p.maturity === null &&
-          p.confidence === null &&
+          ['待确认', '不通过'].includes(p.status) &&
+          (p.maturity === null || rating(p.maturity)) &&
+          (p.confidence === null || rating(p.confidence)) &&
           Array.isArray(p.reasons) &&
           !p.reasons.length,
         `${p.id} 未评分字段不一致`,
       );
     } else {
-      assert(p.status !== '待确认', `${p.id} 待确认稿件不能提前评分`);
+      assert(['通过', '有条件通过'].includes(p.status), `${p.id} 未过正确性门槛不能提前评分`);
       assert(
         Array.isArray(p.scores) && p.scores.length === 5 && p.scores.every(rating),
-        `${p.id} 需要五个半分制评分`,
+        `${p.id} 需要五个整数百分制评分`,
       );
       assert(
         Array.isArray(p.reasons) &&
@@ -111,10 +124,7 @@ export async function validate(papers, assets, root = repository, overrides = ne
         `${p.id} 需要五条评分理由`,
       );
       assert(
-        rating(p.level) &&
-          rating(p.maturity) &&
-          typeof p.confidence === 'string' &&
-          p.confidence.trim(),
+        rating(p.level) && rating(p.maturity) && rating(p.confidence),
         `${p.id} 研究水平、成熟度或置信度无效`,
       );
     }
@@ -128,11 +138,20 @@ export async function validate(papers, assets, root = repository, overrides = ne
       `${p.id} 文件大小或 SHA-256 不匹配`,
     );
     assert(assets.includes(p.pdf.slice(1)), `${p.id} PDF 未加入导出清单`);
+    if (p.supplement) {
+      const s = p.supplement;
+      assert(s.pdf === `/papers/${p.id}-supplement.pdf`, `${p.id} 补充材料路径不匹配`);
+      assert(Number.isInteger(s.pages) && s.pages > 0, `${p.id} 补充材料页数无效`);
+      const content = overrides.get(s.pdf) ?? (await readFile(inside(root, `public${s.pdf}`)));
+      assert(content.subarray(0, 5).toString() === '%PDF-', `${p.id} 补充材料不是PDF`);
+      assert(s.bytes === content.length && s.sha256 === sha(content), `${p.id} 补充材料版本不匹配`);
+      assert(assets.includes(s.pdf.slice(1)), `${p.id} 补充材料未加入导出清单`);
+    }
   }
   assert(
     assets
       .filter((a) => a.startsWith('papers/'))
-      .every((a) => papers.some((p) => p.pdf === `/${a}`)),
+      .every((a) => papers.some((p) => p.pdf === `/${a}` || p.supplement?.pdf === `/${a}`)),
     '导出清单存在无对应论文的 PDF',
   );
   return { total: papers.length, scored: papers.filter((p) => p.scores !== null).length };
@@ -140,7 +159,7 @@ export async function validate(papers, assets, root = repository, overrides = ne
 export async function importPaper(manifestPath, { root = repository, apply = false } = {}) {
   const input = await json(manifestPath);
   assert(
-    Object.keys(input).every((k) => ['mode', 'paper', 'pdf'].includes(k)),
+    Object.keys(input).every((k) => ['mode', 'paper', 'pdf', 'supplementPdf'].includes(k)),
     '导入包存在未知字段',
   );
   assert(
@@ -174,11 +193,35 @@ export async function importPaper(manifestPath, { root = repository, apply = fal
     paper.sha256 = sha(bytes);
     overrides.set(paper.pdf, bytes);
   } else assert(existing, '新增论文必须提供 PDF');
+  if (input.supplementPdf !== undefined) {
+    assert(
+      typeof input.supplementPdf === 'string' && input.supplementPdf.length > 0,
+      '补充PDF路径无效',
+    );
+    assert(
+      Number.isInteger(input.paper.supplement?.pages) && input.paper.supplement.pages > 0,
+      '更换补充PDF时必须填写新版页数',
+    );
+    const bytes = await readFile(resolve(dirname(manifestPath), input.supplementPdf));
+    paper.supplement = {
+      pdf: `/papers/${paper.id}-supplement.pdf`,
+      pages: input.paper.supplement.pages,
+      bytes: bytes.length,
+      sha256: sha(bytes),
+    };
+    overrides.set(paper.supplement.pdf, bytes);
+  }
   const next = papers
     .filter((p) => p.id !== paper.id)
     .concat(paper)
-    .sort((a, b) => (b.level ?? -1) - (a.level ?? -1) || a.id.localeCompare(b.id));
-  const nextAssets = [...new Set([...assets, paper.pdf.slice(1)])];
+    .sort(compareFactoryPapers);
+  const nextAssets = [
+    ...new Set([
+      ...assets,
+      paper.pdf.slice(1),
+      ...(paper.supplement ? [paper.supplement.pdf.slice(1)] : []),
+    ]),
+  ];
   const result = await validate(next, nextAssets, root, overrides);
   const changed = fields.filter((k) => JSON.stringify(existing?.[k]) !== JSON.stringify(paper[k]));
   if (!apply) return { mode: 'preview', id: paper.id, changed, ...result };
@@ -188,25 +231,28 @@ export async function importPaper(manifestPath, { root = repository, apply = fal
     `${new Date().toISOString().replaceAll(':', '-')}_${paper.id}_${randomUUID().slice(0, 8)}`,
   );
   await mkdir(history, { recursive: true });
+  const existingPdfs = [existing?.pdf, existing?.supplement?.pdf].filter(Boolean);
   const paths = [
     dataPath,
     assetsPath,
-    ...(existing && overrides.size ? [`public${paper.pdf}`] : []),
+    ...[...overrides.keys()]
+      .filter((path) => existingPdfs.includes(path))
+      .map((path) => `public${path}`),
   ];
+  const added = [...overrides.keys()]
+    .filter((path) => !existingPdfs.includes(path))
+    .map((path) => `public${path}`);
   for (const name of paths) {
     const target = inside(history, name);
     await mkdir(dirname(target), { recursive: true });
     await copyFile(inside(root, name), target);
   }
-  await writeFile(
-    resolve(history, 'restore.json'),
-    await pretty({ files: paths, added: !existing ? [`public${paper.pdf}`] : [] }),
-  );
+  await writeFile(resolve(history, 'restore.json'), await pretty({ files: paths, added }));
   try {
-    if (overrides.size) {
-      const target = inside(root, `public${paper.pdf}`);
+    for (const [path, bytes] of overrides) {
+      const target = inside(root, `public${path}`);
       await mkdir(dirname(target), { recursive: true });
-      await writeFile(target, overrides.get(paper.pdf));
+      await writeFile(target, bytes);
     }
     await writeFile(resolve(root, dataPath), await pretty(next));
     await writeFile(resolve(root, assetsPath), await pretty(nextAssets));
@@ -226,10 +272,11 @@ export async function restoreSnapshot(snapshot, { root = repository, apply = fal
   assert(Array.isArray(manifest.files) && Array.isArray(manifest.added), '备份清单无效');
   assert(manifest.files.includes(dataPath) && manifest.files.includes(assetsPath), '缺少数据备份');
   const allowed = (name) =>
-    [dataPath, assetsPath].includes(name) || /^public\/papers\/P\d{3,}\.pdf$/.test(name);
+    [dataPath, assetsPath].includes(name) ||
+    /^public\/papers\/P\d{3,}(-supplement)?\.pdf$/.test(name);
   assert(
     manifest.files.every(allowed) &&
-      manifest.added.every((name) => /^public\/papers\/P\d{3,}\.pdf$/.test(name)),
+      manifest.added.every((name) => /^public\/papers\/P\d{3,}(-supplement)?\.pdf$/.test(name)),
     '备份包含不允许还原的路径',
   );
   const papers = await json(resolve(source, dataPath)),
