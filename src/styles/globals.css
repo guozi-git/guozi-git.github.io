@@ -3080,7 +3080,7 @@ summary:focus-visible {
 }
 .site-shell {
   background: radial-gradient(ellipse at center, #122b43, #030b16 75%);
-  overflow-x: clip;
+  overflow: clip;
   color: #f4f8ff;
 }
 .site-shell .site-header,
@@ -3127,6 +3127,42 @@ summary:focus-visible {
 .site-shell .orbit {
   filter: none;
   isolation: isolate;
+  width: min(980px, calc(100vw - 48px), calc(100svh - 112px));
+  max-width: none;
+  container-type: inline-size;
+}
+.site-shell {
+  padding: 72px 24px 40px;
+}
+.site-shell .home {
+  display: grid;
+  place-items: center;
+}
+.site-shell .sector-copy {
+  width: 72%;
+  left: 50%;
+  right: auto;
+  transform: translateX(-50%);
+  text-align: center;
+  gap: 1.2cqw;
+}
+.site-shell :is(.sector-0, .sector-1) .sector-copy {
+  top: 32%;
+}
+.site-shell :is(.sector-2, .sector-3) .sector-copy {
+  bottom: 32%;
+}
+.site-shell .sector-copy strong {
+  font-size: clamp(16px, 4.1cqw, 38px);
+  letter-spacing: 0.2cqw;
+  white-space: nowrap;
+}
+.site-shell .sector-number {
+  font-size: clamp(8px, 1.4cqw, 12px);
+}
+.site-shell .sector-english {
+  font-size: clamp(6px, 1.1cqw, 10px);
+  letter-spacing: 0.12cqw;
 }
 .orbit-earth {
   position: absolute;

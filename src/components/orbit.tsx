@@ -5,7 +5,6 @@ import { assetPath } from '@/lib/asset-path';
 
 import { useEffect, useRef, useState } from 'react';
 import { flushSync } from 'react-dom';
-import Link from 'next/link';
 import Image from 'next/image';
 import { profile } from '@/lib/profile';
 import dynamic from 'next/dynamic';
@@ -265,26 +264,8 @@ export function Orbit() {
   return (
     <>
       <div className="site-shell" inert={!!active}>
-        <header className="site-header">
-          <Link className="wordmark" href="/" aria-label="首页">
-            <span className="brand-star">✳</span>
-            <span className="brand-name">
-              A LITTLE UNIVERSE<span className="brand-dot">.</span>
-            </span>
-          </Link>
-          <span className="edition">PERSONAL SPACE / VOL. 01</span>
-        </header>
-        <main className="home">
-          <div className="intro">
-            <p className="eyebrow">A FEW THINGS THAT MAKE ME, ME</p>
-            <h1>
-              从这里，认识我<span>。</span>
-            </h1>
-            <p className="intro-note">一些热爱，一些思考，还有一些正在发生的小事。</p>
-          </div>
+        <main className="home" aria-label="个人空间">
           <div className="orbit-wrap">
-            <span className="orbit-caption caption-left">STAY CURIOUS</span>
-            <span className="orbit-caption caption-right">MAKE SOMETHING</span>
             <div className="orbit" aria-label="个人空间的五个入口">
               <span className="orbit-earth" aria-hidden="true" />
               {sections.slice(0, 4).map((section, index) => (
@@ -329,17 +310,8 @@ export function Orbit() {
                 </span>
               </button>
             </div>
-            <p className="orbit-hint">
-              <span className="hint-dot" /> 选择一个角落，慢慢展开
-            </p>
           </div>
         </main>
-        <footer className="site-footer">
-          <span>A SMALL WINDOW INTO MY WORLD</span>
-          <span>
-            保持好奇 <span className="footer-star">✳</span> 慢慢探索
-          </span>
-        </footer>
       </div>
       {active && (
         <div
