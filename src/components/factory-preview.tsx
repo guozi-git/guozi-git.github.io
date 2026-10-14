@@ -3,13 +3,14 @@ import { reducedMotion } from '@/lib/motion';
 
 import { assetPath } from '@/lib/asset-path';
 import { useEffect, useRef, useState } from 'react';
-import { factoryPapers, factoryTopics, reviewBatch, scoreDimensions } from '@/lib/factory-papers';
+import { factoryPapers, allFactoryPapers, factoryTopics, reviewBatch } from '@/lib/factory-papers';
 import s from './factory-preview.module.css';
+import { ResearchReviewPreview } from './research-review-preview';
+import { ResearchGradeGuide } from './research-grade-guide';
+import { researchReviews, mergedReviews } from '@/lib/research-reviews';
 
-const availableScores = [91, 81, 71, 61, 51].filter((lower) =>
-  factoryPapers.some(
-    (paper) => paper.level !== null && paper.level >= lower && paper.level <= lower + 9,
-  ),
+const availableGrades = ['S6', 'S5', 'S4', 'S3', 'S2', 'S1', 'S0'].filter((grade) =>
+  factoryPapers.some((p) => researchReviews.get(p.id)?.academic_level === grade),
 );
 const rankedPapers = factoryPapers.filter((paper) => paper.level !== null);
 const paperRanks = new Map(rankedPapers.map((paper, index) => [paper.id, index + 1]));
@@ -79,93 +80,10 @@ export function AbstractContent({ text }: { text: string }) {
     </div>
   );
 }
-export function ScoreRadar({
-  scores,
-  id,
-  maxScore = 100,
-}: {
-  scores: readonly number[];
-  id: string;
-  maxScore?: number;
-}) {
-  const formatScore = (value: number) => (maxScore === 5 ? value.toFixed(1) : String(value));
-  const center = { x: 200, y: 163 };
-  const point = (index: number, radius: number) => {
-    const angle = -Math.PI / 2 + (index * Math.PI * 2) / 5;
-    return { x: center.x + Math.cos(angle) * radius, y: center.y + Math.sin(angle) * radius };
-  };
-  const polygon = (values: readonly number[]) =>
-    values
-      .map((value, index) => {
-        const p = point(index, (value / maxScore) * 98);
-        return `${p.x},${p.y}`;
-      })
-      .join(' ');
-  return (
-    <figure className={s.radar}>
-      <svg viewBox="0 0 400 335" role="img" aria-labelledby={`radar-title-${id} radar-desc-${id}`}>
-        <title id={`radar-title-${id}`}>五维评分雷达图</title>
-        <desc id={`radar-desc-${id}`}>
-          {scoreDimensions
-            .map(
-              (dimension, index) => `${dimension.name} ${formatScore(scores[index])} / ${maxScore}`,
-            )
-            .join('；')}
-        </desc>
-        {[1, 2, 3, 4, 5].map((level) => (
-          <polygon
-            key={level}
-            points={polygon(Array(5).fill((level * maxScore) / 5))}
-            className={s.radarGrid}
-          />
-        ))}
-        {scoreDimensions.map((dimension, index) => {
-          const p = point(index, 98);
-          return (
-            <line
-              key={dimension.name}
-              x1={center.x}
-              y1={center.y}
-              x2={p.x}
-              y2={p.y}
-              className={s.radarAxis}
-            />
-          );
-        })}
-        {[1, 3, 5].map((level) => (
-          <text
-            key={level}
-            x={center.x + 6}
-            y={center.y - (level / 5) * 98 - 4}
-            className={s.radarScale}
-          >
-            {(level * maxScore) / 5}
-          </text>
-        ))}
-        <polygon points={polygon(scores)} className={s.radarValue} />
-        {scoreDimensions.map((dimension, index) => {
-          const p = point(index, (scores[index] / maxScore) * 98);
-          const label = point(index, 137);
-          return (
-            <g key={dimension.name}>
-              <circle cx={p.x} cy={p.y} r="3" className={s.radarPoint} />
-              <text x={label.x} y={label.y - 3} textAnchor="middle" className={s.radarLabel}>
-                {dimension.name}
-                <tspan x={label.x} dy="19" className={s.radarNumber}>
-                  {formatScore(scores[index])}
-                </tspan>
-              </text>
-            </g>
-          );
-        })}
-      </svg>
-    </figure>
-  );
-}
 function fromHash() {
   if (typeof window === 'undefined') return 'overview';
   const id = window.location.hash.split('/')[1];
-  return id === 'scoring' || factoryPapers.some((paper) => paper.id === id) ? id : 'overview';
+  return id === 'scoring' || allFactoryPapers.some((paper) => paper.id === id) ? id : 'overview';
 }
 export function FactoryPreview({ embedded = false }: { embedded?: boolean }) {
   const [view, setView] = useState('overview');
@@ -178,15 +96,16 @@ export function FactoryPreview({ embedded = false }: { embedded?: boolean }) {
   const lastTrigger = useRef<string | null>(null);
   const scroll = useRef(0);
   const first = useRef(true);
-  const paper = factoryPapers.find((item) => item.id === view);
+  const paper =
+    factoryPapers.find((item) => item.id === view) ??
+    allFactoryPapers.find((item) => item.id === view);
+  const review = paper ? researchReviews.get(paper.id) : undefined;
+  const mergedInto = paper ? mergedReviews.get(paper.id) : undefined;
   const matching = factoryPapers.filter(
     (item) =>
       (reviewFilter === 'scored' ? item.level !== null : item.level === null) &&
       (filter === '全部方向' || item.topic === filter) &&
-      (scoreFilter === 'all' ||
-        (item.level !== null &&
-          item.level >= Number(scoreFilter) &&
-          item.level <= Number(scoreFilter) + 9)) &&
+      (scoreFilter === 'all' || researchReviews.get(item.id)?.academic_level === scoreFilter) &&
       `${item.originalTitle} ${item.id} ${item.msc.join(' ')}`
         .toLowerCase()
         .includes(query.trim().toLowerCase()),
@@ -289,68 +208,29 @@ export function FactoryPreview({ embedded = false }: { embedded?: boolean }) {
             <p className={s.eyebrow}>
               {paper.id} · {paper.topic}
             </p>
-            <h3 lang="en">{paper.originalTitle}</h3>
-            <div className={s.statusLine}>
-              <span className={paper.status === '通过' ? s.passed : s.reviewStatus}>
-                {paper.status === '通过' ? '正确性检验通过' : `正确性：${paper.status}`}
-              </span>
-            </div>
+            <h3 lang={paper.id === 'P091' ? 'zh-CN' : 'en'}>{paper.originalTitle}</h3>
+            {mergedInto && (
+              <div className={s.reviewNotice}>
+                此稿已归入后续成果，不再单独评分。
+                {mergedInto.map((id) => (
+                  <button className={s.scoringLink} key={id} onClick={() => open(id)}>
+                    查看 {id} ↗
+                  </button>
+                ))}
+              </div>
+            )}
             <p className={s.mscLine}>MSC {paper.msc.join(' · ')}</p>
-            {paper.reviewNote && <p className={s.reviewNotice}>{paper.reviewNote}</p>}
             <section className={s.abstract}>
               <div className={s.subheading}>
-                <h4>Abstract</h4>
+                <h4>{paper.abstract ? 'Abstract' : '原稿说明'}</h4>
               </div>
-              <AbstractContent text={paper.abstract} />
+              {paper.abstract ? (
+                <AbstractContent text={paper.abstract} />
+              ) : (
+                <p>此稿为阶段研究报告，未设独立摘要；已核结果与待完成部分见下方评价。</p>
+              )}
             </section>
-            {paper.scores ? (
-              <section className={s.ratingPanel}>
-                <div className={s.ratingSummary}>
-                  <div>
-                    <span>核心成果水平</span>
-                    <strong>
-                      {paper.level}
-                      <small> / 100</small>
-                    </strong>
-                    <p className={s.metricReason}>{paper.levelReason}</p>
-                  </div>
-                </div>
-                <h4 className={s.dimensionHeading}>五维评价</h4>
-                <ScoreRadar scores={paper.scores} id={paper.id} maxScore={100} />
-                <div className={s.scoreReasons}>
-                  <dl>
-                    {scoreDimensions.map((dimension, index) => (
-                      <div key={dimension.name}>
-                        <dt>{dimension.name}</dt>
-                        <dd>{paper.reasons[index]}</dd>
-                      </div>
-                    ))}
-                  </dl>
-                </div>
-                <div className={`${s.ratingSummary} ${s.maturitySummary}`}>
-                  <div>
-                    <span>稿件成熟度</span>
-                    <strong>
-                      {paper.maturity}
-                      <small> / 100</small>
-                    </strong>
-                    <p className={s.metricReason}>{paper.maturityReason}</p>
-                  </div>
-                </div>
-              </section>
-            ) : (
-              <p className={s.reviewNotice}>正确性待确认，暂不展示研究水平与五维评分。</p>
-            )}
-            <section className={s.limitations}>
-              <h4>适用范围与局限</h4>
-              {paper.limitation.split('\n').map((text) => (
-                <p key={text}>{text}</p>
-              ))}
-            </section>
-            <section className={s.overallReview}>
-              <h4>整体评价</h4>
-              <p>{paper.overall}</p>
-            </section>
+            {review && <ResearchReviewPreview review={review} workshop />}
             <div className={s.pdfLinks}>
               <a
                 href={`${assetPath(paper.pdf)}?v=${paper.sha256.slice(0, 16)}`}
@@ -376,46 +256,11 @@ export function FactoryPreview({ embedded = false }: { embedded?: boolean }) {
               <span aria-hidden="true">‹</span> 返回论文汇总
             </button>
             <p className={s.eyebrow}>HOW TO READ THE SCORES</p>
-            <h3>评分说明</h3>
+            <h3>等级与评分说明</h3>
             <p className={s.description}>
-              采用本轮独立重审的整数百分制。核心成果水平、稿件成熟度和五个维度分别评价。 1—2
-              分的差异表达审稿判断，不代表客观测量精度。
+              综合分按五维固定权重计算；同分依次比较创新性、学术意义和论文编号。核心贡献与研究潜力分别评价。
             </p>
-            <div className={s.reviewPrinciples}>
-              <section>
-                <h4>先核验，再评价</h4>
-                <p>
-                  正确性分为通过、有条件通过、待确认、不通过。待确认与不通过稿件不参与正式价值评分和排名；有条件通过须具备具体可靠的修复方案。
-                </p>
-              </section>
-              <section>
-                <h4>成果与成熟度分开看</h4>
-                <p>
-                  成果水平综合判断最重要的已核验贡献、问题价值、原创增量和适用边界；成熟度评价当前稿件的证明依赖、证书、引用与叙述是否完整。有条件通过不代表修复已经执行。
-                </p>
-              </section>
-              <section>
-                <h4>同分排序</h4>
-                <p>
-                  先按核心成果水平降序，再依次比较创新性、学术意义、技术深度，最后按论文编号稳定排序。
-                </p>
-              </section>
-            </div>
-            <div className={s.rulePanel}>
-              {scoreDimensions.map((dimension, index) => (
-                <div key={dimension.name}>
-                  <span className={s.ruleIndex}>0{index + 1}</span>
-                  <div>
-                    <h4>{dimension.name}</h4>
-                    <p>{dimension.description}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-            <p className={s.scoreBands}>
-              90–100：本维极强且证据充分 · 80–89：明显较强 · 70–79：扎实并有实质增量 ·
-              60–69：有限但明确的贡献 · 50–59：偏窄或主要整合 · 低于 50：有明显不足
-            </p>
+            <ResearchGradeGuide />
           </section>
         ) : (
           <section className={s.overview}>
@@ -432,13 +277,13 @@ export function FactoryPreview({ embedded = false }: { embedded?: boolean }) {
                 <strong>{reviewBatch.scored}</strong> 篇已评价
               </span>
               <span>
-                <strong>{reviewBatch.pending}</strong> 篇待确认
+                <strong>{reviewBatch.pending}</strong> 项未评分
               </span>
             </div>
             <div className={s.sectionHeading}>
               <h3>研究论文</h3>
               <button className={s.scoringLink} data-score-open onClick={() => open('scoring')}>
-                评分说明 <span aria-hidden="true">↗</span>
+                等级说明 <span aria-hidden="true">↗</span>
               </button>
             </div>
             <div className={s.reviewTabs} role="group" aria-label="审查分组">
@@ -460,7 +305,7 @@ export function FactoryPreview({ embedded = false }: { embedded?: boolean }) {
                   setVisibleCount(20);
                 }}
               >
-                待确认 <span>{reviewBatch.pending}</span>
+                未评分 <span>{reviewBatch.pending}</span>
               </button>
             </div>
             <div className={s.panel}>
@@ -494,7 +339,7 @@ export function FactoryPreview({ embedded = false }: { embedded?: boolean }) {
                   ))}
                 </select>
                 <select
-                  aria-label="研究水平分数"
+                  aria-label="学术等级"
                   disabled={reviewFilter === 'pending'}
                   value={scoreFilter}
                   onChange={(event) => {
@@ -502,16 +347,18 @@ export function FactoryPreview({ embedded = false }: { embedded?: boolean }) {
                     setVisibleCount(20);
                   }}
                 >
-                  <option value="all">全部分数</option>
-                  {availableScores.map((score) => (
+                  <option value="all">全部等级</option>
+                  {availableGrades.map((score) => (
                     <option key={score} value={score}>
-                      {score}-{score + 9}
+                      {score}
                     </option>
                   ))}
                 </select>
               </div>
               {reviewFilter === 'pending' && (
-                <div className={s.sortCaption}>证明依赖待补齐 · 不参与正式排名</div>
+                <div className={s.sortCaption}>
+                  4 项关键证书待核验 · 1 项阶段稿存在重要证明缺口 · 不参与综合排名
+                </div>
               )}
               {matching.slice(0, visibleCount).map((item) => (
                 <button
@@ -529,17 +376,27 @@ export function FactoryPreview({ embedded = false }: { embedded?: boolean }) {
                     <span className={s.paperId}>
                       {item.id} · {item.topic}
                     </span>
-                    <span className={s.paperTitle} lang="en">
+                    <span className={s.paperTitle} lang={item.id === 'P091' ? 'zh-CN' : 'en'}>
                       {item.originalTitle}
                     </span>
                     <span className={s.paperMeta}>
                       {item.status === '通过' ? '正确性检验通过' : item.status}
-                      {item.level !== null && <span> · 稿件成熟度 {item.maturity} / 100</span>}
+                      {item.level !== null && (
+                        <span>
+                          {' '}
+                          · {researchReviews.get(item.id)?.originality} · 核心贡献{' '}
+                          {researchReviews.get(item.id)?.core_score}
+                        </span>
+                      )}
                     </span>
                   </span>
                   <span className={s.paperLevel}>
-                    <strong>{item.level ?? '—'}</strong>
-                    <small>{item.level === null ? '暂不评分' : '成果水平 / 100'}</small>
+                    <strong>{item.level?.toFixed(2) ?? '—'}</strong>
+                    <small>
+                      {item.level === null
+                        ? '暂不评分'
+                        : `${researchReviews.get(item.id)?.academic_level}`}
+                    </small>
                   </span>
                   <span className={s.arrow} aria-hidden="true">
                     ↗

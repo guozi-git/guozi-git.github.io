@@ -1,0 +1,12 @@
+{
+  "id": "P091",
+  "originalTitle": "Lyapunov函数与轨道性质的阶段探索：从能量下降到有效耦合与极限运动",
+  "topic": "动力系统与差分方程",
+  "symbol": "∂",
+  "msc": ["37B25", "34D05", "65L20", "90C26"],
+  "abstract": "",
+  "pdf": "/papers/P091.pdf",
+  "sha256": "6464b03ee81c4a34443b21ec912092355a35c8382c8459b2b98ee96fb37379a9",
+  "pages": 15,
+  "bytes": 400144
+}

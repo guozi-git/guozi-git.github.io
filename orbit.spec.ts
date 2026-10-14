@@ -477,7 +477,7 @@ test('factory gateway, collection dossier and workshop preserve layered navigati
     })
     .click();
   await expect(page.getByRole('img', { name: /五维评分雷达图/ })).toBeVisible();
-  await expect(page.getByText('正确性检验通过', { exact: false })).toBeVisible();
+  await expect(page.getByText('正确性检验通过', { exact: true })).toBeVisible();
   await expect(page.getByRole('img', { name: /创新性 94 \/ 100/ })).toBeVisible();
   await expect(page.getByText(/正确性 5\.0/)).toHaveCount(0);
   await expect(page.getByText(/评价可信度/)).toHaveCount(0);
@@ -518,60 +518,55 @@ test('factory gateway, collection dossier and workshop preserve layered navigati
   await expect(page.getByLabel('搜索论文')).toBeVisible();
 });
 
-test('workshop hundred-point review, pending gate and current originals', async ({ page }) => {
+test('workshop current reviews, grade filters, pending gates and archived links', async ({
+  page,
+}) => {
+  const errors: string[] = [];
+  page.on('pageerror', (e) => errors.push(e.message));
   await page.goto('/#factory/workshop');
-  await expect(page.locator('[data-paper]').first()).toHaveAttribute('data-paper', 'P062');
-  await expect(page.locator('[data-paper="P062"]')).toContainText('90');
-  const scoreSelect = page.getByLabel('研究水平分数');
-  await expect(scoreSelect.locator('option')).toHaveText([
-    '全部分数',
-    '81-90',
-    '71-80',
-    '61-70',
-    '51-60',
-  ]);
-  await scoreSelect.selectOption('71');
-  await expect(page.locator('[data-paper="P062"]')).toHaveCount(0);
-  const filteredScores = await page.locator('[data-paper] strong').allTextContents();
-  expect(filteredScores.length).toBeGreaterThan(0);
-  expect(filteredScores.every((score) => Number(score) >= 71 && Number(score) <= 80)).toBe(true);
-  await scoreSelect.selectOption('81');
+  await expect(page.locator('[data-paper]').first()).toHaveAttribute('data-paper', 'P046');
+  await expect(page.locator('[data-paper="P046"]')).toContainText('86.35');
+  const gradeSelect = page.getByLabel('学术等级');
+  await expect(gradeSelect.locator('option')).toHaveText(['全部等级', 'S4', 'S3', 'S2', 'S1']);
+  await gradeSelect.selectOption('S4');
+  await expect(page.locator('[data-paper]')).toHaveCount(3);
   await page.locator('[data-paper="P062"]').click();
-  await expect(page.getByText('正确性检验通过', { exact: true })).toBeVisible();
-  await expect(page.getByRole('img', { name: /创新性 88 \/ 100/ })).toBeVisible();
-  await expect(page.getByText(/正确性\s*\d|评价置信度/)).toHaveCount(0);
-  await expect(page.getByText('百分制独立重审', { exact: true })).toHaveCount(0);
-  await expect(page.getByText('正确性核验依据', { exact: true })).toHaveCount(0);
-  await expect(page.locator('article dt')).toHaveText([
-    '创新性',
-    '学术意义',
-    '技术深度',
-    '一般性',
-    '内容完整度',
-  ]);
-  const core = page.getByText('核心成果水平', { exact: true });
-  const dimensions = page.getByRole('heading', { name: '五维评价', exact: true });
-  const maturity = page.getByText('稿件成熟度', { exact: true });
-  expect((await core.boundingBox())!.y).toBeLessThan((await dimensions.boundingBox())!.y);
-  expect((await dimensions.boundingBox())!.y).toBeLessThan((await maturity.boundingBox())!.y);
-  await expect(page.getByRole('heading', { name: '整体评价' })).toBeVisible();
-  await expect(page.getByText(/point selection can nevertheless fail in the plane/)).toBeVisible();
+  await expect(page.getByRole('region', { name: '研究评价' })).toContainText('85.40');
+  await expect(page.getByRole('img', { name: /五维评分雷达图/ })).toBeVisible();
+  await expect(page.getByText(/人类研究贡献|本轮匹配判断|稿件成熟度/)).toHaveCount(0);
+  await expect(
+    page.locator('details').filter({ has: page.getByText('等级与评分说明', { exact: true }) }),
+  ).toHaveAttribute('open', '');
+  await expect(page.getByText('S6 · 范式创造', { exact: true })).toBeVisible();
+  await expect(page.getByRole('table')).toHaveCount(5);
+  await page.setViewportSize({ width: 390, height: 844 });
+  expect(await page.getByRole('dialog').evaluate((e) => e.scrollWidth <= e.clientWidth)).toBe(true);
+  await page.setViewportSize({ width: 1440, height: 1000 });
   await page.getByRole('button', { name: '返回论文汇总', exact: true }).click();
-  await page.getByRole('button', { name: '待确认 3', exact: true }).click();
-  await expect(page.locator('[data-paper]')).toHaveCount(3);
+  await page.getByRole('button', { name: '未评分 5', exact: true }).click();
+  await expect(page.locator('[data-paper]')).toHaveCount(5);
   await page.locator('[data-paper="P014"]').click();
-  await expect(page.getByText('正确性：待确认', { exact: true })).toBeVisible();
+  await expect(page.getByText('关键证书待核验', { exact: true })).toBeVisible();
   await expect(page.getByRole('img', { name: /五维评分/ })).toHaveCount(0);
-  await page.reload();
-  await page.getByRole('button', { name: '返回论文汇总', exact: true }).click();
-  await expect(page.locator('[data-paper]')).toHaveCount(3);
+  await expect(page.getByText('已核子结果 · 核心贡献', { exact: true })).toBeVisible();
+  await page.goto('/#factory/P091');
+  await expect(page.locator('b').filter({ hasText: 'C2 · 重要证明缺口' })).toBeVisible();
+  await expect(page.getByRole('link', { name: /阅读原文/ })).toHaveAttribute('href', /P091.pdf/);
+  await page.goto('/#factory/P004');
+  await page.getByRole('button', { name: '查看 P014 ↗', exact: true }).click();
+  await expect(page.getByText('关键证书待核验', { exact: true })).toBeVisible();
   await page.goto('/#factory/P088');
   await expect(page.getByRole('link', { name: /阅读证明补充/ })).toHaveAttribute(
     'href',
     /P088-supplement.pdf/,
   );
-  await page.setViewportSize({ width: 390, height: 844 });
-  expect(await page.getByRole('dialog').evaluate((e) => e.scrollWidth <= e.clientWidth)).toBe(true);
+  for (const width of [360, 390, 768, 1440]) {
+    await page.setViewportSize({ width, height: 900 });
+    expect(await page.getByRole('dialog').evaluate((e) => e.scrollWidth <= e.clientWidth)).toBe(
+      true,
+    );
+  }
+  expect(errors).toEqual([]);
 });
 
 test('site motion overrides system preference and mobile calligraphy loads', async ({ page }) => {

@@ -2,9 +2,11 @@
 import { useEffect, useRef, useState } from 'react';
 import papers from '@/lib/atelier-papers.json';
 import { orderAtelierPapers } from '@/lib/atelier-order';
-import { scoreDimensions } from '@/lib/factory-papers';
+import { researchReviews } from '@/lib/research-reviews';
+import { ResearchGradeGuide } from './research-grade-guide';
+import { ResearchReviewPreview } from './research-review-preview';
 import { assetPath } from '@/lib/asset-path';
-import { AbstractContent, ScoreRadar } from './factory-preview';
+import { AbstractContent } from './factory-preview';
 import s from './atelier-archive.module.css';
 
 const collection = orderAtelierPapers(papers);
@@ -78,6 +80,7 @@ export function AtelierArchive({ onBack }: { onBack: () => void }) {
             <h2>匠心造</h2>
             <p>研究珍藏 · 第一卷</p>
           </header>
+          <ResearchGradeGuide />
           <div className={s.shelves}>
             {collection.map((entry) => (
               <div className={s.cabinet} key={entry.id}>
@@ -134,49 +137,7 @@ export function AtelierArchive({ onBack }: { onBack: () => void }) {
             <AbstractContent text={paper.abstract} />
             <p className={s.msc}>MSC {paper.msc.join(' · ')}</p>
           </section>
-          <section className={s.evaluation} aria-label="综合评价">
-            <div className={s.verdict}>
-              <span>研究水平</span>
-              <strong>
-                {paper.level}
-                <small> / {paper.scoreScale}</small>
-              </strong>
-              <p>
-                稿件成熟度 <b>{paper.maturity}</b> / {paper.scoreScale}
-              </p>
-            </div>
-            <div className={s.radar}>
-              <ScoreRadar
-                id={`atelier-${paper.id}`}
-                scores={paper.scores}
-                maxScore={paper.scoreScale}
-              />
-            </div>
-          </section>
-          <section className={s.reasons}>
-            <h3>
-              评价依据 <span>ASSESSMENT</span>
-            </h3>
-            <dl>
-              {scoreDimensions.map((d, i) => (
-                <div key={d.name}>
-                  <dt>
-                    {d.name}
-                    <b>{paper.scores[i]}</b>
-                  </dt>
-                  <dd>{paper.reasons[i]}</dd>
-                </div>
-              ))}
-            </dl>
-          </section>
-          <section className={s.limits}>
-            <h3>适用范围与局限</h3>
-            <p>{paper.limitation}</p>
-          </section>
-          <section className={s.limits}>
-            <h3>整体评价</h3>
-            <p>{paper.overallAssessment}</p>
-          </section>
+          <ResearchReviewPreview review={researchReviews.get(paper.id)!} />
           <footer className={s.footer}>
             <span>THE COLLECTION · {accession(paper.collectionNumber)}</span>
             <a

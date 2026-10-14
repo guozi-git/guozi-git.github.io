@@ -1,5 +1,6 @@
 import papers from './factory-papers.json';
-import { compareFactoryPapers } from './factory-order';
+import stagePaper from './research-stage-paper.json';
+import { researchReviews } from './research-reviews';
 
 export interface FactoryPaper {
   id: string;
@@ -30,13 +31,6 @@ export interface FactoryPaper {
   supplement?: { pdf: string; pages: number; bytes: number; sha256: string };
 }
 
-export const reviewBatch = {
-  total: papers.length,
-  passed: papers.filter((paper) => paper.status === '通过').length,
-  conditional: papers.filter((paper) => paper.status === '有条件通过').length,
-  pending: papers.filter((paper) => paper.status === '待确认').length,
-  scored: papers.filter((paper) => paper.scores !== null).length,
-};
 export const scoreDimensions = [
   {
     name: '创新性',
@@ -63,8 +57,54 @@ export const scoreDimensions = [
     description: '考察定理与证明是否闭合，关键边界和反例是否处理充分，并清楚说明尚未解决的情况。',
   },
 ] as const;
-// Scores follow each manuscript’s supplied review; unscored manuscripts sort last.
-export const factoryPapers: FactoryPaper[] = [...papers].sort(compareFactoryPapers);
+// Bibliographic records remain stable; current evaluations come from the 2026-10-14 report.
+export const allFactoryPapers: FactoryPaper[] = [
+  ...papers,
+  {
+    ...stagePaper,
+    limitation: '',
+    scores: null,
+    reasons: [],
+    level: null,
+    maturity: null,
+    correctness: 0,
+    confidence: null,
+    status: '重要证明缺口',
+    reviewNote: '',
+    scoreScale: 100,
+    reviewDate: '2026-10-14',
+    overall: '',
+    levelReason: '',
+    maturityReason: '',
+    verificationReason: '',
+  },
+];
+export const factoryPapers: FactoryPaper[] = allFactoryPapers
+  .filter((p) => researchReviews.has(p.id))
+  .map((p) => {
+    const review = researchReviews.get(p.id)!;
+    return {
+      ...p,
+      scores: review.dimensions,
+      level: review.research_score,
+      maturity: null,
+      status: review.correctness === 'C3' ? '通过' : review.correctness_status,
+      reviewNote: '',
+      reviewDate: '2026-10-14',
+    };
+  })
+  .sort(
+    (a, b) =>
+      (b.level ?? -1) - (a.level ?? -1) ||
+      (b.scores?.[0] ?? -1) - (a.scores?.[0] ?? -1) ||
+      (b.scores?.[1] ?? -1) - (a.scores?.[1] ?? -1) ||
+      a.id.localeCompare(b.id),
+  );
+export const reviewBatch = {
+  total: factoryPapers.length,
+  scored: factoryPapers.filter((p) => p.level !== null).length,
+  pending: factoryPapers.filter((p) => p.level === null).length,
+};
 const topicOrder = [
   '数值分析与优化',
   '动力系统与差分方程',

@@ -1641,3 +1641,48 @@
     grid-column: 1;
   }
 }
+
+/* Compact research index: title and evidence on the left, score on the right. */
+.panel .paper {
+  padding-top: 18px;
+  padding-bottom: 18px;
+}
+.panel .paperTitle {
+  font-size: 16px;
+  line-height: 1.5;
+}
+.panel .paperMeta {
+  margin-top: 7px;
+  font-size: 11px;
+}
+.panel .paperLevel strong {
+  font-size: 28px;
+  font-variant-numeric: tabular-nums;
+}
+.panel .paperLevel small {
+  white-space: nowrap;
+  font-size: 10px;
+}
+@media (max-width: 600px) {
+  .panel .paperTitle {
+    font-size: 14px;
+  }
+  .panel .paperLevel strong {
+    font-size: 23px;
+  }
+}
+
+.overview .intro {
+  min-height: 0;
+  padding-top: 10px;
+  padding-bottom: 16px;
+}
+.overview .intro h2 {
+  font-size: 34px !important;
+  margin-top: 8px;
+  margin-bottom: 0;
+}
+.overview .summaryLine {
+  margin-bottom: 18px;
+  padding-top: 12px;
+}

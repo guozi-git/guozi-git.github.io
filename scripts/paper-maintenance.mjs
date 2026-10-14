@@ -148,10 +148,27 @@ export async function validate(papers, assets, root = repository, overrides = ne
       assert(assets.includes(s.pdf.slice(1)), `${p.id} 补充材料未加入导出清单`);
     }
   }
+  // Current stage reports have bibliography separate from the historical scored snapshot.
+  let stage = null;
+  try {
+    stage = await json(inside(root, 'src/lib/research-stage-paper.json'));
+  } catch (error) {
+    if (error.code !== 'ENOENT') throw error;
+  }
+  if (stage) {
+    assert(stage.pdf === `/papers/${stage.id}.pdf`, '阶段稿 PDF 路径不匹配');
+    const bytes = await readFile(inside(root, `public${stage.pdf}`));
+    assert(bytes.length === stage.bytes && sha(bytes) === stage.sha256, '阶段稿原文校验失败');
+    assert(assets.includes(stage.pdf.slice(1)), '阶段稿未加入导出清单');
+  }
   assert(
     assets
       .filter((a) => a.startsWith('papers/'))
-      .every((a) => papers.some((p) => p.pdf === `/${a}` || p.supplement?.pdf === `/${a}`)),
+      .every(
+        (a) =>
+          stage?.pdf === `/${a}` ||
+          papers.some((p) => p.pdf === `/${a}` || p.supplement?.pdf === `/${a}`),
+      ),
     '导出清单存在无对应论文的 PDF',
   );
   return { total: papers.length, scored: papers.filter((p) => p.scores !== null).length };
