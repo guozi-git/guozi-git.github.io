@@ -45,9 +45,9 @@ function GuideTable({
     </table>
   );
 }
-export function ResearchGradeGuide() {
+export function ResearchGradeGuide({ theme = 'default' }: { theme?: 'default' | 'gold' }) {
   return (
-    <details className={`${s.explanation} ${s.guide}`} open>
+    <details className={`${s.explanation} ${s.guide} ${theme === 'gold' ? s.goldGuide : ''}`} open>
       <summary>等级与评分说明</summary>
       <GuideTable
         title="学术等级 S：各级的分数范围与实质区别"

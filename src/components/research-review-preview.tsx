@@ -14,9 +14,11 @@ const weights = [30, 25, 20, 15, 10];
 export function ResearchReviewPreview({
   review,
   workshop = false,
+  showGuide = true,
 }: {
   review: ResearchReview;
   workshop?: boolean;
+  showGuide?: boolean;
 }) {
   const level = academicLevels.find(([code]) => code === review.academic_level);
   const scored = review.score_eligible && review.dimensions !== null;
@@ -177,7 +179,7 @@ export function ResearchReviewPreview({
         <h4>整体评价</h4>
         <p>{review.need}</p>
       </section>
-      <ResearchGradeGuide />
+      {showGuide && <ResearchGradeGuide />}
     </section>
   );
 }

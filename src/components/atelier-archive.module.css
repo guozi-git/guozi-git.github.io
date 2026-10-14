@@ -482,3 +482,75 @@
     font-size: 8px;
   }
 }
+
+.guideEntryRow {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 22px;
+}
+.guideEntry {
+  display: inline-flex;
+  align-items: center;
+  gap: 22px;
+  min-height: 48px;
+  padding: 14px 18px;
+  border: 1px solid #b8a27640;
+  border-radius: 7px;
+  background: linear-gradient(135deg, #cbb7840d, #0d0e0d);
+  color: #d8c9a6;
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  cursor: pointer;
+}
+.guideEntry:hover {
+  border-color: #cbb78480;
+  background: #cbb78412;
+}
+.guideEntry span {
+  color: #b5a077;
+}
+.guideEntryRow + .masthead {
+  padding-top: 22px;
+}
+.guidePage {
+  max-width: 810px;
+  margin: 0 auto;
+  padding-top: 45px;
+}
+.guideHeading {
+  padding-bottom: 22px;
+}
+.guideHeading > span {
+  color: #b5a077;
+  font-size: 9px;
+  letter-spacing: 0.2em;
+}
+.guideHeading h2 {
+  font:
+    400 29px/1.5 'Songti SC',
+    SimSun,
+    serif;
+  color: #e0cda2;
+  letter-spacing: 0.12em;
+  margin: 16px 0 12px;
+}
+.guideHeading p {
+  color: #b9ad96;
+  font-size: 13px;
+  line-height: 1.8;
+}
+.archive summary:focus-visible {
+  outline: 2px solid #d7c593;
+  outline-offset: 4px;
+}
+@media (max-width: 600px) {
+  .guidePage {
+    padding-top: 32px;
+  }
+  .guideHeading h2 {
+    font-size: 25px;
+  }
+  .guideEntryRow {
+    margin-top: 18px;
+  }
+}

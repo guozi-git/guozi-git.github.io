@@ -404,3 +404,26 @@
     width: 25%;
   }
 }
+
+.goldGuide {
+  --line: #b8a27638;
+  --muted: #c2b7a2;
+  color: #d8c9a6;
+}
+.goldGuide .guideTable caption {
+  color: #dfcda5;
+  font-family: 'Songti SC', SimSun, serif;
+  font-size: 17px;
+}
+.goldGuide .guideTable th {
+  color: #e0d0ab;
+}
+.goldGuide .guideTable thead {
+  background: #cbb78413;
+}
+.goldGuide .guideTable tbody tr:nth-child(even) {
+  background: #cbb78406;
+}
+.goldGuide .guideTable {
+  border-color: var(--line);
+}

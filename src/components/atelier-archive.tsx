@@ -21,7 +21,9 @@ export function AtelierArchive({ onBack }: { onBack: () => void }) {
       const match = collection.find(
         (entry) => window.location.hash === `#factory/atelier/${entry.id}`,
       );
-      setSelected(match?.id ?? null);
+      setSelected(
+        window.location.hash === '#factory/atelier/scoring' ? 'scoring' : (match?.id ?? null),
+      );
     };
     const timer = setTimeout(sync, 0);
     window.addEventListener('popstate', sync);
@@ -73,14 +75,31 @@ export function AtelierArchive({ onBack }: { onBack: () => void }) {
           ‹ {selected ? '返回收藏目录' : '返回上一级'}
         </button>
       </nav>
-      {!paper ? (
+      {selected === 'scoring' ? (
+        <section className={s.guidePage} aria-label="匠心造等级说明">
+          <header className={s.guideHeading}>
+            <span>THE COLLECTION · READING GUIDE</span>
+            <h2>等级与评分说明</h2>
+            <p>研究价值、证明状态与核心贡献的阅读参照</p>
+          </header>
+          <ResearchGradeGuide theme="gold" />
+        </section>
+      ) : !paper ? (
         <>
+          <div className={s.guideEntryRow}>
+            <button
+              className={s.guideEntry}
+              onClick={() => open('scoring')}
+              aria-label="打开匠心造等级说明"
+            >
+              等级说明 <span aria-hidden="true">↗</span>
+            </button>
+          </div>
           <header className={s.masthead}>
             <span>SELECTED MATHEMATICAL WORKS</span>
             <h2>匠心造</h2>
             <p>研究珍藏 · 第一卷</p>
           </header>
-          <ResearchGradeGuide />
           <div className={s.shelves}>
             {collection.map((entry) => (
               <div className={s.cabinet} key={entry.id}>
@@ -137,7 +156,7 @@ export function AtelierArchive({ onBack }: { onBack: () => void }) {
             <AbstractContent text={paper.abstract} />
             <p className={s.msc}>MSC {paper.msc.join(' · ')}</p>
           </section>
-          <ResearchReviewPreview review={researchReviews.get(paper.id)!} />
+          <ResearchReviewPreview review={researchReviews.get(paper.id)!} showGuide={false} />
           <footer className={s.footer}>
             <span>THE COLLECTION · {accession(paper.collectionNumber)}</span>
             <a

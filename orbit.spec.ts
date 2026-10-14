@@ -632,3 +632,23 @@ test('site motion overrides system preference and mobile calligraphy loads', asy
   await page.goto('/paper-factory/');
   await expect(toggle).toBeHidden();
 });
+
+test('atelier grade guide has its own themed page and stays out of dossiers', async ({ page }) => {
+  await page.goto('/#factory/atelier');
+  await expect(page.getByRole('table')).toHaveCount(0);
+  await page.getByRole('button', { name: '打开匠心造等级说明', exact: true }).click();
+  await expect(page).toHaveURL(/#factory\/atelier\/scoring$/);
+  await expect(page.getByRole('table')).toHaveCount(5);
+  await expect(
+    page.getByRole('rowheader', { name: 'S4 · 顶级领域成果', exact: true }),
+  ).toBeVisible();
+  await page.reload();
+  await expect(page.getByRole('region', { name: '匠心造等级说明' })).toBeVisible();
+  await page.setViewportSize({ width: 390, height: 844 });
+  expect(await page.getByRole('dialog').evaluate((e) => e.scrollWidth <= e.clientWidth)).toBe(true);
+  await page.getByRole('button', { name: '返回收藏目录', exact: true }).click();
+  await expect(page.getByRole('button', { name: '打开匠心造等级说明', exact: true })).toBeVisible();
+  await page.locator('[data-atelier-paper="P089"]').click();
+  await expect(page.getByRole('table')).toHaveCount(0);
+  await expect(page.getByRole('heading', { name: '研究评价', exact: true })).toBeVisible();
+});
