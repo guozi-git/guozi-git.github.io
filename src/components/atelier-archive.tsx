@@ -156,7 +156,7 @@ export function AtelierArchive({ onBack }: { onBack: () => void }) {
             <AbstractContent text={paper.abstract} />
             <p className={s.msc}>MSC {paper.msc.join(' · ')}</p>
           </section>
-          <ResearchReviewPreview review={researchReviews.get(paper.id)!} showGuide={false} />
+          <ResearchReviewPreview review={researchReviews.get(paper.id)!} />
           <footer className={s.footer}>
             <span>THE COLLECTION · {accession(paper.collectionNumber)}</span>
             <a

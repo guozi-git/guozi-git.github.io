@@ -534,11 +534,9 @@ test('workshop current reviews, grade filters, pending gates and archived links'
   await expect(page.getByRole('region', { name: '研究评价' })).toContainText('85.40');
   await expect(page.getByRole('img', { name: /五维评分雷达图/ })).toBeVisible();
   await expect(page.getByText(/人类研究贡献|本轮匹配判断|稿件成熟度/)).toHaveCount(0);
-  await expect(
-    page.locator('details').filter({ has: page.getByText('等级与评分说明', { exact: true }) }),
-  ).toHaveAttribute('open', '');
-  await expect(page.getByText('S6 · 范式创造', { exact: true })).toBeVisible();
-  await expect(page.getByRole('table')).toHaveCount(5);
+  await expect(page.getByText('等级与评分说明', { exact: true })).toHaveCount(0);
+  await expect(page.getByRole('region', { name: '评分依据', exact: true })).toBeVisible();
+  await expect(page.getByText('评分依据与计算方式', { exact: true })).toHaveCount(0);
   await page.setViewportSize({ width: 390, height: 844 });
   expect(await page.getByRole('dialog').evaluate((e) => e.scrollWidth <= e.clientWidth)).toBe(true);
   await page.setViewportSize({ width: 1440, height: 1000 });
@@ -651,4 +649,10 @@ test('atelier grade guide has its own themed page and stays out of dossiers', as
   await page.locator('[data-atelier-paper="P089"]').click();
   await expect(page.getByRole('table')).toHaveCount(0);
   await expect(page.getByRole('heading', { name: '研究评价', exact: true })).toBeVisible();
+  await expect(page.locator('[data-radar-theme=gold]')).toBeVisible();
+  await expect(page.getByRole('region', { name: '评分依据' })).toContainText('创新性');
+  await expect(page.locator('[data-radar-theme=gold] polygon').last()).toHaveCSS(
+    'stroke',
+    'rgb(215, 189, 128)',
+  );
 });

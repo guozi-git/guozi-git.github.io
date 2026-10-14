@@ -1686,3 +1686,27 @@
   margin-bottom: 18px;
   padding-top: 12px;
 }
+
+.goldRadar .radarGrid {
+  stroke: #cbb78430;
+}
+.goldRadar .radarAxis {
+  stroke: #cbb78424;
+}
+.goldRadar .radarValue {
+  fill: #cbb78428;
+  stroke: #d7bd80;
+}
+.goldRadar .radarPoint {
+  fill: #f0dca9;
+  stroke: #a88b50;
+}
+.goldRadar .radarLabel {
+  fill: #c5b68f;
+}
+.goldRadar .radarNumber {
+  fill: #ead5a5;
+}
+.goldRadar .radarScale {
+  fill: #a38f67;
+}

@@ -5,10 +5,12 @@ export function ScoreRadar({
   scores,
   id,
   maxScore = 100,
+  theme = 'default',
 }: {
   scores: readonly number[];
   id: string;
   maxScore?: number;
+  theme?: 'default' | 'gold';
 }) {
   const formatScore = (value: number) => (maxScore === 5 ? value.toFixed(1) : String(value));
   const center = { x: 200, y: 163 };
@@ -24,7 +26,10 @@ export function ScoreRadar({
       })
       .join(' ');
   return (
-    <figure className={s.radar}>
+    <figure
+      className={`${s.radar} ${theme === 'gold' ? s.goldRadar : ''}`}
+      data-radar-theme={theme}
+    >
       <svg viewBox="0 0 400 335" role="img" aria-labelledby={`radar-title-${id} radar-desc-${id}`}>
         <title id={`radar-title-${id}`}>五维评分雷达图</title>
         <desc id={`radar-desc-${id}`}>

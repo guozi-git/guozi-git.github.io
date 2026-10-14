@@ -1,24 +1,19 @@
 import { ScoreRadar } from './score-radar';
-import { ResearchGradeGuide } from './research-grade-guide';
 import {
   academicLevels,
   levelDescriptions,
   originalityLabels,
   type ResearchReview,
 } from '@/lib/research-reviews';
-import { scoreDimensions } from '@/lib/factory-papers';
 import { p089Dimensions } from '@/lib/research-p089-notes';
 import s from './research-review-preview.module.css';
 
-const weights = [30, 25, 20, 15, 10];
 export function ResearchReviewPreview({
   review,
   workshop = false,
-  showGuide = true,
 }: {
   review: ResearchReview;
   workshop?: boolean;
-  showGuide?: boolean;
 }) {
   const level = academicLevels.find(([code]) => code === review.academic_level);
   const scored = review.score_eligible && review.dimensions !== null;
@@ -81,48 +76,31 @@ export function ResearchReviewPreview({
             <h4>五维评分</h4>
             <span>各项满分 100</span>
           </div>
-          <div className={s.dimensionBody}>
-            <div className={s.radar}>
-              <ScoreRadar id={`review-P${review.id}`} scores={review.dimensions!} />
-            </div>
-            <dl className={s.scoreList}>
-              {scoreDimensions.map((d, i) => (
-                <div key={d.name}>
-                  <dt>
-                    {d.name}
-                    <small>权重 {weights[i]}%</small>
-                  </dt>
-                  <dd>
-                    {review.dimensions![i]}
-                    <small> / 100</small>
-                  </dd>
+          <div className={`${s.radar} ${s.reviewRadar}`}>
+            <ScoreRadar
+              id={`review-P${review.id}`}
+              scores={review.dimensions!}
+              theme={workshop ? 'default' : 'gold'}
+            />
+          </div>
+          <section className={s.ratingReasons} aria-label="评分依据">
+            <h4>评分依据</h4>
+            <dl>
+              {(review.id === 89
+                ? p089Dimensions.map((d) => [d.name, d.reason])
+                : [
+                    ['创新增量', review.novelty],
+                    ['学术意义', review.need],
+                    ['成果边界', review.limits],
+                  ]
+              ).map(([name, reason]) => (
+                <div key={name}>
+                  <dt>{name}</dt>
+                  <dd>{reason}</dd>
                 </div>
               ))}
             </dl>
-          </div>
-          <details className={s.explanation}>
-            <summary>评分依据与计算方式</summary>
-            <p className={s.formula}>
-              {review.dimensions!.map((value, i) => `${value} × ${weights[i]}%`).join(' + ')} ={' '}
-              {review.research_score?.toFixed(2)}
-            </p>
-            <p>两位小数用于复核加权计算，不代表分差具有统计意义。S4 及以上还需满足实质贡献门槛。</p>
-            {review.id === 89 ? (
-              p089Dimensions.map((d) => (
-                <div key={d.name}>
-                  <h5>{d.name}</h5>
-                  <p>{d.reason}</p>
-                </div>
-              ))
-            ) : (
-              <>
-                <h5>学术意义</h5>
-                <p>{review.need}</p>
-                <h5>成果边界</h5>
-                <p>{review.limits}</p>
-              </>
-            )}
-          </details>
+          </section>
         </section>
       )}
       <div className={s.secondary}>
@@ -179,7 +157,6 @@ export function ResearchReviewPreview({
         <h4>整体评价</h4>
         <p>{review.need}</p>
       </section>
-      {showGuide && <ResearchGradeGuide />}
     </section>
   );
 }

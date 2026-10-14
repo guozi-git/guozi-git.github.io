@@ -427,3 +427,33 @@
 .goldGuide .guideTable {
   border-color: var(--line);
 }
+
+.reviewRadar {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+}
+.reviewRadar > figure {
+  width: 100%;
+}
+.ratingReasons {
+  border-top: 1px solid var(--line);
+  padding-top: 22px;
+}
+.ratingReasons dl {
+  margin: 14px 0 0;
+}
+.ratingReasons dl > div {
+  padding: 14px 0;
+  border-bottom: 1px solid var(--line);
+}
+.ratingReasons dt {
+  font-size: 14px;
+  color: inherit;
+}
+.ratingReasons dd {
+  margin: 7px 0 0;
+  font-size: 14px;
+  line-height: 1.85;
+  color: var(--muted);
+}
