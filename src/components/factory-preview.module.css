@@ -1446,7 +1446,7 @@
   font-size: 11px;
 }
 .factory .paper {
-  grid-template-columns: 32px minmax(0, 1fr) auto 16px;
+  grid-template-columns: 32px minmax(0, 1fr) auto;
   padding: 23px 0;
   gap: 20px;
   border-bottom: 1px solid #9ad4df24;
@@ -1609,7 +1609,7 @@
     min-width: 0;
   }
   .factory .paper {
-    grid-template-columns: 26px minmax(0, 1fr) 16px;
+    grid-template-columns: 26px minmax(0, 1fr);
     gap: 10px;
     padding: 20px 0;
   }

@@ -166,7 +166,7 @@ export function Publications() {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                阅读原文 PDF ↗
+                阅读原文 PDF
               </a>
             )}
             <a
@@ -175,7 +175,7 @@ export function Publications() {
               target="_blank"
               rel="noopener noreferrer"
             >
-              {selected.id === 'bipartite-stability' ? 'arXiv 页面' : '出版社页面'} ↗
+              {selected.id === 'bipartite-stability' ? 'arXiv 页面' : '出版社页面'}
             </a>
           </div>
           <p className="paper-access">{selected.access}</p>
@@ -212,9 +212,6 @@ export function Publications() {
                   <p className="paper-summary">{paper.summary}</p>
                   <div className="paper-card-bottom">
                     <span>{paper.venue}</span>
-                    <span className="paper-arrow" aria-hidden="true">
-                      ↗
-                    </span>
                   </div>
                 </div>
               </button>

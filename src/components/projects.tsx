@@ -140,9 +140,7 @@ export function Projects() {
               </span>
               <h3>果子的个人网站</h3>
               <p>一个用圆环展开的个人空间，放下自我介绍、兴趣、论文和慢慢积累的小作品。</p>
-              <span className="project-card-link">
-                看看这件作品 <span aria-hidden="true">↗</span>
-              </span>
+              <span className="project-card-link">看看这件作品</span>
             </div>
           </button>
           <p className="projects-footnote">第一件作品，也是更多想法的起点。</p>

@@ -54,7 +54,7 @@ export function Gaming() {
                       ? '留下的瞬间 · 收藏与偏好'
                       : '天梯 · 酒馆'}
                 </span>
-                <span className="game-return">收起并返回游戏列表 ↑</span>
+                <span className="game-return">收起并返回游戏列表</span>
                 <span className="game-open" aria-hidden="true">
                   ＋
                 </span>

@@ -284,9 +284,7 @@ export function Orbit() {
                   <span className="sector-copy">
                     <span className="sector-number">{section.number} /</span>
                     <strong>{section.title}</strong>
-                    <span className="sector-english">
-                      {section.english} <span className="tiny-arrow">↗</span>
-                    </span>
+                    <span className="sector-english">{section.english}</span>
                   </span>
                 </button>
               ))}
@@ -306,7 +304,7 @@ export function Orbit() {
                 />
                 <span className="portrait-copy">
                   <span>ABOUT ME</span>
-                  <strong>{profile.nickname} ↗</strong>
+                  <strong>{profile.nickname}</strong>
                 </span>
               </button>
             </div>

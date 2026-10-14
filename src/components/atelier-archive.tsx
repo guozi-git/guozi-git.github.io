@@ -92,7 +92,7 @@ export function AtelierArchive({ onBack }: { onBack: () => void }) {
               onClick={() => open('scoring')}
               aria-label="打开匠心造等级说明"
             >
-              等级说明 <span aria-hidden="true">↗</span>
+              等级说明
             </button>
           </div>
           <header className={s.masthead}>
@@ -133,9 +133,7 @@ export function AtelierArchive({ onBack }: { onBack: () => void }) {
                   <p className={s.english} lang="en">
                     {entry.originalTitle}
                   </p>
-                  <span className={s.open}>
-                    开启档案 <span aria-hidden="true">↗</span>
-                  </span>
+                  <span className={s.open}>开启档案</span>
                 </button>
                 <div className={s.foreEdge} aria-hidden="true" />
               </div>
@@ -164,7 +162,7 @@ export function AtelierArchive({ onBack }: { onBack: () => void }) {
               target="_blank"
               rel="noopener noreferrer"
             >
-              阅读原文 ↗
+              阅读原文
             </a>
           </footer>
         </article>

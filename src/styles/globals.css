@@ -1591,7 +1591,7 @@ h1 span {
 }
 .blog-entry summary {
   display: grid;
-  grid-template-columns: 110px 1fr 20px;
+  grid-template-columns: 110px minmax(0, 1fr);
   align-items: baseline;
   gap: 24px;
   padding: 25px 0;
@@ -1694,7 +1694,7 @@ h1 span {
     letter-spacing: 0.4px;
   }
   .blog-entry summary {
-    grid-template-columns: 74px 1fr 16px;
+    grid-template-columns: 74px minmax(0, 1fr);
     gap: 10px;
     padding: 21px 0;
   }

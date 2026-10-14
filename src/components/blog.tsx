@@ -37,9 +37,6 @@ export function Blog() {
                     <strong>{post.title}</strong>
                     {post.summary && <span>{post.summary}</span>}
                   </span>
-                  <span className="blog-entry-arrow" aria-hidden="true">
-                    ↗
-                  </span>
                 </summary>
                 <article className="blog-article" aria-label={post.title}>
                   {post.paragraphs.map((paragraph, index) => (

@@ -214,7 +214,7 @@ export function FactoryPreview({ embedded = false }: { embedded?: boolean }) {
                 此稿已归入后续成果，不再单独评分。
                 {mergedInto.map((id) => (
                   <button className={s.scoringLink} key={id} onClick={() => open(id)}>
-                    查看 {id} ↗
+                    查看 {id}
                   </button>
                 ))}
               </div>
@@ -237,7 +237,7 @@ export function FactoryPreview({ embedded = false }: { embedded?: boolean }) {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                阅读原文 <span aria-hidden="true">↗</span>
+                阅读原文
               </a>
               {paper.supplement && (
                 <a
@@ -245,7 +245,7 @@ export function FactoryPreview({ embedded = false }: { embedded?: boolean }) {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  阅读证明补充 <span aria-hidden="true">↗</span>
+                  阅读证明补充
                 </a>
               )}
             </div>
@@ -283,7 +283,7 @@ export function FactoryPreview({ embedded = false }: { embedded?: boolean }) {
             <div className={s.sectionHeading}>
               <h3>研究论文</h3>
               <button className={s.scoringLink} data-score-open onClick={() => open('scoring')}>
-                等级说明 <span aria-hidden="true">↗</span>
+                等级说明
               </button>
             </div>
             <div className={s.reviewTabs} role="group" aria-label="审查分组">
@@ -397,9 +397,6 @@ export function FactoryPreview({ embedded = false }: { embedded?: boolean }) {
                         ? '暂不评分'
                         : `${researchReviews.get(item.id)?.academic_level}`}
                     </small>
-                  </span>
-                  <span className={s.arrow} aria-hidden="true">
-                    ↗
                   </span>
                 </button>
               ))}

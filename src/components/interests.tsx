@@ -144,9 +144,6 @@ export function Interests() {
                   <strong>{hobby.name}</strong>
                   <span>{hobby.note}</span>
                 </span>
-                <span className="hobby-row-arrow" aria-hidden="true">
-                  ↗
-                </span>
               </button>
             ))}
           </div>
@@ -179,9 +176,7 @@ export function Interests() {
                     <span className="equipment-card-number">{item.number}</span>
                     <strong>{item.name}</strong>
                     <span className="equipment-card-label">{item.label}</span>
-                    <span className="equipment-card-status">
-                      {kit[item.id].length} 件装备 <span aria-hidden="true">↗</span>
-                    </span>
+                    <span className="equipment-card-status">{kit[item.id].length} 件装备</span>
                   </button>
                 ))}
               </div>

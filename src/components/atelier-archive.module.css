@@ -491,7 +491,9 @@
 .guideEntry {
   display: inline-flex;
   align-items: center;
-  gap: 22px;
+  justify-content: center;
+  min-width: 112px;
+  text-align: center;
   min-height: 48px;
   padding: 14px 18px;
   border: 1px solid #b8a27640;

@@ -551,7 +551,7 @@ test('workshop current reviews, grade filters, pending gates and archived links'
   await expect(page.locator('b').filter({ hasText: 'C2 · 重要证明缺口' })).toBeVisible();
   await expect(page.getByRole('link', { name: /阅读原文/ })).toHaveAttribute('href', /P091.pdf/);
   await page.goto('/#factory/P004');
-  await page.getByRole('button', { name: '查看 P014 ↗', exact: true }).click();
+  await page.getByRole('button', { name: '查看 P014', exact: true }).click();
   await expect(page.getByText('关键证书待核验', { exact: true })).toBeVisible();
   await page.goto('/#factory/P088');
   await expect(page.getByRole('link', { name: /阅读证明补充/ })).toHaveAttribute(
