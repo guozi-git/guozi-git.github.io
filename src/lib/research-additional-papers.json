@@ -1,0 +1,26 @@
+[
+  {
+    "id": "P092",
+    "originalTitle": "Rigidity of homogeneous mechanical families with common invariant force means",
+    "topic": "数学力学与非线性动力学",
+    "symbol": "∂",
+    "msc": [],
+    "abstract": "We study deformations of natural Hamiltonians for which all invariant probabilities on a fixed energy shell give the same mean parameter force. In two normal dimensions, a connected jointly C^{2} family of positive homogeneous wells of degree three, four, or six containing one radial member remains radial. No polynomial assumption, central symmetry, or joint convexity is imposed for this classification. A second classification concerns binary quartics near x^{4} + 12x^{2}y^{2} + 16y^{4}: after phase-volume normalization, a connected family entering a suitable coefficient neighborhood consists of rotations of a single well. The radial and nonradial mechanisms are different. The former uses exact periodic actions and, in degree six, a mechanical brake-boundary response that excludes high-frequency escape; the latter uses constrained action curvature through a rank jump. These classifications produce controlled force correctors. Under joint convexity of the original potential and an actual compact selected tail, the correctors imply point selection for damping (1 + 2/p)/t. The selected limit maximizes the frozen phase-volume root, while the physical mechanical energy has a positive t^{−2} leading asymptotic. An explicit radial family supplies a checkable nontrivial set of initial data for the compact-tail hypothesis.",
+    "pdf": "/papers/P092.pdf",
+    "sha256": "1ef429480f6848320821055b9e2b297aefb40c9af5ff8c53c0614454790713c4",
+    "pages": 139,
+    "bytes": 1372153
+  },
+  {
+    "id": "P093",
+    "originalTitle": "Invariant-average kernels and deformation obstructions for a quartic Hamiltonian",
+    "topic": "数学力学与非线性动力学",
+    "symbol": "∂",
+    "msc": [],
+    "abstract": "For the quartic Hamiltonian with potential Q_{0}(x, y) = x^{4} + 12x^{2}y^{2} + 16y^{4}, we study homogeneous angular forces annihilated by every invariant probability on a positive energy shell. A complete criterion combines ordinary torus means, every rational relative phase, and the physical periodic family crossing the origin at zero separation. Abel inversion removes the doubly even component, while a certified resonant coefficient identifies the binary-quartic polynomial intersection with the rotation line. The unrestricted problem has two distinct conclusions. First, derivatives of actual jointly C^{2} common-mean families must satisfy a common second-force compatibility: pure doubly odd directions are rotational, and a pure even-odd direction with zero vertical value cannot be nonzero. Second, the original C^{1} even-odd complete-null kernel is finite-dimensional. Its dimension and the existence of a nonzero vertical-trace branch remain undetermined. The finite-dimensional conclusion follows from original-regularity entry, compact observations obtained from complete resonant rows, and exact ordinary endpoint gluing. A quartic Peano value trace and a one-way ambient reconstruction refine the result without asserting a full inverse theorem or a nonpolynomial finite-deformation classification.",
+    "pdf": "/papers/P093.pdf",
+    "sha256": "70b7fb9c0f2aaa14d518795546ec59ff06ecf181d73b166063d4f4cda51c32a0",
+    "pages": 159,
+    "bytes": 1532911
+  }
+]

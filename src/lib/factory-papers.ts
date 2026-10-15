@@ -1,5 +1,6 @@
 import papers from './factory-papers.json';
 import stagePaper from './research-stage-paper.json';
+import additionalPapers from './research-additional-papers.json';
 import { researchReviews } from './research-reviews';
 
 export interface FactoryPaper {
@@ -32,11 +33,11 @@ export interface FactoryPaper {
 }
 
 export { scoreDimensions } from './score-dimensions';
-// Bibliographic records remain stable; current evaluations come from the 2026-10-14 report.
+// Stable bibliographic records; current evaluations are maintained separately.
 export const allFactoryPapers: FactoryPaper[] = [
   ...papers,
-  {
-    ...stagePaper,
+  ...[stagePaper, ...additionalPapers].map((paper) => ({
+    ...paper,
     limitation: '',
     scores: null,
     reasons: [],
@@ -44,7 +45,7 @@ export const allFactoryPapers: FactoryPaper[] = [
     maturity: null,
     correctness: 0,
     confidence: null,
-    status: '重要证明缺口',
+    status: '',
     reviewNote: '',
     scoreScale: 100,
     reviewDate: '2026-10-14',
@@ -52,7 +53,7 @@ export const allFactoryPapers: FactoryPaper[] = [
     levelReason: '',
     maturityReason: '',
     verificationReason: '',
-  },
+  })),
 ];
 export const factoryPapers: FactoryPaper[] = allFactoryPapers
   .filter((p) => researchReviews.has(p.id))
@@ -65,7 +66,7 @@ export const factoryPapers: FactoryPaper[] = allFactoryPapers
       maturity: null,
       status: review.correctness === 'C3' ? '通过' : review.correctness_status,
       reviewNote: '',
-      reviewDate: '2026-10-14',
+      reviewDate: review.review_date ?? '2026-10-14',
     };
   })
   .sort(
@@ -86,8 +87,9 @@ const topicOrder = [
   '算子与不动点理论',
   '博弈论',
   '概率与随机过程',
+  '数学力学与非线性动力学',
 ];
 
 export const factoryTopics = topicOrder.filter((topic) =>
-  papers.some((paper) => paper.topic === topic),
+  factoryPapers.some((paper) => paper.topic === topic),
 );

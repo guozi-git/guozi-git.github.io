@@ -148,25 +148,34 @@ export async function validate(papers, assets, root = repository, overrides = ne
       assert(assets.includes(s.pdf.slice(1)), `${p.id} 补充材料未加入导出清单`);
     }
   }
-  // Current stage reports have bibliography separate from the historical scored snapshot.
-  let stage = null;
-  try {
-    stage = await json(inside(root, 'src/lib/research-stage-paper.json'));
-  } catch (error) {
-    if (error.code !== 'ENOENT') throw error;
+  // Later bibliography is separate from the historical scored snapshot.
+  const later = [];
+  for (const path of [
+    'src/lib/research-stage-paper.json',
+    'src/lib/research-additional-papers.json',
+  ]) {
+    try {
+      const value = await json(inside(root, path));
+      later.push(...(Array.isArray(value) ? value : [value]));
+    } catch (error) {
+      if (error.code !== 'ENOENT') throw error;
+    }
   }
-  if (stage) {
-    assert(stage.pdf === `/papers/${stage.id}.pdf`, '阶段稿 PDF 路径不匹配');
-    const bytes = await readFile(inside(root, `public${stage.pdf}`));
-    assert(bytes.length === stage.bytes && sha(bytes) === stage.sha256, '阶段稿原文校验失败');
-    assert(assets.includes(stage.pdf.slice(1)), '阶段稿未加入导出清单');
+  for (const paper of later) {
+    assert(/^P\d{3,}$/.test(paper.id) && !ids.has(paper.id), `编号无效或重复：${paper.id}`);
+    ids.add(paper.id);
+    assert(paper.pdf === `/papers/${paper.id}.pdf`, `${paper.id} PDF 路径不匹配`);
+    const bytes = await readFile(inside(root, `public${paper.pdf}`));
+    assert(bytes.subarray(0, 5).toString() === '%PDF-', `${paper.id} 文件不是 PDF`);
+    assert(bytes.length === paper.bytes && sha(bytes) === paper.sha256, `${paper.id} 原文校验失败`);
+    assert(assets.includes(paper.pdf.slice(1)), `${paper.id} 未加入导出清单`);
   }
   assert(
     assets
       .filter((a) => a.startsWith('papers/'))
       .every(
         (a) =>
-          stage?.pdf === `/${a}` ||
+          later.some((p) => p.pdf === `/${a}`) ||
           papers.some((p) => p.pdf === `/${a}` || p.supplement?.pdf === `/${a}`),
       ),
     '导出清单存在无对应论文的 PDF',

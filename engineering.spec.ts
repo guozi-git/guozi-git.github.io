@@ -327,3 +327,50 @@ test('factory download error clears the Home control on mobile', async ({ page }
     })
     .toBeGreaterThanOrEqual(8);
 });
+
+test('new mechanics manuscripts use English originals and a separate filter', async ({ page }) => {
+  await page.goto('/#factory/workshop');
+  await page.getByRole('combobox', { name: '研究方向' }).selectOption('数学力学与非线性动力学');
+  await expect(page.locator('[data-paper]')).toHaveCount(2);
+  await expect(page.locator('[data-paper="P092"]')).toContainText('核心贡献 C-S3');
+  await expect(page.locator('[data-paper="P093"]')).toContainText('核心贡献 C-S3');
+  await expect(page.locator('[data-paper="P092"]')).toContainText(
+    'Rigidity of homogeneous mechanical families',
+  );
+  await expect(page.locator('[data-paper="P093"]')).toContainText('Invariant-average kernels');
+});
+
+for (const [id, score, title, hash] of [
+  [
+    'P092',
+    '83.80',
+    'Rigidity of homogeneous mechanical families with common invariant force means',
+    '1ef429480f684832',
+  ],
+  [
+    'P093',
+    '78.10',
+    'Invariant-average kernels and deformation obstructions for a quartic Hamiltonian',
+    '70b7fb9c0f2aaa14',
+  ],
+]) {
+  test(`mechanics detail ${id} preserves review and PDF`, async ({ page }) => {
+    await page.goto(`/#factory/${id}`);
+    await expect(page.getByRole('heading', { name: title, exact: true })).toBeVisible();
+    const assessment = page.getByRole('region', { name: '研究评价' });
+    await expect(assessment).toContainText(score);
+    const core = assessment
+      .locator('section')
+      .filter({ has: page.getByText('最重要的已核结果', { exact: true }) });
+    await expect(core).toContainText('C-S3');
+    await expect(core).not.toContainText('/ 100');
+    await expect(page.getByRole('region', { name: '评分依据' }).locator('dt')).toHaveCount(5);
+    await expect(page.getByRole('link', { name: '阅读原文' })).toHaveAttribute(
+      'href',
+      new RegExp(`/papers/${id}\\.pdf\\?v=${hash}`),
+    );
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(
+      true,
+    );
+  });
+}

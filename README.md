@@ -48,7 +48,7 @@ npm run build
 
 ## 当前研究评价数据
 
-2026-10-14 起，实际页面使用 `src/lib/research-reviews.json` 中的 78 项评价（匠心造 1 项、小作坊 77 项）。`factory-papers.json` 保留历史评分快照和原题、摘要、原文信息；页面覆盖历史评分，不展示旧分。`research-stage-paper.json` 保存新增阶段报告的原文信息。
+2026-10-14 起，实际页面使用 `src/lib/research-reviews.json` 中的 80 项评价（匠心造 1 项、小作坊 79 项）。`factory-papers.json` 保留历史评分快照和原题、摘要、原文信息；页面覆盖历史评分，不展示旧分。`research-stage-paper.json` 保存新增阶段报告的原文信息。
 
 后续维护评分须更新 `research-reviews.json` 并运行 `content:check`；旧 `papers:update` 命令只维护历史格式与原文元数据，不能替代新版评价更新。报告归并关系在 `coverage` 中维护，旧链接显示归并提示。
 
@@ -68,3 +68,5 @@ npm run build
 分区模块加载失败时，内容区显示中文错误，保留外层导航。用户可返回上一级，或点击“重新加载此页”刷新并保留当前 hash；没有后台自动刷新或无穷重试。
 
 首页头像使用预生成的320/640像素WebP及原始照片构成srcset，sizes随地球尺寸变化；原始照片继续用于自我介绍详情和高分辨率显示。替换头像后运行 `node scripts/generate-portrait.mjs` 更新衍生图（使用锁文件中Next.js已有的sharp，WebP quality 95），检查画质后重新构建。原图不覆盖，新增资源须登记白名单。
+
+2026-10-15 新增两篇数学力学与非线性动力学论文，英文原题、摘要和 PDF 记录于 `src/lib/research-additional-papers.json`，专项评价并入 `research-reviews.json`。各记录的 `review_date` 优先于旧批次日期；核心贡献未给数值时只展示报告中的等级，不补造分数。稳定 ID 为 P092/P093，展示编号随排名生成。

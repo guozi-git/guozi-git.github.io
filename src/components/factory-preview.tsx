@@ -364,7 +364,8 @@ export function FactoryPreview({ embedded = false }: { embedded?: boolean }) {
                         <span>
                           {' '}
                           · {researchReviews.get(item.id)?.originality} · 核心贡献{' '}
-                          {researchReviews.get(item.id)?.core_score}
+                          {researchReviews.get(item.id)?.core_score ??
+                            researchReviews.get(item.id)?.core_contribution_level}
                         </span>
                       )}
                     </span>

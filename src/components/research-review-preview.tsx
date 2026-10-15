@@ -1,3 +1,4 @@
+import { scoreDimensions } from '@/lib/score-dimensions';
 import { ScoreRadar } from './score-radar';
 import {
   academicLevels,
@@ -88,11 +89,13 @@ export function ResearchReviewPreview({
             <dl>
               {(review.id === 89
                 ? p089Dimensions.map((d) => [d.name, d.reason])
-                : [
-                    ['创新增量', review.novelty],
-                    ['学术意义', review.need],
-                    ['成果边界', review.limits],
-                  ]
+                : review.dimension_reasons
+                  ? review.dimension_reasons.map((reason, i) => [scoreDimensions[i].name, reason])
+                  : [
+                      ['创新增量', review.novelty],
+                      ['学术意义', review.need],
+                      ['成果边界', review.limits],
+                    ]
               ).map(([name, reason]) => (
                 <div key={name}>
                   <dt>{name}</dt>
@@ -107,10 +110,12 @@ export function ResearchReviewPreview({
         <section>
           <span>{scored ? '核心贡献' : '已核子结果 · 核心贡献'}</span>
           <div className={s.metric}>
-            <strong>
-              {review.core_score}
-              <small> / 100</small>
-            </strong>
+            {review.core_score !== null && (
+              <strong>
+                {review.core_score}
+                <small> / 100</small>
+              </strong>
+            )}
             <b>{review.core_contribution_level}</b>
           </div>
           <h4>{review.id === 89 ? '固定目标上的冷启动实现' : '最重要的已核结果'}</h4>
