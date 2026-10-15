@@ -60,3 +60,20 @@ test('factory views fit narrow, phone, tablet and desktop widths', async ({ page
     }
   }
 });
+
+test('both grade guides are fixed open and ordered from high to low', async ({ page }) => {
+  for (const hash of ['#factory/scoring', '#factory/atelier/scoring']) {
+    await page.goto(`/${hash}`);
+    await expect(page.getByRole('table')).toHaveCount(5);
+    await expect(page.locator('details, summary')).toHaveCount(0);
+    const tables = page.getByRole('table');
+    for (const [index, expected] of [
+      [0, ['S6', 'S5', 'S4', 'S3', 'S2', 'S1', 'S0']],
+      [1, ['C4', 'C3', 'C2', '待核验']],
+      [2, ['O4', 'O3', 'O2', 'O1', '待定']],
+    ] as const) {
+      const labels = await tables.nth(index).getByRole('rowheader').allTextContents();
+      expect(labels.map((label) => label.split(' · ')[0])).toEqual(expected);
+    }
+  }
+});

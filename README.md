@@ -34,7 +34,7 @@ npm run build
 
 ## 发布
 
-正式网站：https://guozi-git.github.io/guozi-website/ 。配置从 GitHub Pages 读取实际网址与路径。根域名迁移尚未实施。
+正式入口：https://guozi-git.github.io/ 。权威源码仓库：guozi-git/guozi-git.github.io。旧站 https://guozi-git.github.io/guozi-website/ 保留为历史兼容入口，不停用旧论文与PDF链接。配置从 GitHub Pages 读取实际网址与路径。
 
 发布已启用；main 更新可触发自动部署，推送前须获得当次授权。构建、线上验证和回滚见 [发布说明](docs/PUBLISH.md)，日常内容编辑见 [维护说明](docs/MAINTENANCE.md)。仓库公开前仍应检查所有准备公开的文字和图片。
 
@@ -60,3 +60,5 @@ npm run build
 - 评分展示编号按全局排名生成，稳定ID和旧PDF/链接不变。未评分项目无排名。
 - 字体仍使用原有本地子集，首页预载，不依赖第三方字体服务。
 - Sitemap仅包含实际静态页面；hash论文详情暂不具备独立索引URL。
+
+等级说明固定展开；S/C/O 等级从高到低展示，待核验/待定放在末尾。

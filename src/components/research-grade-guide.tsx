@@ -47,16 +47,18 @@ function GuideTable({
 }
 export function ResearchGradeGuide({ theme = 'default' }: { theme?: 'default' | 'gold' }) {
   return (
-    <details className={`${s.explanation} ${s.guide} ${theme === 'gold' ? s.goldGuide : ''}`} open>
-      <summary>等级与评分说明</summary>
+    <section className={`${s.explanation} ${s.guide} ${theme === 'gold' ? s.goldGuide : ''}`}>
+      <h4 className={s.guideHeading}>等级与评分说明</h4>
       <GuideTable
         title="学术等级 S：各级的分数范围与实质区别"
         headers={['等级 / 名称', '分数范围', '含义与相邻级别的区别']}
-        rows={academicLevels.map(([code, label, range]) => [
-          `${code} · ${label}`,
-          range,
-          distinctions[code] ?? levelDescriptions[code],
-        ])}
+        rows={[...academicLevels]
+          .reverse()
+          .map(([code, label, range]) => [
+            `${code} · ${label}`,
+            range,
+            distinctions[code] ?? levelDescriptions[code],
+          ])}
       />
       <p>
         分数范围是数值条件，贡献层次是实质条件，二者须同时满足。特别是 S4
@@ -86,12 +88,13 @@ export function ResearchGradeGuide({ theme = 'default' }: { theme?: 'default' | 
             '需要更充分的复现与独立同行验证，验证强度高于 C3。',
             '当前报告未授予；不能由 C3 或高分自动推得。',
           ],
-        ]}
+        ].reverse()}
       />
       <GuideTable
         title="原创性 O：新贡献体现在哪里"
         headers={['等级', '贡献特征', '与相邻层次的区别']}
         rows={[
+          ['待定', '整稿原创性尚未赋级。', '不能把研究愿景或未核主张当成已完成的新贡献。'],
           [
             'O1 · 有限补充',
             '以已有框架下的边界补证、特定参数或实例补充为主。',
@@ -112,8 +115,7 @@ export function ResearchGradeGuide({ theme = 'default' }: { theme?: 'default' | 
             '有明确的新机制或重要新结论，须结合已有文献说明增量。',
             '相比 O3，贡献的机制或问题价值更突出；不把沿用的经典工具重复计为原创。',
           ],
-          ['待定', '整稿原创性尚未赋级。', '不能把研究愿景或未核主张当成已完成的新贡献。'],
-        ]}
+        ].reverse()}
       />
       <p>
         O1–O4
@@ -153,6 +155,6 @@ export function ResearchGradeGuide({ theme = 'default' }: { theme?: 'default' | 
       <p>
         综合分为五维加权和，不是简单平均。核心贡献与潜力不重复计入。小数用于复核计算，不表示统计测量精度；未评分不等于零分，不参与综合排名。
       </p>
-    </details>
+    </section>
   );
 }

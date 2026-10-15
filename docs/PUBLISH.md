@@ -1,6 +1,6 @@
 # GitHub Pages 发布与回滚
 
-截至 2026-10-15，正式网站为 https://guozi-git.github.io/guozi-website/ ，公开仓库为 guozi-git/guozi-website，默认分支 main，Pages Source 为 GitHub Actions。发布已启用。本轮工程改造尚未推送或上线；不能把本地检查视为线上验收。
+2026-10-15 经用户授权，正式入口改为 https://guozi-git.github.io/ ，权威源码仓库为 guozi-git/guozi-git.github.io，默认分支 main，Pages Source 为 GitHub Actions。具体发布状态以 Actions 与线上 version.json 为准；不能把本地检查视为线上验收。旧 guozi-website 仓库及项目站保留，不停用旧链接。
 
 ## 日常发布
 
@@ -61,12 +61,15 @@ node scripts/check-deployed.mjs http://127.0.0.1:3100/guozi-website/
 
 若工作流本身有问题，可先关闭PAGES_ENABLED阻止后续部署，修复后重新开启；不要取消发布现有站点。不要删除仓库或改写Git历史。
 
-## 根域名迁移（未执行，需确认）
+## 根域名部署与旧站兼容
 
-目标 https://guozi-git.github.io/ 需要用户站仓库 guozi-git.github.io。当前只读查询未发现可访问的该仓库。
+本次迁移已获得用户明确授权。新仓库guozi-git.github.io作为唯一权威源码维护入口，根站构建basePath为空、siteURL为https://guozi-git.github.io。旧项目站仍完整提供原有页面、hash与PDF，不改名、不强制跳转、不删除。
 
-获准后，从同一验证提交新建根站仓库并配置Pages，根站构建basePath为空、siteURL为根地址。旧项目站继续完整提供页面/PDF/hash兼容，不提前停止或重命名。验收新站后再统一canonical和正式入口；旧站逐步改canonical，不强制跳转PDF或丢弃hash。保留旧站作为回退。两仓库需确定唯一源码维护入口，不长期各自编辑。
+日常修改只推送新仓库。旧仓库保留已验证a9285f4版本供兼容和回退，不进行两边独立开发。若新站验收失败，继续使用旧网址，无需先恢复旧站。新站后续回退采用revert后重新部署，不改写历史。
 
+当前旧站canonical仍指向旧地址，保留它有利于原站独立回退，但短期可能出现重复索引。后续若统一旧站canonical或设置重定向，应另行验证完整hash/PDF兼容，不把这一操作混入根站首次上线。
+
+本地Git remote：origin指向新权威仓库，legacy指向旧仓库。执行推送前检查git remote -v，避免误更新历史兼容站。
 新增独立论文静态URL也是独立待确认项目，现有hash没有被伪装成可独立索引页面。论文运行时citation_title/pdf元数据只用于基础描述，不保证学术搜索收录，不补造作者、期刊或发表日期。
 
 官方说明：https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages
