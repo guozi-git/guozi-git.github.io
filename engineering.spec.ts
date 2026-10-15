@@ -1,5 +1,40 @@
 import { test, expect } from '@playwright/test';
 
+for (const section of ['interests', 'publications', 'projects', 'factory']) {
+  test(`entrance stays stable while ${section} finishes loading`, async ({ page }) => {
+    await page.goto('/');
+    let release!: () => void;
+    const download = new Promise<void>((resolve) => {
+      release = resolve;
+    });
+    await page.route('**/_next/static/chunks/*.js', async (route) => {
+      await download;
+      await route.continue();
+    });
+    try {
+      await page.locator(`[data-section="${section}"]`).press('Enter');
+      const panel = page.getByRole('dialog');
+      await expect(page.getByRole('status')).toBeVisible();
+      const before = await panel.evaluate((el) => ({
+        height: (el as HTMLElement).offsetHeight,
+        top: (el as HTMLElement).offsetTop,
+        background: getComputedStyle(el.parentElement!).backgroundColor,
+      }));
+      release();
+      await expect(page.getByRole('status')).toHaveCount(0);
+      const after = await panel.evaluate((el) => ({
+        height: (el as HTMLElement).offsetHeight,
+        top: (el as HTMLElement).offsetTop,
+        background: getComputedStyle(el.parentElement!).backgroundColor,
+      }));
+      expect(after).toEqual(before);
+      expect(after.background).toBe('rgb(7, 18, 33)');
+    } finally {
+      release();
+    }
+  });
+}
+
 test('earth is preloaded once using the exact displayed image', async ({ page }) => {
   await page.goto('/');
   const preload = page.locator('link[rel="preload"][as="image"][href*="nasa-earth"]');

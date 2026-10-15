@@ -156,17 +156,18 @@ export function Orbit() {
         animationsRef.current.push(element.animate(frames, { fill: 'both', ...options }));
     };
     panel.style.transformOrigin = 'top left';
+    panel.style.willChange = 'transform';
     animate(
       panel,
       next
         ? [
-            { transform: collapsed, borderRadius: '100px', opacity: 0.8 },
-            { transform: 'none', borderRadius: '24px', opacity: 1 },
+            { transform: collapsed, opacity: 1 },
+            { transform: 'none', opacity: 1 },
           ]
         : [
-            { transform: 'none', borderRadius: '24px', opacity: 1 },
+            { transform: 'none', opacity: 1 },
             { opacity: 1, offset: 0.7 },
-            { transform: collapsed, borderRadius: '100px', opacity: 0 },
+            { transform: collapsed, opacity: 0 },
           ],
       { duration, easing: 'cubic-bezier(.22,.7,.18,1)' },
     );
@@ -202,6 +203,7 @@ export function Orbit() {
     if (!next) commit();
     animationsRef.current.forEach((animation) => animation.cancel());
     animationsRef.current = [];
+    panel.style.willChange = '';
     busyRef.current = false;
     if (pendingCloseRef.current) {
       pendingCloseRef.current = false;
@@ -328,6 +330,7 @@ export function Orbit() {
       </div>
       {active && (
         <div
+          data-orbit-section={active.id}
           className={`detail-backdrop ${active.id === 'factory' ? factoryStyles.orbitBackdrop : ''}`}
           onClick={(event) => {
             if (event.target === event.currentTarget) close();
