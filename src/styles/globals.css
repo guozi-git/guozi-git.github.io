@@ -3169,7 +3169,9 @@ summary:focus-visible {
   inset: -15%;
   z-index: -1;
   pointer-events: none;
-  background: url('../../public/scenes/photos/nasa-earth.webp') center / contain no-repeat;
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
   opacity: 0.72;
   mask-image: radial-gradient(circle, #000 57%, transparent 71%);
 }

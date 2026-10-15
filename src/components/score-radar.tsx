@@ -1,4 +1,4 @@
-import { scoreDimensions } from '@/lib/factory-papers';
+import { scoreDimensions } from '@/lib/score-dimensions';
 import s from './factory-preview.module.css';
 
 export function ScoreRadar({

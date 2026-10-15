@@ -1,6 +1,9 @@
 import { Orbit } from '@/components/orbit';
+import { preload } from 'react-dom';
+import earth from '../../public/scenes/photos/nasa-earth.webp';
 
 export default function Home() {
+  preload(earth.src, { as: 'image', fetchPriority: 'high' });
   const site = process.env.NEXT_PUBLIC_SITE_URL;
   return (
     <>

@@ -10,6 +10,7 @@ import { ResearchGradeGuide } from './research-grade-guide';
 import { researchReviews, mergedReviews } from '@/lib/research-reviews';
 import { rankLabel } from '@/lib/paper-label';
 import { PaperMetadata } from './paper-metadata';
+import { AbstractContent } from './abstract-content';
 
 const availableGrades = ['S6', 'S5', 'S4', 'S3', 'S2', 'S1', 'S0'].filter((grade) =>
   factoryPapers.some((p) => researchReviews.get(p.id)?.academic_level === grade),
@@ -42,43 +43,6 @@ export function MathBackdrop() {
   return (
     <div className={s.mathBackdrop} aria-hidden="true">
       <div className={s.dots} />
-    </div>
-  );
-}
-export function AbstractContent({ text }: { text: string }) {
-  const blocks: { list: boolean; paragraphs: string[] }[] = [];
-  for (const paragraph of text.split('\n\n')) {
-    const list = paragraph.startsWith('• ');
-    const content = list ? paragraph.slice(2) : paragraph;
-    const previous = blocks.at(-1);
-    if (list && previous?.list) previous.paragraphs.push(content);
-    else blocks.push({ list, paragraphs: [content] });
-  }
-  const inline = (text: string) =>
-    text
-      .split(/([\^_]\{[^}]+\})/g)
-      .map((part, index) =>
-        part.startsWith('^{') ? (
-          <sup key={index}>{part.slice(2, -1)}</sup>
-        ) : part.startsWith('_{') ? (
-          <sub key={index}>{part.slice(2, -1)}</sub>
-        ) : (
-          part
-        ),
-      );
-  return (
-    <div lang="en" className={s.abstractText}>
-      {blocks.map((block, index) =>
-        block.list ? (
-          <ul key={index}>
-            {block.paragraphs.map((paragraph, item) => (
-              <li key={item}>{inline(paragraph)}</li>
-            ))}
-          </ul>
-        ) : (
-          <p key={index}>{inline(block.paragraphs[0])}</p>
-        ),
-      )}
     </div>
   );
 }

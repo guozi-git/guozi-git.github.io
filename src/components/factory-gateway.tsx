@@ -1,10 +1,21 @@
 'use client';
 import { useEffect, useId, useRef, useState } from 'react';
-import { AtelierArchive } from './atelier-archive';
-import { FactoryPreview } from './factory-preview';
+import dynamic from 'next/dynamic';
+import { SectionLoading } from './section-loading';
 import { FactoryParticles } from './factory-particles';
 import { assetPath } from '@/lib/asset-path';
 import s from './factory-gateway.module.css';
+const loadAtelier = () => import('./atelier-archive');
+const loadWorkshop = () => import('./factory-preview');
+const AtelierArchive = dynamic(() => loadAtelier().then((m) => m.AtelierArchive), {
+  loading: () => <SectionLoading name="匠心造" />,
+});
+const FactoryPreview = dynamic(() => loadWorkshop().then((m) => m.FactoryPreview), {
+  loading: () => <SectionLoading name="小作坊" />,
+});
+function prepareRoom(room: 'atelier' | 'workshop') {
+  void (room === 'atelier' ? loadAtelier() : loadWorkshop()).catch(() => undefined);
+}
 type View = 'gate' | 'atelier' | 'workshop';
 function readView(): View {
   const part = window.location.hash.split('/')[1];
@@ -35,11 +46,22 @@ export function FactoryGateway({ embedded = false }: { embedded?: boolean }) {
     previous.current = view;
     const panel = root.current?.closest('.detail');
     if (panel) panel.scrollTop = 0;
-    root.current
-      ?.querySelector<HTMLElement>(
+    const focusTarget = () => {
+      const target = root.current?.querySelector<HTMLElement>(
         view === 'gate' ? `[data-door="${last}"]` : '[data-gateway-back]',
-      )
-      ?.focus({ preventScroll: true });
+      );
+      target?.focus({ preventScroll: true });
+      return !!target;
+    };
+    if (focusTarget() || !root.current) return;
+    root.current.focus({ preventScroll: true });
+    // The atelier's return control arrives with its lazy module.
+    const observer = new MutationObserver(() => {
+      if (document.activeElement !== root.current) observer.disconnect();
+      else if (focusTarget()) observer.disconnect();
+    });
+    observer.observe(root.current, { childList: true, subtree: true });
+    return () => observer.disconnect();
   }, [view]);
   function enter(next: View) {
     window.history.pushState(
@@ -60,6 +82,7 @@ export function FactoryGateway({ embedded = false }: { embedded?: boolean }) {
   return (
     <div
       ref={root}
+      tabIndex={-1}
       data-factory-view={view}
       className={`${s.root} ${view === 'atelier' ? s.goldRoom : ''}`}
       onKeyDown={(e) => {
@@ -89,6 +112,9 @@ export function FactoryGateway({ embedded = false }: { embedded?: boolean }) {
           </svg>
           <button
             data-door="atelier"
+            onPointerEnter={() => prepareRoom('atelier')}
+            onFocus={() => prepareRoom('atelier')}
+            onPointerDown={() => prepareRoom('atelier')}
             className={`${s.door} ${s.atelierDoor}`}
             style={{ clipPath: `url(#${clipId}-left)` }}
             onClick={() => enter('atelier')}
@@ -103,6 +129,9 @@ export function FactoryGateway({ embedded = false }: { embedded?: boolean }) {
           </button>
           <button
             data-door="workshop"
+            onPointerEnter={() => prepareRoom('workshop')}
+            onFocus={() => prepareRoom('workshop')}
+            onPointerDown={() => prepareRoom('workshop')}
             className={`${s.door} ${s.workshopDoor}`}
             style={{ clipPath: `url(#${clipId}-right)` }}
             onClick={() => enter('workshop')}

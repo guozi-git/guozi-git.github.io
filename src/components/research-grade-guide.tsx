@@ -1,5 +1,5 @@
 import { academicLevels, levelDescriptions } from '@/lib/research-reviews';
-import { scoreDimensions } from '@/lib/factory-papers';
+import { scoreDimensions } from '@/lib/score-dimensions';
 import s from './research-review-preview.module.css';
 
 const distinctions: Record<string, string> = {

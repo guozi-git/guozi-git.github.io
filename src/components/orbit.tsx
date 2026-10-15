@@ -8,6 +8,10 @@ import { flushSync } from 'react-dom';
 import Image from 'next/image';
 import { profile } from '@/lib/profile';
 import dynamic from 'next/dynamic';
+import earth from '../../public/scenes/photos/nasa-earth.webp';
+import { SectionLoading } from './section-loading';
+import { scheduleIdlePreload } from '@/lib/idle-preload';
+import factoryStyles from './factory-preview.module.css';
 const loadPublications = () => import('@/components/publications');
 const loadInterests = () => import('@/components/interests');
 const loadProjects = () => import('@/components/projects');
@@ -15,16 +19,16 @@ const loadFactory = () => import('@/components/factory-gateway');
 // Keep each loading boundary inside the dialog so its opening geometry is committed immediately.
 
 const Publications = dynamic(() => loadPublications().then((m) => m.Publications), {
-  loading: () => null,
+  loading: () => <SectionLoading name="论文发表" />,
 });
-const Interests = dynamic(() => loadInterests().then((m) => m.Interests), { loading: () => null });
-const Projects = dynamic(() => loadProjects().then((m) => m.Projects), { loading: () => null });
+const Interests = dynamic(() => loadInterests().then((m) => m.Interests), {
+  loading: () => <SectionLoading name="兴趣爱好" />,
+});
+const Projects = dynamic(() => loadProjects().then((m) => m.Projects), {
+  loading: () => <SectionLoading name="兴趣造物" />,
+});
 const FactoryPreview = dynamic(() => loadFactory().then((m) => m.FactoryGateway), {
-  loading: () => (
-    <div className={factoryStyles.factoryLoading} role="status">
-      正在载入论文工厂…
-    </div>
-  ),
+  loading: () => <SectionLoading name="论文工厂" factory />,
 });
 function prepareSection(id: string) {
   const load = {
@@ -35,7 +39,6 @@ function prepareSection(id: string) {
   }[id];
   if (load) void load().catch(() => undefined);
 }
-import factoryStyles from './factory-preview.module.css';
 
 const sections = [
   {
@@ -93,6 +96,9 @@ function getSection() {
 
 export function Orbit() {
   const [active, setActive] = useState<(typeof sections)[number] | null>(null);
+  useEffect(() => {
+    if (!active) return scheduleIdlePreload(loadFactory, () => !window.location.hash);
+  }, [active]);
   useEffect(() => {
     if (active?.id !== 'factory')
       document.title = active ? `${active.title} · 果子` : '果子 · 个人网站';
@@ -272,7 +278,11 @@ export function Orbit() {
           <h1 className="visually-hidden">果子 · 个人网站</h1>
           <div className="orbit-wrap">
             <div className="orbit" aria-label="个人空间的五个入口">
-              <span className="orbit-earth" aria-hidden="true" />
+              <span
+                className="orbit-earth"
+                style={{ backgroundImage: `url("${earth.src}")` }}
+                aria-hidden="true"
+              />
               {sections.slice(0, 4).map((section, index) => (
                 <button
                   key={section.id}
@@ -343,7 +353,10 @@ export function Orbit() {
                 ).filter((control) => control.getClientRects().length > 0);
                 const first = controls[0];
                 const last = controls.at(-1);
-                if (event.shiftKey && document.activeElement === first) {
+                if (!controls.some((control) => control === document.activeElement)) {
+                  event.preventDefault();
+                  (event.shiftKey ? last : first)?.focus();
+                } else if (event.shiftKey && document.activeElement === first) {
                   event.preventDefault();
                   last?.focus();
                 } else if (!event.shiftKey && document.activeElement === last) {

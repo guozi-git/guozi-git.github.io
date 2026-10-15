@@ -1,0 +1,18 @@
+.loading {
+  min-height: 240px;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  color: inherit;
+  font-size: 13px;
+}
+.factory {
+  height: max(680px, 90svh);
+  background: #09090f;
+  color: #aecbd8;
+}
+@media (max-width: 600px) {
+  .factory {
+    height: max(650px, 90svh);
+  }
+}

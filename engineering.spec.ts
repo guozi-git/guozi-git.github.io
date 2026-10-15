@@ -1,5 +1,134 @@
 import { test, expect } from '@playwright/test';
 
+test('earth is preloaded once using the exact displayed image', async ({ page }) => {
+  await page.goto('/');
+  const preload = page.locator('link[rel="preload"][as="image"][href*="nasa-earth"]');
+  await expect(preload).toHaveCount(1);
+  const href = await preload.getAttribute('href');
+  expect(
+    await page.locator('.orbit-earth').evaluate((el) => getComputedStyle(el).backgroundImage),
+  ).toContain(href);
+  expect(
+    await page.evaluate(
+      () =>
+        performance
+          .getEntriesByType('resource')
+          .filter((entry) => entry.name.includes('nasa-earth')).length,
+    ),
+  ).toBe(1);
+});
+
+test('factory entrance does not download manuscript data before choosing a room', async ({
+  page,
+}) => {
+  const scripts: Promise<string>[] = [];
+  page.on('response', (response) => {
+    if (response.url().endsWith('.js')) scripts.push(response.text());
+  });
+  await page.goto('/');
+  await page.getByRole('button', { name: '打开论文工厂', exact: true }).focus();
+  await page.keyboard.press('Enter');
+  await expect(page.locator('[data-door="workshop"]')).toBeVisible();
+  expect((await Promise.all(scripts)).join('\n').includes('/papers/P088.pdf')).toBe(false);
+  await page.locator('[data-door="workshop"]').focus();
+  await page.keyboard.press('Enter');
+  await expect(page.locator('[data-paper="P046"]')).toBeVisible();
+});
+
+for (const [network, shouldWarm] of [
+  [{ effectiveType: '4g', saveData: false, downlink: 10, rtt: 50 }, true],
+  [{ effectiveType: '4g', saveData: true, downlink: 10, rtt: 50 }, false],
+  [{ effectiveType: '3g', saveData: false, downlink: 0.8, rtt: 300 }, false],
+  [{ effectiveType: '4g', saveData: false, downlink: 0.8, rtt: 50 }, false],
+  [{ effectiveType: '', saveData: false, downlink: 10, rtt: 50 }, false],
+] as const) {
+  test(`idle preload respects network ${JSON.stringify(network)}`, async ({ page }) => {
+    await page.addInitScript((connection) => {
+      Object.defineProperty(navigator, 'connection', { value: connection, configurable: true });
+    }, network);
+    const scripts: Promise<string>[] = [];
+    page.on('response', (response) => {
+      if (response.url().endsWith('.js')) scripts.push(response.text());
+    });
+    await page.goto('/');
+    if (shouldWarm) {
+      await expect
+        .poll(async () => (await Promise.all(scripts)).join('\n').includes('data-factory-view'))
+        .toBe(true);
+    } else {
+      await page.waitForTimeout(2500);
+      expect((await Promise.all(scripts)).join('\n')).not.toContain('data-factory-view');
+    }
+    expect((await Promise.all(scripts)).join('\n').includes('/papers/P088.pdf')).toBe(false);
+  });
+}
+
+test('slow section download has readable loading feedback', async ({ page }) => {
+  await page.goto('/');
+  let release!: () => void;
+  const download = new Promise<void>((resolve) => {
+    release = resolve;
+  });
+  await page.route('**/_next/static/chunks/*.js', async (route) => {
+    await download;
+    await route.continue();
+  });
+  try {
+    await page.getByRole('button', { name: '打开论文发表', exact: true }).click();
+    await expect(page.getByRole('status')).toHaveText('正在载入论文发表…');
+  } finally {
+    release();
+  }
+  await expect(page.getByRole('status')).toHaveCount(0);
+});
+
+test('Escape remains available while the atelier is downloading', async ({ page }) => {
+  await page.goto('/#factory');
+  await expect(page.locator('[data-door="atelier"]')).toBeVisible();
+  let release!: () => void;
+  const download = new Promise<void>((resolve) => {
+    release = resolve;
+  });
+  await page.route('**/_next/static/chunks/*.js', async (route) => {
+    await download;
+    await route.continue();
+  });
+  try {
+    await page.locator('[data-door="atelier"]').focus();
+    await page.keyboard.press('Enter');
+    await expect(page.getByRole('status')).toHaveText('正在载入匠心造…');
+    await page.keyboard.press('Escape');
+    await expect(page.locator('[data-door="atelier"]')).toBeFocused();
+    await page.keyboard.press('Enter');
+    await expect(page.getByRole('status')).toHaveText('正在载入匠心造…');
+    for (const key of ['Tab', 'Shift+Tab']) {
+      await page.keyboard.press(key);
+      expect(
+        await page.getByRole('dialog').evaluate((el) => el.contains(document.activeElement)),
+      ).toBe(true);
+    }
+  } finally {
+    release();
+  }
+});
+
+test('leaving the homepage cancels speculative factory loading', async ({ page }) => {
+  await page.addInitScript(() => {
+    Object.defineProperty(navigator, 'connection', {
+      value: { effectiveType: '4g', saveData: false, downlink: 10, rtt: 50 },
+    });
+  });
+  const scripts: Promise<string>[] = [];
+  page.on('response', (response) => {
+    if (response.url().endsWith('.js')) scripts.push(response.text());
+  });
+  await page.goto('/');
+  await page.getByRole('button', { name: '打开论文发表', exact: true }).focus();
+  await page.keyboard.press('Enter');
+  await page.waitForTimeout(2500);
+  expect((await Promise.all(scripts)).join('\n').includes('data-factory-view')).toBe(false);
+});
+
 test('font is discovered before entering the factory', async ({ page }) => {
   await page.goto('/');
   await expect(page.locator('link[rel="preload"][as="font"]')).toHaveCount(1);

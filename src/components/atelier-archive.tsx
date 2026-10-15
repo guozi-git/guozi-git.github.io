@@ -7,7 +7,7 @@ import { ResearchGradeGuide } from './research-grade-guide';
 import { ResearchReviewPreview } from './research-review-preview';
 import { assetPath } from '@/lib/asset-path';
 import { PaperMetadata } from './paper-metadata';
-import { AbstractContent } from './factory-preview';
+import { AbstractContent } from './abstract-content';
 import s from './atelier-archive.module.css';
 
 const collection = orderAtelierPapers(papers);
