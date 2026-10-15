@@ -145,12 +145,21 @@ export function ResearchReviewPreview({
             <h4>期刊定位</h4>
           </div>
           <dl>
-            {(['Recommended', 'Competitive', 'Ambitious'] as const).map((key, i) => (
-              <div key={key}>
-                <dt>{['推荐', '竞争目标', '挑战目标'][i]}</dt>
-                <dd>{review.journal_position[key]}</dd>
-              </div>
-            ))}
+            {(['Recommended', 'Competitive', 'Ambitious'] as const).map(
+              (key, i) =>
+                review.journal_names[key] && (
+                  <div key={key}>
+                    <dt>
+                      {
+                        (review.journal_fit
+                          ? ['首选', '备选', '挑战目标']
+                          : ['推荐', '竞争目标', '挑战目标'])[i]
+                      }
+                    </dt>
+                    <dd>{review.journal_names[key]}</dd>
+                  </div>
+                ),
+            )}
           </dl>
         </section>
       )}

@@ -374,3 +374,26 @@ for (const [id, score, title, hash] of [
     );
   });
 }
+
+for (const [id, area, journal] of [
+  ['P062', '非扩张算子迭代与变分分析', 'Set-Valued and Variational Analysis'],
+  ['P066', '博弈学习与势博弈均衡选择', 'International Journal of Game Theory'],
+  ['P061', '随机数值动力学与Langevin采样', 'Journal of Theoretical Probability'],
+  ['P092', '齐次Hamilton力学与有限形变刚性', 'Nonlinearity'],
+]) {
+  test(`subject-specific journal fit ${id}`, async ({ page }) => {
+    await page.goto(`/#factory/${id}`);
+    const journals = page
+      .locator('section')
+      .filter({ has: page.getByRole('heading', { name: '期刊定位', exact: true }) })
+      .last();
+    await expect(journals).not.toContainText(area);
+    await expect(journals.locator('dd').first()).toHaveText(journal);
+    await expect(journals.locator('dd')).not.toContainText(['（', '（', '（']);
+    await expect(journals.locator('dt')).toHaveText(['首选', '备选', '挑战目标']);
+    await page.setViewportSize({ width: 390, height: 844 });
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(
+      true,
+    );
+  });
+}

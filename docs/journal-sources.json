@@ -1,0 +1,122 @@
+{
+  "SIOPT": {
+    "name": "SIAM Journal on Optimization",
+    "url": "https://www.siam.org/publications/siam-journals/siam-journal-on-optimization/",
+    "scope": "优化理论、算法及凸与变分分析",
+    "checked_on": "2026-10-15"
+  },
+  "JOTA": {
+    "name": "Journal of Optimization Theory and Applications",
+    "url": "https://link.springer.com/journal/10957/aims-and-scope",
+    "scope": "数学优化方法、算法理论及应用",
+    "checked_on": "2026-10-15"
+  },
+  "OL": {
+    "name": "Optimization Letters",
+    "url": "https://link.springer.com/journal/11590/aims-and-scope",
+    "scope": "优化短文；通常约15个期刊页，长稿需压缩",
+    "checked_on": "2026-10-15"
+  },
+  "COAP": {
+    "name": "Computational Optimization and Applications",
+    "url": "https://link.springer.com/journal/10589/aims-and-scope",
+    "scope": "优化计算算法；鼓励理论与精心设计的计算实验结合",
+    "checked_on": "2026-10-15"
+  },
+  "NUMALG": {
+    "name": "Numerical Algorithms",
+    "url": "https://link.springer.com/journal/11075/aims-and-scope",
+    "scope": "数值算法、稳定性、复杂度与实现",
+    "checked_on": "2026-10-15"
+  },
+  "SINUM": {
+    "name": "SIAM Journal on Numerical Analysis",
+    "url": "https://www.siam.org/publications/siam-journals/siam-journal-on-numerical-analysis/",
+    "scope": "数值方法及其收敛、稳定和误差分析",
+    "checked_on": "2026-10-15"
+  },
+  "SIMAX": {
+    "name": "SIAM Journal on Matrix Analysis and Applications",
+    "url": "https://www.siam.org/publications/siam-journals/siam-journal-on-matrix-analysis-and-applications/",
+    "scope": "矩阵与张量理论、应用和计算",
+    "checked_on": "2026-10-15"
+  },
+  "SVVA": {
+    "name": "Set-Valued and Variational Analysis",
+    "url": "https://link.springer.com/journal/11228/aims-and-scope",
+    "scope": "变分分析、均衡、算子包含及不动点",
+    "checked_on": "2026-10-15"
+  },
+  "JDDE": {
+    "name": "Journal of Dynamics and Differential Equations",
+    "url": "https://link.springer.com/journal/10884/aims-and-scope",
+    "scope": "微分方程及其离散对应的动力学",
+    "checked_on": "2026-10-15"
+  },
+  "JDEA": {
+    "name": "Journal of Difference Equations and Applications",
+    "url": "https://www.tandfonline.com/GDEA",
+    "scope": "差分方程、离散动力系统及应用；官方页面索引摘要核验，全文访问受限",
+    "checked_on": "2026-10-15"
+  },
+  "DCDS": {
+    "name": "Discrete and Continuous Dynamical Systems",
+    "url": "https://www.aimsciences.org/DCDS/",
+    "scope": "分析、微分方程和动力系统的理论与方法",
+    "checked_on": "2026-10-15"
+  },
+  "SIADS": {
+    "name": "SIAM Journal on Applied Dynamical Systems",
+    "url": "https://www.siam.org/publications/siam-journals/siam-journal-on-applied-dynamical-systems/",
+    "scope": "动力系统的分析、建模及应用",
+    "checked_on": "2026-10-15"
+  },
+  "NON": {
+    "name": "Nonlinearity",
+    "url": "https://publishingsupport.iopscience.iop.org/journals/nonlinearity/about-nonlinearity/",
+    "scope": "非线性数学和物理现象，强调一般理解的实质推进",
+    "checked_on": "2026-10-15"
+  },
+  "JNS": {
+    "name": "Journal of Nonlinear Science",
+    "url": "https://link.springer.com/journal/332/aims-and-scope",
+    "scope": "非线性现象的方法与机制；明确重视超出狭窄专门领域的意义",
+    "checked_on": "2026-10-15"
+  },
+  "JTP": {
+    "name": "Journal of Theoretical Probability",
+    "url": "https://link.springer.com/journal/10959/aims-and-scope",
+    "scope": "概率理论及随机矩阵等数学对象",
+    "checked_on": "2026-10-15"
+  },
+  "SPA": {
+    "name": "Stochastic Processes and their Applications",
+    "url": "https://shop.elsevier.com/journals/stochastic-processes-and-their-applications/0304-4149",
+    "scope": "随机过程的理论及应用；使用出版社期刊介绍",
+    "checked_on": "2026-10-15"
+  },
+  "IJGT": {
+    "name": "International Journal of Game Theory",
+    "url": "https://link.springer.com/journal/182/aims-and-scope",
+    "scope": "博弈论及其方法、概念和数学贡献",
+    "checked_on": "2026-10-15"
+  },
+  "MOR": {
+    "name": "Mathematics of Operations Research",
+    "url": "https://pubsonline.informs.org/page/moor/editorial-statement",
+    "scope": "数学运筹、博弈学习与算法；须说明运筹背景和意义",
+    "checked_on": "2026-10-15"
+  },
+  "MP": {
+    "name": "Mathematical Programming",
+    "url": "https://link.springer.com/journal/10107",
+    "scope": "数学优化的理论、计算和应用；使用官方首页范围",
+    "checked_on": "2026-10-15"
+  },
+  "JSC": {
+    "name": "Journal of Scientific Computing",
+    "url": "https://link.springer.com/journal/10915/aims-and-scope",
+    "scope": "科学计算中的数值方法及分析",
+    "checked_on": "2026-10-15"
+  }
+}

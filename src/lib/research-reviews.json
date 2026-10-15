@@ -22,9 +22,20 @@
       "core_contribution_level": "C-S1",
       "core_scope": "整体中最重要的已核理论结果",
       "journal_position": {
-        "Recommended": "Optimization Letters（适合压缩为短文，先确认独立增量）",
+        "Recommended": "Optimization Letters（宜压缩为独立技术短文，先区分与P003的重叠）",
+        "Competitive": "Journal of Optimization Theory and Applications（若半外推结论具有足够独立价值，可按分裂算法理论组织全文）",
+        "Ambitious": "暂不列挑战刊；先解决与P003的贡献重叠"
+      },
+      "journal_fit": {
+        "area": "凸鞍点算法与原始—对偶分裂",
+        "basis": "独立贡献是CP固定外推值的收敛边界补证，主要读者是凸优化算法研究者。",
+        "checked_on": "2026-10-15",
+        "sources": ["OL", "JOTA"]
+      },
+      "journal_names": {
+        "Recommended": "Optimization Letters",
         "Competitive": "Journal of Optimization Theory and Applications",
-        "Ambitious": "SIAM Journal on Optimization（当前距离明显）"
+        "Ambitious": null
       }
     },
     {
@@ -48,9 +59,20 @@
       "core_contribution_level": "C-S3",
       "core_scope": "整体中最重要的已核理论结果",
       "journal_position": {
+        "Recommended": "Journal of Optimization Theory and Applications（固定外推值的锐界与端点分类匹配优化算法理论）",
+        "Competitive": "SIAM Journal on Optimization（需突出相对已有小外推界的独立增量及可使用的步长结论）",
+        "Ambitious": "尚缺一般外推参数理论，不据综合分继续上推期刊"
+      },
+      "journal_fit": {
+        "area": "凸鞍点算法的锐稳定边界",
+        "basis": "核心是原始先行CP的可达到步长边界及端点相位，周期分析服务于优化算法适用域。",
+        "checked_on": "2026-10-15",
+        "sources": ["JOTA", "SIOPT"]
+      },
+      "journal_names": {
         "Recommended": "Journal of Optimization Theory and Applications",
         "Competitive": "SIAM Journal on Optimization",
-        "Ambitious": "Mathematical Programming（取决于核心结果的领域价值）"
+        "Ambitious": null
       }
     },
     {
@@ -74,9 +96,20 @@
       "core_contribution_level": "C-S1",
       "core_scope": "整体中最重要的已核理论结果",
       "journal_position": {
-        "Recommended": "Optimization Letters（适合压缩为短文，先确认独立增量）",
-        "Competitive": "Journal of Optimization Theory and Applications",
-        "Ambitious": "SIAM Journal on Optimization（当前距离明显）"
+        "Recommended": "Journal of Difference Equations and Applications（规则星形周期属于离散动力系统的专门分类；须与P011明确区分）",
+        "Competitive": "Discrete and Continuous Dynamical Systems（需提炼超出规则星形构造的周期机制）",
+        "Ambitious": "当前为受限几何分类，不设更高挑战目标"
+      },
+      "journal_fit": {
+        "area": "离散动力系统与凸分裂周期",
+        "basis": "主要定理分类预设规则星形轨道的法锥可行性，并非新的优化收敛或复杂度保证。",
+        "checked_on": "2026-10-15",
+        "sources": ["JDEA", "DCDS"]
+      },
+      "journal_names": {
+        "Recommended": "Journal of Difference Equations and Applications",
+        "Competitive": "Discrete and Continuous Dynamical Systems",
+        "Ambitious": null
       }
     },
     {
@@ -100,9 +133,20 @@
       "core_contribution_level": "C-S2",
       "core_scope": "整体中最重要的已核理论结果",
       "journal_position": {
-        "Recommended": "Optimization Letters / Numerical Algorithms",
+        "Recommended": "Journal of Difference Equations and Applications（四周期的精确边界与退化分析更贴合差分动力学）",
+        "Competitive": "Journal of Optimization Theory and Applications（若以CP步长障碍为主线，明确不将无四周期等同于收敛）",
+        "Ambitious": "需先建立超出固定周期的结构意义"
+      },
+      "journal_fit": {
+        "area": "优化迭代的离散周期与稳定障碍",
+        "basis": "核心为最小四周期的必要边界及退化结构，未证明算法整体收敛域。",
+        "checked_on": "2026-10-15",
+        "sources": ["JDEA", "JOTA"]
+      },
+      "journal_names": {
+        "Recommended": "Journal of Difference Equations and Applications",
         "Competitive": "Journal of Optimization Theory and Applications",
-        "Ambitious": "SIAM Journal on Optimization（须有结构性升级）"
+        "Ambitious": null
       }
     },
     {
@@ -126,9 +170,20 @@
       "core_contribution_level": "C-S3",
       "core_scope": "整体中最重要的已核理论结果",
       "journal_position": {
+        "Recommended": "Journal of Optimization Theory and Applications（以凸插值和锥判定服务分裂算法稳定性为主线）",
+        "Competitive": "SIAM Journal on Optimization（需证明该判定框架对算法参数设计的普遍价值）",
+        "Ambitious": "Mathematics of Operations Research（仅在形成更广算法障碍或可计算判定理论后考虑）"
+      },
+      "journal_fit": {
+        "area": "凸分裂算法的有限周期判定",
+        "basis": "Fourier—二阶锥等价把CP轨道存在性转为可复用的凸可行性问题，兼有优化与离散动力学内容。",
+        "checked_on": "2026-10-15",
+        "sources": ["JOTA", "SIOPT", "MOR"]
+      },
+      "journal_names": {
         "Recommended": "Journal of Optimization Theory and Applications",
         "Competitive": "SIAM Journal on Optimization",
-        "Ambitious": "Mathematical Programming（取决于核心结果的领域价值）"
+        "Ambitious": "Mathematics of Operations Research"
       }
     },
     {
@@ -152,9 +207,20 @@
       "core_contribution_level": "C-S3",
       "core_scope": "整体中最重要的已核理论结果",
       "journal_position": {
-        "Recommended": "Optimization Letters / Numerical Algorithms",
-        "Competitive": "Journal of Optimization Theory and Applications",
-        "Ambitious": "SIAM Journal on Optimization（须有结构性升级）"
+        "Recommended": "Journal of Difference Equations and Applications（精确五周期阈值与达到构造契合差分动力学）",
+        "Competitive": "Optimization Letters（若能压缩为优化步长边界短文，并与P011去重）",
+        "Ambitious": "高代数次数本身不足以支撑挑战刊"
+      },
+      "journal_fit": {
+        "area": "CP离散周期的精确阈值",
+        "basis": "结果是在既有有限周期判定框架中解出两个五周期切片，属于专门动力学边界问题。",
+        "checked_on": "2026-10-15",
+        "sources": ["JDEA", "OL"]
+      },
+      "journal_names": {
+        "Recommended": "Journal of Difference Equations and Applications",
+        "Competitive": "Optimization Letters",
+        "Ambitious": null
       }
     },
     {
@@ -178,9 +244,20 @@
       "core_contribution_level": "C-S3",
       "core_scope": "仅第5节明确限定的已核子结果；不是整稿核心主张全部通过",
       "journal_position": {
-        "Recommended": "暂缓正式匹配；先闭合缺失证明材料",
-        "Competitive": "补件后按已证范围重新评定",
-        "Ambitious": "现阶段不指定挑战级期刊"
+        "Recommended": "暂不建议投稿；以下仅为补齐证明或拆出已核子稿后的方向候选：Journal of Optimization Theory and Applications（补齐关键证书后，可按CP稳定域与周期障碍组织）",
+        "Competitive": "待整稿通过核验后再评估：SIAM Journal on Optimization（仅在全链核验通过且边界图具有足够一般性后考虑）",
+        "Ambitious": "证书未闭合，暂不设置挑战目标"
+      },
+      "journal_fit": {
+        "area": "凸原始—对偶算法与周期障碍",
+        "basis": "整体主张依赖未核有限证书；仅将已闭合三周期边界用于判断主题，不把它视为整稿通过。",
+        "checked_on": "2026-10-15",
+        "sources": ["JOTA", "SIOPT"]
+      },
+      "journal_names": {
+        "Recommended": null,
+        "Competitive": null,
+        "Ambitious": null
       }
     },
     {
@@ -204,9 +281,20 @@
       "core_contribution_level": "C-S3",
       "core_scope": "仅第5节明确限定的已核子结果；不是整稿核心主张全部通过",
       "journal_position": {
-        "Recommended": "暂缓正式匹配；先闭合缺失证明材料",
-        "Competitive": "补件后按已证范围重新评定",
-        "Ambitious": "现阶段不指定挑战级期刊"
+        "Recommended": "暂不建议投稿；以下仅为补齐证明或拆出已核子稿后的方向候选：Set-Valued and Variational Analysis（补齐整体依赖后，以Hilbert算子迭代的有界性和端点机制为主线）",
+        "Competitive": "待整稿通过核验后再评估：SIAM Journal on Optimization（若统一增长估计得到验证，并明确优化算法意义）",
+        "Ambitious": "不能把已核无界子例等同于整稿可投"
+      },
+      "journal_fit": {
+        "area": "Hilbert空间分裂算法的临界动力学",
+        "basis": "已核事实是唯一KKT点与无界轨道并存，主题连接算子迭代与凸优化端点理论。",
+        "checked_on": "2026-10-15",
+        "sources": ["SVVA", "SIOPT"]
+      },
+      "journal_names": {
+        "Recommended": null,
+        "Competitive": null,
+        "Ambitious": null
       }
     },
     {
@@ -230,9 +318,20 @@
       "core_contribution_level": "C-S1",
       "core_scope": "仅第5节明确限定的已核子结果；不是整稿核心主张全部通过",
       "journal_position": {
-        "Recommended": "暂缓正式匹配；先闭合缺失证明材料",
-        "Competitive": "补件后按已证范围重新评定",
-        "Ambitious": "现阶段不指定挑战级期刊"
+        "Recommended": "暂不建议投稿；以下仅为补齐证明或拆出已核子稿后的方向候选：Numerical Algorithms（补齐有限证书后，以标量算法收敛与可分离实现为主线）",
+        "Competitive": "待整稿通过核验后再评估：Journal of Optimization Theory and Applications（需证明完整收敛结论且厘清一维限制）",
+        "Ambitious": "短周期排除尚不能替代收敛证明"
+      },
+      "journal_fit": {
+        "area": "标量分裂算法与顺序动力学",
+        "basis": "一维顺序及可分离结构是主要工具和适用边界，不是一般高维CP理论。",
+        "checked_on": "2026-10-15",
+        "sources": ["NUMALG", "JOTA"]
+      },
+      "journal_names": {
+        "Recommended": null,
+        "Competitive": null,
+        "Ambitious": null
       }
     },
     {
@@ -256,9 +355,20 @@
       "core_contribution_level": "C-S3",
       "core_scope": "仅第5节明确限定的已核子结果；不是整稿核心主张全部通过",
       "journal_position": {
-        "Recommended": "暂缓正式匹配；先闭合缺失证明材料",
-        "Competitive": "补件后按已证范围重新评定",
-        "Ambitious": "现阶段不指定挑战级期刊"
+        "Recommended": "暂不建议投稿；以下仅为补齐证明或拆出已核子稿后的方向候选：Journal of Optimization Theory and Applications（补齐原表与证书后，以曲率改进的算法稳定性为主线）",
+        "Competitive": "待整稿通过核验后再评估：SIAM Journal on Optimization（需区分证书可行域和真实算法稳定域，并证明方法可迁移）",
+        "Ambitious": "整体依赖未闭合，不先指定挑战刊"
+      },
+      "journal_fit": {
+        "area": "原始—对偶算法的曲率与乘子稳定分析",
+        "basis": "主线是非交换曲率和动态乘子对CP稳定性的作用，部分扩大参数分支仍未核。",
+        "checked_on": "2026-10-15",
+        "sources": ["JOTA", "SIOPT"]
+      },
+      "journal_names": {
+        "Recommended": null,
+        "Competitive": null,
+        "Ambitious": null
       }
     },
     {
@@ -282,9 +392,20 @@
       "core_contribution_level": "C-S3",
       "core_scope": "整体中最重要的已核理论结果",
       "journal_position": {
+        "Recommended": "Journal of Optimization Theory and Applications（临界阻尼与最小范数收敛契合优化理论）",
+        "Competitive": "Set-Valued and Variational Analysis（若突出Hilbert空间正则化选择和算子结构）",
+        "Ambitious": "SIAM Journal on Optimization（需补强临界条件的必要性或算法层面的普遍价值）"
+      },
+      "journal_fit": {
+        "area": "惯性优化与Tikhonov选择",
+        "basis": "核心是消失正则化下的最小范数极小点选择，连续动力学与离散优化交叉。",
+        "checked_on": "2026-10-15",
+        "sources": ["JOTA", "SVVA", "SIOPT"]
+      },
+      "journal_names": {
         "Recommended": "Journal of Optimization Theory and Applications",
-        "Competitive": "SIAM Journal on Optimization",
-        "Ambitious": "Mathematical Programming（取决于核心结果的领域价值）"
+        "Competitive": "Set-Valued and Variational Analysis",
+        "Ambitious": "SIAM Journal on Optimization"
       }
     },
     {
@@ -308,9 +429,20 @@
       "core_contribution_level": "C-S3",
       "core_scope": "整体中最重要的已核理论结果",
       "journal_position": {
-        "Recommended": "Optimization Letters / Numerical Algorithms",
-        "Competitive": "Journal of Optimization Theory and Applications",
-        "Ambitious": "SIAM Journal on Optimization（须有结构性升级）"
+        "Recommended": "Journal of Optimization Theory and Applications（以纠正普遍速率断言及其准确量词为核心）",
+        "Competitive": "Optimization Letters（若压缩为技术短文并完整交代真实初始化）",
+        "Ambitious": "固定模型与编码初值尚不足以推荐更高目标"
+      },
+      "journal_fit": {
+        "area": "惯性投影优化的收敛反例",
+        "basis": "反例针对特定hinge算法的最终线性率主张，应面向优化收敛理论读者。",
+        "checked_on": "2026-10-15",
+        "sources": ["JOTA", "OL"]
+      },
+      "journal_names": {
+        "Recommended": "Journal of Optimization Theory and Applications",
+        "Competitive": "Optimization Letters",
+        "Ambitious": null
       }
     },
     {
@@ -334,9 +466,20 @@
       "core_contribution_level": "C-S3",
       "core_scope": "整体中最重要的已核理论结果",
       "journal_position": {
+        "Recommended": "Journal of Optimization Theory and Applications（以实际惯性算法的最小范数选择为主题）",
+        "Competitive": "Set-Valued and Variational Analysis（若统一为变分或算子正则化框架）",
+        "Ambitious": "多个算法并列尚不构成更高层次的统一理论"
+      },
+      "journal_fit": {
+        "area": "惯性正则化算法与最小范数选择",
+        "basis": "重点是各实际递推的正则化收敛，不能因使用能量法就归为一般力学论文。",
+        "checked_on": "2026-10-15",
+        "sources": ["JOTA", "SVVA"]
+      },
+      "journal_names": {
         "Recommended": "Journal of Optimization Theory and Applications",
-        "Competitive": "SIAM Journal on Optimization",
-        "Ambitious": "Mathematical Programming（取决于核心结果的领域价值）"
+        "Competitive": "Set-Valued and Variational Analysis",
+        "Ambitious": null
       }
     },
     {
@@ -360,9 +503,20 @@
       "core_contribution_level": "C-S2",
       "core_scope": "整体中最重要的已核理论结果",
       "journal_position": {
-        "Recommended": "Optimization Letters / Numerical Algorithms",
+        "Recommended": "Journal of Difference Equations and Applications（周期与局部捕获的条件化分类匹配离散动力学）",
+        "Competitive": "Journal of Optimization Theory and Applications（若收束为Hessian阻尼优化算法的可用稳定条件）",
+        "Ambitious": "需先澄清各子定理不构成全参数二分分类"
+      },
+      "journal_fit": {
+        "area": "Hessian阻尼算法的离散动力学",
+        "basis": "贡献同时涉及周期、收敛及Morse–Bott局部行为，核心是递推的参数依赖动力学。",
+        "checked_on": "2026-10-15",
+        "sources": ["JDEA", "JOTA"]
+      },
+      "journal_names": {
+        "Recommended": "Journal of Difference Equations and Applications",
         "Competitive": "Journal of Optimization Theory and Applications",
-        "Ambitious": "SIAM Journal on Optimization（须有结构性升级）"
+        "Ambitious": null
       }
     },
     {
@@ -386,9 +540,20 @@
       "core_contribution_level": "C-S1",
       "core_scope": "整体中最重要的已核理论结果",
       "journal_position": {
-        "Recommended": "Optimization Letters（适合压缩为短文，先确认独立增量）",
-        "Competitive": "Journal of Optimization Theory and Applications",
-        "Ambitious": "SIAM Journal on Optimization（当前距离明显）"
+        "Recommended": "Journal of Optimization Theory and Applications（流形近端收敛方向匹配，但投稿前须排除相邻文献覆盖）",
+        "Competitive": "Set-Valued and Variational Analysis（若突出曲率与变分近端结构的独立新结论）",
+        "Ambitious": "已有报告未完全排除重叠，不设挑战目标"
+      },
+      "journal_fit": {
+        "area": "流形优化与惯性近端方法",
+        "basis": "研究Hadamard流形上的近端轨道收敛，主题仍是几何优化而非一般流形动力学。",
+        "checked_on": "2026-10-15",
+        "sources": ["JOTA", "SVVA"]
+      },
+      "journal_names": {
+        "Recommended": "Journal of Optimization Theory and Applications",
+        "Competitive": "Set-Valued and Variational Analysis",
+        "Ambitious": null
       }
     },
     {
@@ -412,9 +577,20 @@
       "core_contribution_level": "C-S3",
       "core_scope": "整体中最重要的已核理论结果",
       "journal_position": {
-        "Recommended": "Journal of Optimization Theory and Applications",
-        "Competitive": "SIAM Journal on Optimization",
-        "Ambitious": "Mathematical Programming（取决于核心结果的领域价值）"
+        "Recommended": "SIAM Journal on Applied Dynamical Systems（法向跟踪、慢流形捕获与谷内选择是核心）",
+        "Competitive": "Journal of Optimization Theory and Applications（若以IGATH-2的优化收敛保证为主要叙述）",
+        "Ambitious": "Nonlinearity（需说明该选择机制超出指定时钟与紧谷假设的意义）"
+      },
+      "journal_fit": {
+        "area": "优化迭代的慢流形与谷内选择",
+        "basis": "主要贡献是Morse–Bott谷中的法向稳定和实际路径长度，机制层面更接近应用动力系统。",
+        "checked_on": "2026-10-15",
+        "sources": ["SIADS", "JOTA", "NON"]
+      },
+      "journal_names": {
+        "Recommended": "SIAM Journal on Applied Dynamical Systems",
+        "Competitive": "Journal of Optimization Theory and Applications",
+        "Ambitious": "Nonlinearity"
       }
     },
     {
@@ -438,9 +614,20 @@
       "core_contribution_level": "C-S4",
       "core_scope": "整体中最重要的已核理论结果",
       "journal_position": {
-        "Recommended": "Journal of Optimization Theory and Applications",
-        "Competitive": "SIAM Journal on Optimization",
-        "Ambitious": "Mathematical Programming（取决于核心结果的领域价值）"
+        "Recommended": "SIAM Journal on Applied Dynamical Systems（临界时钟、慢流与次级选择的机制最贴合）",
+        "Competitive": "Nonlinearity（需把不同时间尺度引发的选择变化讲成可迁移机制）",
+        "Ambitious": "Journal of Nonlinear Science（仅在跨模型意义得到实质支撑后考虑）"
+      },
+      "journal_fit": {
+        "area": "临界时钟下的慢流形选择",
+        "basis": "新现象是时钟改变次级势的累计和最终选点，而非单纯改善优化速率常数。",
+        "checked_on": "2026-10-15",
+        "sources": ["SIADS", "NON", "JNS"]
+      },
+      "journal_names": {
+        "Recommended": "SIAM Journal on Applied Dynamical Systems",
+        "Competitive": "Nonlinearity",
+        "Ambitious": "Journal of Nonlinear Science"
       }
     },
     {
@@ -464,9 +651,20 @@
       "core_contribution_level": "C-S4",
       "core_scope": "整体中最重要的已核理论结果",
       "journal_position": {
-        "Recommended": "Journal of Optimization Theory and Applications",
-        "Competitive": "SIAM Journal on Optimization",
-        "Ambitious": "Mathematical Programming（取决于核心结果的领域价值）"
+        "Recommended": "SIAM Journal on Matrix Analysis and Applications（正锥矩阵缩放、谱结构和维数相关收敛范围直接匹配）",
+        "Competitive": "SIAM Journal on Numerical Analysis（若强化迭代分析、边界锐性与可复现实验）",
+        "Ambitious": "SIAM Journal on Optimization（仅在优化建模及其理论收益成为主线时考虑）"
+      },
+      "journal_fit": {
+        "area": "矩阵分析与算子缩放算法",
+        "basis": "Kraus映射、非交换谱及正定矩阵缩放是核心对象，不能仅因Sinkhorn可解释为优化就默认SIOPT。",
+        "checked_on": "2026-10-15",
+        "sources": ["SIMAX", "SINUM", "SIOPT"]
+      },
+      "journal_names": {
+        "Recommended": "SIAM Journal on Matrix Analysis and Applications",
+        "Competitive": "SIAM Journal on Numerical Analysis",
+        "Ambitious": "SIAM Journal on Optimization"
       }
     },
     {
@@ -490,9 +688,20 @@
       "core_contribution_level": "C-S3",
       "core_scope": "整体中最重要的已核理论结果",
       "journal_position": {
+        "Recommended": "Journal of Optimization Theory and Applications（边界点收敛及具体镜像结构匹配优化理论）",
+        "Competitive": "Set-Valued and Variational Analysis（若突出边界变分几何与统一选点条件）",
+        "Ambitious": "SIAM Journal on Optimization（需阐明多边形和矩阵结果之间可复用的共同机制）"
+      },
+      "journal_fit": {
+        "area": "镜像优化的边界几何",
+        "basis": "Burg与矩阵熵的边界选点解决优化迭代在非欧几何中的收敛问题。",
+        "checked_on": "2026-10-15",
+        "sources": ["JOTA", "SVVA", "SIOPT"]
+      },
+      "journal_names": {
         "Recommended": "Journal of Optimization Theory and Applications",
-        "Competitive": "SIAM Journal on Optimization",
-        "Ambitious": "Mathematical Programming（取决于核心结果的领域价值）"
+        "Competitive": "Set-Valued and Variational Analysis",
+        "Ambitious": "SIAM Journal on Optimization"
       }
     },
     {
@@ -516,9 +725,20 @@
       "core_contribution_level": "C-S3",
       "core_scope": "整体中最重要的已核理论结果",
       "journal_position": {
+        "Recommended": "Journal of Optimization Theory and Applications（反例与恢复点收敛条件构成完整优化理论主题）",
+        "Competitive": "SIAM Journal on Optimization（需突出对现有自适应Bregman理论的结构性修正）",
+        "Ambitious": "尚未形成更广核族的统一边界理论"
+      },
+      "journal_fit": {
+        "area": "自适应Bregman优化的边界病态",
+        "basis": "结论澄清相对光滑、自适应控制与边界分离性质，直接针对优化算法正确性。",
+        "checked_on": "2026-10-15",
+        "sources": ["JOTA", "SIOPT"]
+      },
+      "journal_names": {
         "Recommended": "Journal of Optimization Theory and Applications",
         "Competitive": "SIAM Journal on Optimization",
-        "Ambitious": "Mathematical Programming（取决于核心结果的领域价值）"
+        "Ambitious": null
       }
     },
     {
@@ -542,9 +762,20 @@
       "core_contribution_level": "C-S3",
       "core_scope": "整体中最重要的已核理论结果",
       "journal_position": {
+        "Recommended": "Journal of Optimization Theory and Applications（假设削弱与点收敛论证适合优化理论）",
+        "Competitive": "Computational Optimization and Applications（若补足可计算实例和对边界条件的算法检验）",
+        "Ambitious": "当前未建立必要性或速率，不强列挑战刊"
+      },
+      "journal_fit": {
+        "area": "相对光滑优化与Bregman收敛",
+        "basis": "独立增量是去除核或近端项严格凸条件后恢复唯一极小点收敛。",
+        "checked_on": "2026-10-15",
+        "sources": ["JOTA", "COAP"]
+      },
+      "journal_names": {
         "Recommended": "Journal of Optimization Theory and Applications",
-        "Competitive": "SIAM Journal on Optimization",
-        "Ambitious": "Mathematical Programming（取决于核心结果的领域价值）"
+        "Competitive": "Computational Optimization and Applications",
+        "Ambitious": null
       }
     },
     {
@@ -568,9 +799,20 @@
       "core_contribution_level": "C-S4",
       "core_scope": "整体中最重要的已核理论结果",
       "journal_position": {
-        "Recommended": "Journal of Optimization Theory and Applications",
-        "Competitive": "SIAM Journal on Optimization",
-        "Ambitious": "Mathematical Programming（取决于核心结果的领域价值）"
+        "Recommended": "SIAM Journal on Optimization（主题直接匹配；应突出固定实例反例对现有收敛理论的影响）",
+        "Competitive": "Journal of Optimization Theory and Applications（可作为同方向替代，完整保留控制器与核的限制）",
+        "Ambitious": "未覆盖自然核或阻尼修复，不据分数推向更高目标"
+      },
+      "journal_fit": {
+        "area": "自适应Bregman算法的非收敛反例",
+        "basis": "唯一极小点仍不能保证原控制器选点，是优化算法收敛论断的结构性限制。",
+        "checked_on": "2026-10-15",
+        "sources": ["SIOPT", "JOTA"]
+      },
+      "journal_names": {
+        "Recommended": "SIAM Journal on Optimization",
+        "Competitive": "Journal of Optimization Theory and Applications",
+        "Ambitious": null
       }
     },
     {
@@ -594,9 +836,20 @@
       "core_contribution_level": "C-S4",
       "core_scope": "整体中最重要的已核理论结果",
       "journal_position": {
+        "Recommended": "Journal of Optimization Theory and Applications（标量自适应算法的收敛率分类匹配优化理论）",
+        "Competitive": "SIAM Journal on Optimization（需说明对自适应步长一般理论的影响，保留一维限制）",
+        "Ambitious": "Numerical Algorithms（若转向可检验的终端渐近与算法数值行为，可作方向替代）"
+      },
+      "journal_fit": {
+        "area": "自适应梯度法的末次速率",
+        "basis": "任意慢率与有限阶极小点的几何率共同界定AdGD2的优化性能边界。",
+        "checked_on": "2026-10-15",
+        "sources": ["JOTA", "SIOPT", "NUMALG"]
+      },
+      "journal_names": {
         "Recommended": "Journal of Optimization Theory and Applications",
         "Competitive": "SIAM Journal on Optimization",
-        "Ambitious": "Mathematical Programming（取决于核心结果的领域价值）"
+        "Ambitious": "Numerical Algorithms"
       }
     },
     {
@@ -620,9 +873,20 @@
       "core_contribution_level": "C-S3",
       "core_scope": "整体中最重要的已核理论结果",
       "journal_position": {
+        "Recommended": "Journal of Optimization Theory and Applications（局部光滑、自适应归一化和选点条件直接匹配）",
+        "Competitive": "Computational Optimization and Applications（若提供体现局部光滑优势的计算实例）",
+        "Ambitious": "SIAM Journal on Optimization（需强化与既有AdaGrad结论的差异及更广适用性）"
+      },
+      "journal_fit": {
+        "area": "局部光滑下的自适应凸优化",
+        "basis": "核心是AdaGrad-Norm在弱于全局光滑的条件下整列收敛，算法对象明确。",
+        "checked_on": "2026-10-15",
+        "sources": ["JOTA", "COAP", "SIOPT"]
+      },
+      "journal_names": {
         "Recommended": "Journal of Optimization Theory and Applications",
-        "Competitive": "SIAM Journal on Optimization",
-        "Ambitious": "Mathematical Programming（取决于核心结果的领域价值）"
+        "Competitive": "Computational Optimization and Applications",
+        "Ambitious": "SIAM Journal on Optimization"
       }
     },
     {
@@ -646,9 +910,20 @@
       "core_contribution_level": "C-S2",
       "core_scope": "整体中最重要的已核理论结果",
       "journal_position": {
+        "Recommended": "Journal of Difference Equations and Applications（低维映射的分岔和吸引域认证最贴合）",
+        "Competitive": "SIAM Journal on Applied Dynamical Systems（需提炼滞后自适应机制及其算法解释）",
+        "Ambitious": "单参数冷启动证书和局部正规形不支撑更高目标"
+      },
+      "journal_fit": {
+        "area": "自适应算法映射的分岔与吸引子",
+        "basis": "主要结果是四维映射的二周期、临界分岔及不变曲线，不能仅以Adam名称归为优化性能论文。",
+        "checked_on": "2026-10-15",
+        "sources": ["JDEA", "SIADS"]
+      },
+      "journal_names": {
         "Recommended": "Journal of Difference Equations and Applications",
-        "Competitive": "Discrete and Continuous Dynamical Systems",
-        "Ambitious": "SIAM Journal on Applied Dynamical Systems（需提高机制的一般性）"
+        "Competitive": "SIAM Journal on Applied Dynamical Systems",
+        "Ambitious": null
       }
     },
     {
@@ -672,9 +947,20 @@
       "core_contribution_level": "C-S2",
       "core_scope": "整体中最重要的已核理论结果",
       "journal_position": {
-        "Recommended": "Optimization Letters（适合压缩为短文，先确认独立增量）",
-        "Competitive": "Journal of Optimization Theory and Applications",
-        "Ambitious": "SIAM Journal on Optimization（当前距离明显）"
+        "Recommended": "Journal of Difference Equations and Applications（周期控制器与收敛状态的耦合现象适合离散动力学）",
+        "Competitive": "Numerical Algorithms（若强调该现象对自适应迭代实现和稳定分析的影响）",
+        "Ambitious": "固定谱与窄参数带限制明显"
+      },
+      "journal_fit": {
+        "area": "自适应Nesterov控制器的周期动力学",
+        "basis": "控制器四周期与原变量几何收敛共存，重点是增广状态动力学而非算法失效。",
+        "checked_on": "2026-10-15",
+        "sources": ["JDEA", "NUMALG"]
+      },
+      "journal_names": {
+        "Recommended": "Journal of Difference Equations and Applications",
+        "Competitive": "Numerical Algorithms",
+        "Ambitious": null
       }
     },
     {
@@ -698,9 +984,20 @@
       "core_contribution_level": "C-S3",
       "core_scope": "整体中最重要的已核理论结果",
       "journal_position": {
-        "Recommended": "Optimization Letters / Numerical Algorithms",
-        "Competitive": "Journal of Optimization Theory and Applications",
-        "Ambitious": "SIAM Journal on Optimization（须有结构性升级）"
+        "Recommended": "Journal of Difference Equations and Applications（终端相位和非捕获机制对应差分动力学）",
+        "Competitive": "SIAM Journal on Applied Dynamical Systems（需加强从标量到耦合系统的可迁移解释）",
+        "Ambitious": "Journal of Optimization Theory and Applications（仅在明确由这些机制得到优化选点或速率结论时考虑）"
+      },
+      "journal_fit": {
+        "area": "自适应迭代的终端相位与正则性",
+        "basis": "核心是局部相位、有限捕获及Dini正则性对渐近幅值的影响。",
+        "checked_on": "2026-10-15",
+        "sources": ["JDEA", "SIADS", "JOTA"]
+      },
+      "journal_names": {
+        "Recommended": "Journal of Difference Equations and Applications",
+        "Competitive": "SIAM Journal on Applied Dynamical Systems",
+        "Ambitious": "Journal of Optimization Theory and Applications"
       }
     },
     {
@@ -724,9 +1021,20 @@
       "core_contribution_level": "C-S2",
       "core_scope": "整体中最重要的已核理论结果",
       "journal_position": {
+        "Recommended": "Journal of Difference Equations and Applications（翻转分岔与有限前缀捕获符合该刊主题）",
+        "Competitive": "SIAM Journal on Applied Dynamical Systems（需展示超出特定四次、六次模型的自适应机制）",
+        "Ambitious": "需先建立超出特定低维模型的结论，再评估更广候选"
+      },
+      "journal_fit": {
+        "area": "RMSProp映射的翻转分岔",
+        "basis": "主结论分析低维多项式模型的分岔与吸引区，属于算法诱导的离散动力系统。",
+        "checked_on": "2026-10-15",
+        "sources": ["JDEA", "SIADS"]
+      },
+      "journal_names": {
         "Recommended": "Journal of Difference Equations and Applications",
-        "Competitive": "Discrete and Continuous Dynamical Systems",
-        "Ambitious": "SIAM Journal on Applied Dynamical Systems（需提高机制的一般性）"
+        "Competitive": "SIAM Journal on Applied Dynamical Systems",
+        "Ambitious": null
       }
     },
     {
@@ -750,9 +1058,20 @@
       "core_contribution_level": "C-S2",
       "core_scope": "整体中最重要的已核理论结果",
       "journal_position": {
-        "Recommended": "Optimization Letters / Numerical Algorithms",
-        "Competitive": "Journal of Optimization Theory and Applications",
-        "Ambitious": "SIAM Journal on Optimization（须有结构性升级）"
+        "Recommended": "Journal of Optimization Theory and Applications（真实优化递推的收敛与周期排除是直接主题）",
+        "Competitive": "Numerical Algorithms（若重点放在可实现的反馈算法与稳定分析）",
+        "Ambitious": "局部冻结与低周期排除尚不足以支持通用控制理论目标"
+      },
+      "journal_fit": {
+        "area": "优化反馈系统与收敛证书",
+        "basis": "区分真实梯度插值和任意切换模型，服务于Triple Momentum参数分析。",
+        "checked_on": "2026-10-15",
+        "sources": ["JOTA", "NUMALG"]
+      },
+      "journal_names": {
+        "Recommended": "Journal of Optimization Theory and Applications",
+        "Competitive": "Numerical Algorithms",
+        "Ambitious": null
       }
     },
     {
@@ -776,9 +1095,20 @@
       "core_contribution_level": "C-S3",
       "core_scope": "整体中最重要的已核理论结果",
       "journal_position": {
-        "Recommended": "Optimization Letters / Numerical Algorithms",
-        "Competitive": "Journal of Optimization Theory and Applications",
-        "Ambitious": "SIAM Journal on Optimization（须有结构性升级）"
+        "Recommended": "Journal of Optimization Theory and Applications（外梯度残差与步长设计属于优化和变分算法理论）",
+        "Competitive": "Set-Valued and Variational Analysis（若突出单调算子求零及锚定结构）",
+        "Ambitious": "SIAM Journal on Optimization（需进一步闭合上下界或给出更一般参数设计）"
+      },
+      "journal_fit": {
+        "area": "单调变分不等式与锚定外梯度",
+        "basis": "末次残差常数、频率下界与有限步障碍直接研究求零和鞍点算法性能。",
+        "checked_on": "2026-10-15",
+        "sources": ["JOTA", "SVVA", "SIOPT"]
+      },
+      "journal_names": {
+        "Recommended": "Journal of Optimization Theory and Applications",
+        "Competitive": "Set-Valued and Variational Analysis",
+        "Ambitious": "SIAM Journal on Optimization"
       }
     },
     {
@@ -802,9 +1132,20 @@
       "core_contribution_level": "C-S3",
       "core_scope": "整体中最重要的已核理论结果",
       "journal_position": {
-        "Recommended": "Journal of Optimization Theory and Applications",
-        "Competitive": "SIAM Journal on Optimization",
-        "Ambitious": "Mathematical Programming（取决于核心结果的领域价值）"
+        "Recommended": "SIAM Journal on Numerical Analysis（谱滤波、精确渐近及算法分析是直接匹配）",
+        "Competitive": "Numerical Algorithms（作为更聚焦线性迭代与特殊函数分析的替代）",
+        "Ambitious": "SIAM Journal on Matrix Analysis and Applications（仅在矩阵或算子谱结构的贡献足够独立时考虑）"
+      },
+      "journal_fit": {
+        "area": "加速迭代的谱分析与渐近数值理论",
+        "basis": "主要工具和结论是Gegenbauer滤波与反向谱尾条件，重点不只是凸优化目标值下降。",
+        "checked_on": "2026-10-15",
+        "sources": ["SINUM", "NUMALG", "SIMAX"]
+      },
+      "journal_names": {
+        "Recommended": "SIAM Journal on Numerical Analysis",
+        "Competitive": "Numerical Algorithms",
+        "Ambitious": "SIAM Journal on Matrix Analysis and Applications"
       }
     },
     {
@@ -828,9 +1169,20 @@
       "core_contribution_level": "C-S3",
       "core_scope": "整体中最重要的已核理论结果",
       "journal_position": {
-        "Recommended": "Optimization Letters / Numerical Algorithms",
-        "Competitive": "Journal of Optimization Theory and Applications",
-        "Ambitious": "SIAM Journal on Optimization（须有结构性升级）"
+        "Recommended": "Journal of Optimization Theory and Applications（锐性能界和奇偶结构对应优化算法分析）",
+        "Competitive": "Optimization Letters（若能压缩为边界扩展短文并完整保留达到例）",
+        "Ambitious": "SIAM Journal on Optimization（需突出超出现有性能估计条带的结构性推进）"
+      },
+      "journal_fit": {
+        "area": "梯度法的精确最坏情形分析",
+        "basis": "主题是指定步长条带内的末次梯度性能界及达到例，属于优化算法性能。",
+        "checked_on": "2026-10-15",
+        "sources": ["JOTA", "OL", "SIOPT"]
+      },
+      "journal_names": {
+        "Recommended": "Journal of Optimization Theory and Applications",
+        "Competitive": "Optimization Letters",
+        "Ambitious": "SIAM Journal on Optimization"
       }
     },
     {
@@ -854,9 +1206,20 @@
       "core_contribution_level": "C-S2",
       "core_scope": "整体中最重要的已核理论结果",
       "journal_position": {
-        "Recommended": "Optimization Letters（适合压缩为短文，先确认独立增量）",
-        "Competitive": "Journal of Optimization Theory and Applications",
-        "Ambitious": "SIAM Journal on Optimization（当前距离明显）"
+        "Recommended": "Journal of Optimization Theory and Applications（活动集识别与惯性收敛方向匹配）",
+        "Competitive": "Optimization Letters（若独立增量可压缩为简洁技术结论）",
+        "Ambitious": "退化面交界尚未处理，不安排更高目标"
+      },
+      "journal_fit": {
+        "area": "约束惯性优化的活动面识别",
+        "basis": "捕获、活动面永久识别与面上收缩直接面向约束优化收敛。",
+        "checked_on": "2026-10-15",
+        "sources": ["JOTA", "OL"]
+      },
+      "journal_names": {
+        "Recommended": "Journal of Optimization Theory and Applications",
+        "Competitive": "Optimization Letters",
+        "Ambitious": null
       }
     },
     {
@@ -880,9 +1243,20 @@
       "core_contribution_level": "C-S3",
       "core_scope": "整体中最重要的已核理论结果",
       "journal_position": {
-        "Recommended": "Journal of Optimization Theory and Applications",
-        "Competitive": "SIAM Journal on Optimization",
-        "Ambitious": "Mathematical Programming（取决于核心结果的领域价值）"
+        "Recommended": "Numerical Algorithms（多项式迭代、稳定结构及性能证书更贴近算法分析）",
+        "Competitive": "Journal of Optimization Theory and Applications（若以终端梯度最坏性能为核心叙述）",
+        "Ambitious": "SIAM Journal on Numerical Analysis（需展示该证书方法超出当前参数条带的价值）"
+      },
+      "journal_fit": {
+        "area": "多项式迭代与梯度性能证书",
+        "basis": "主要方法是Möbius变换、秩二PSD结构与锐性能构造，兼具数值算法和优化分析。",
+        "checked_on": "2026-10-15",
+        "sources": ["NUMALG", "JOTA", "SINUM"]
+      },
+      "journal_names": {
+        "Recommended": "Numerical Algorithms",
+        "Competitive": "Journal of Optimization Theory and Applications",
+        "Ambitious": "SIAM Journal on Numerical Analysis"
       }
     },
     {
@@ -906,9 +1280,20 @@
       "core_contribution_level": "C-S3",
       "core_scope": "整体中最重要的已核理论结果",
       "journal_position": {
-        "Recommended": "Journal of Optimization Theory and Applications",
-        "Competitive": "SIAM Journal on Optimization",
-        "Ambitious": "Mathematical Programming（取决于核心结果的领域价值）"
+        "Recommended": "SIAM Journal on Optimization（问题与该刊优化算法和复杂度方向直接匹配）",
+        "Competitive": "Journal of Optimization Theory and Applications（可作为同方向替代，突出有限维与任意维界的区别）",
+        "Ambitious": "Mathematical Programming（需显著增强一般误差模型或维数机制，当前不是默认首投）"
+      },
+      "journal_fit": {
+        "area": "不精确一阶优化的维数相关复杂度",
+        "basis": "相对梯度误差和有限维锐障碍直接涉及优化信息与性能界。",
+        "checked_on": "2026-10-15",
+        "sources": ["SIOPT", "JOTA", "MP"]
+      },
+      "journal_names": {
+        "Recommended": "SIAM Journal on Optimization",
+        "Competitive": "Journal of Optimization Theory and Applications",
+        "Ambitious": "Mathematical Programming"
       }
     },
     {
@@ -932,9 +1317,20 @@
       "core_contribution_level": "C-S4",
       "core_scope": "整体中最重要的已核理论结果",
       "journal_position": {
+        "Recommended": "SIAM Journal on Optimization（Polyak步长的最坏情形复杂度与优化算法范围直接匹配）",
+        "Competitive": "Mathematical Programming（需充分说明对一阶方法性能理论的普遍影响）",
+        "Ambitious": "当前不另设挑战目标；先明确固定实例与统一末次界的区别"
+      },
+      "journal_fit": {
+        "area": "凸优化的Polyak步长与复杂度反例",
+        "basis": "核心否定统一消失的末次函数差界，直接限定经典优化步长策略的最坏性能。",
+        "checked_on": "2026-10-15",
+        "sources": ["SIOPT", "MP"]
+      },
+      "journal_names": {
         "Recommended": "SIAM Journal on Optimization",
         "Competitive": "Mathematical Programming",
-        "Ambitious": "Foundations of Computational Mathematics（需强化方法的一般影响）"
+        "Ambitious": null
       }
     },
     {
@@ -958,9 +1354,20 @@
       "core_contribution_level": "C-S2",
       "core_scope": "整体中最重要的已核理论结果",
       "journal_position": {
-        "Recommended": "Optimization Letters / Numerical Algorithms",
-        "Competitive": "Journal of Optimization Theory and Applications",
-        "Ambitious": "SIAM Journal on Optimization（须有结构性升级）"
+        "Recommended": "Numerical Algorithms（谱调度、误差控制与算法渐近直接匹配）",
+        "Competitive": "SIAM Journal on Numerical Analysis（需提升对更一般算子或实际计算的意义）",
+        "Ambitious": "Journal of Optimization Theory and Applications（若把鞍点算法的性能收益作为主线，可作方向替代）"
+      },
+      "journal_fit": {
+        "area": "乐观梯度的谱步长调度",
+        "basis": "主要在可谱化模型中设计低差异步长，贡献偏数值迭代与稳定分析。",
+        "checked_on": "2026-10-15",
+        "sources": ["NUMALG", "SINUM", "JOTA"]
+      },
+      "journal_names": {
+        "Recommended": "Numerical Algorithms",
+        "Competitive": "SIAM Journal on Numerical Analysis",
+        "Ambitious": "Journal of Optimization Theory and Applications"
       }
     },
     {
@@ -984,9 +1391,20 @@
       "core_contribution_level": "C-S3",
       "core_scope": "整体中最重要的已核理论结果",
       "journal_position": {
-        "Recommended": "Optimization Letters / Numerical Algorithms",
-        "Competitive": "Journal of Optimization Theory and Applications",
-        "Ambitious": "SIAM Journal on Optimization（须有结构性升级）"
+        "Recommended": "Journal of Optimization Theory and Applications（反射梯度和步长障碍对应变分算法分析）",
+        "Competitive": "Set-Valued and Variational Analysis（若突出一般算子结构及投影边界）",
+        "Ambitious": "不能把仿射结论提升为一般受约束非线性锐界"
+      },
+      "journal_fit": {
+        "area": "反射梯度求零算法的步长边界",
+        "basis": "仿射模型的锐步长和端点六周期服务于变分不等式算法稳定性。",
+        "checked_on": "2026-10-15",
+        "sources": ["JOTA", "SVVA"]
+      },
+      "journal_names": {
+        "Recommended": "Journal of Optimization Theory and Applications",
+        "Competitive": "Set-Valued and Variational Analysis",
+        "Ambitious": null
       }
     },
     {
@@ -1010,9 +1428,20 @@
       "core_contribution_level": "C-S3",
       "core_scope": "整体中最重要的已核理论结果",
       "journal_position": {
+        "Recommended": "Journal of Optimization Theory and Applications（适合精确区分证书障碍与真实不收敛）",
+        "Competitive": "SIAM Journal on Optimization（需阐明该障碍对鞍点算法分析范式的独立价值）",
+        "Ambitious": "未排除非二次能量，不应按一般算法不可能性推荐"
+      },
+      "journal_fit": {
+        "area": "鞍点算法的Lyapunov证书障碍",
+        "basis": "研究AltGDA特定有限历史能量证书的不可能性，属于算法分析方法的限制。",
+        "checked_on": "2026-10-15",
+        "sources": ["JOTA", "SIOPT"]
+      },
+      "journal_names": {
         "Recommended": "Journal of Optimization Theory and Applications",
         "Competitive": "SIAM Journal on Optimization",
-        "Ambitious": "Mathematical Programming（取决于核心结果的领域价值）"
+        "Ambitious": null
       }
     },
     {
@@ -1036,9 +1465,20 @@
       "core_contribution_level": "C-S2",
       "core_scope": "整体中最重要的已核理论结果",
       "journal_position": {
-        "Recommended": "Optimization Letters / Numerical Algorithms",
-        "Competitive": "Journal of Optimization Theory and Applications",
-        "Ambitious": "SIAM Journal on Optimization（须有结构性升级）"
+        "Recommended": "Optimization Letters（三变量锐界适合压缩为优化技术短文）",
+        "Competitive": "Numerical Algorithms（若突出可复用的谱分析与数值检验）",
+        "Ambitious": "缺少维数增长机制，不设挑战刊"
+      },
+      "journal_fit": {
+        "area": "随机排列坐标下降的有限维性能",
+        "basis": "随机性服务于三变量SPD优化迭代的精确性能界，并非随机过程本身的新理论。",
+        "checked_on": "2026-10-15",
+        "sources": ["OL", "NUMALG"]
+      },
+      "journal_names": {
+        "Recommended": "Optimization Letters",
+        "Competitive": "Numerical Algorithms",
+        "Ambitious": null
       }
     },
     {
@@ -1062,9 +1502,20 @@
       "core_contribution_level": "C-S2",
       "core_scope": "整体中最重要的已核理论结果",
       "journal_position": {
-        "Recommended": "Numerical Algorithms / Applied Numerical Mathematics",
-        "Competitive": "SIAM Journal on Numerical Analysis",
-        "Ambitious": "Mathematics of Computation（当前需超越专门模型）"
+        "Recommended": "Journal of Difference Equations and Applications（旋转相位与控制器转移对应差分动力学）",
+        "Competitive": "Numerical Algorithms（若突出重启实现对数值稳定与收敛的影响）",
+        "Ambitious": "尚非一般自适应积分或优化控制理论"
+      },
+      "journal_fit": {
+        "area": "重启梯度算法的离散方向动力学",
+        "basis": "区分物理时间和迭代次数的相位转换是核心，结论限定具体控制器。",
+        "checked_on": "2026-10-15",
+        "sources": ["JDEA", "NUMALG"]
+      },
+      "journal_names": {
+        "Recommended": "Journal of Difference Equations and Applications",
+        "Competitive": "Numerical Algorithms",
+        "Ambitious": null
       }
     },
     {
@@ -1088,9 +1539,20 @@
       "core_contribution_level": "C-S3",
       "core_scope": "整体中最重要的已核理论结果",
       "journal_position": {
+        "Recommended": "Journal of Optimization Theory and Applications（以算法收敛反例及初始化集合的精确量词为主线）",
+        "Competitive": "SIAM Journal on Optimization（需充分论证对严格鞍点逃逸理论的影响，保留固定参数限制）",
+        "Ambitious": "不把该反例外推至带噪声或任意参数版本"
+      },
+      "journal_fit": {
+        "area": "非凸优化的严格鞍点吸引反例",
+        "basis": "真实位置冷启动收敛至严格鞍点，直接限制Schedule-Free的优化行为。",
+        "checked_on": "2026-10-15",
+        "sources": ["JOTA", "SIOPT"]
+      },
+      "journal_names": {
         "Recommended": "Journal of Optimization Theory and Applications",
         "Competitive": "SIAM Journal on Optimization",
-        "Ambitious": "Mathematical Programming（取决于核心结果的领域价值）"
+        "Ambitious": null
       }
     },
     {
@@ -1114,9 +1576,20 @@
       "core_contribution_level": "C-S2",
       "core_scope": "整体中最重要的已核理论结果",
       "journal_position": {
-        "Recommended": "Optimization Letters / Numerical Algorithms",
-        "Competitive": "Journal of Optimization Theory and Applications",
-        "Ambitious": "SIAM Journal on Optimization（须有结构性升级）"
+        "Recommended": "Numerical Algorithms（算法稳定和收敛证明符合数值算法范围）",
+        "Competitive": "Optimization Letters（若压缩为对既有算法的明确修正短文）",
+        "Ambitious": "未给最大步长或一般非凸定理，不设挑战刊"
+      },
+      "journal_fit": {
+        "area": "离散梯度优化的稳定性",
+        "basis": "核心为既有弱离散梯度迭代补足充分步长范围与几何收敛证明。",
+        "checked_on": "2026-10-15",
+        "sources": ["NUMALG", "OL"]
+      },
+      "journal_names": {
+        "Recommended": "Numerical Algorithms",
+        "Competitive": "Optimization Letters",
+        "Ambitious": null
       }
     },
     {
@@ -1140,9 +1613,20 @@
       "core_contribution_level": "C-S2",
       "core_scope": "整体中最重要的已核理论结果",
       "journal_position": {
-        "Recommended": "Optimization Letters / Numerical Algorithms",
-        "Competitive": "Journal of Optimization Theory and Applications",
-        "Ambitious": "SIAM Journal on Optimization（须有结构性升级）"
+        "Recommended": "Journal of Optimization Theory and Applications（惯性优化的收缩与参数保证直接匹配）",
+        "Competitive": "Numerical Algorithms（若以离散能量结构和实际迭代分析为主线）",
+        "Ambitious": "部分参数充分界不等于完整稳定图"
+      },
+      "journal_fit": {
+        "area": "梯度校正惯性法的收敛能量",
+        "basis": "机械能是分析工具，研究对象仍是强凸优化算法的两步收缩。",
+        "checked_on": "2026-10-15",
+        "sources": ["JOTA", "NUMALG"]
+      },
+      "journal_names": {
+        "Recommended": "Journal of Optimization Theory and Applications",
+        "Competitive": "Numerical Algorithms",
+        "Ambitious": null
       }
     },
     {
@@ -1166,9 +1650,20 @@
       "core_contribution_level": "C-S2",
       "core_scope": "整体中最重要的已核理论结果",
       "journal_position": {
-        "Recommended": "Optimization Letters / Numerical Algorithms",
+        "Recommended": "Set-Valued and Variational Analysis（单调包含、算子分裂与端点选点直接匹配）",
+        "Competitive": "Journal of Optimization Theory and Applications（若突出复合优化应用和可用参数范围）",
+        "Ambitious": "未证明上限必要性，不据端点补证推荐更高刊"
+      },
+      "journal_fit": {
+        "area": "单调包含的自适应分裂方法",
+        "basis": "贡献在指定前向反射后向控制规则的端点收敛和复合速率。",
+        "checked_on": "2026-10-15",
+        "sources": ["SVVA", "JOTA"]
+      },
+      "journal_names": {
+        "Recommended": "Set-Valued and Variational Analysis",
         "Competitive": "Journal of Optimization Theory and Applications",
-        "Ambitious": "SIAM Journal on Optimization（须有结构性升级）"
+        "Ambitious": null
       }
     },
     {
@@ -1192,9 +1687,20 @@
       "core_contribution_level": "C-S2",
       "core_scope": "整体中最重要的已核理论结果",
       "journal_position": {
-        "Recommended": "Optimization Letters / Numerical Algorithms",
+        "Recommended": "Optimization Letters（宜作为明确反例与正确指标的短文）",
+        "Competitive": "Journal of Optimization Theory and Applications（若修正扩展为系统的性能分析）",
+        "Ambitious": "固定有限时刻反例不支撑宽泛复杂度定位"
+      },
+      "journal_fit": {
+        "area": "大步长优化界的反例与修正",
+        "basis": "logistic实例纠正特定平均指标的界，重点是优化性能论断的准确性。",
+        "checked_on": "2026-10-15",
+        "sources": ["OL", "JOTA"]
+      },
+      "journal_names": {
+        "Recommended": "Optimization Letters",
         "Competitive": "Journal of Optimization Theory and Applications",
-        "Ambitious": "SIAM Journal on Optimization（须有结构性升级）"
+        "Ambitious": null
       }
     },
     {
@@ -1218,9 +1724,20 @@
       "core_contribution_level": "C-S2",
       "core_scope": "整体中最重要的已核理论结果",
       "journal_position": {
+        "Recommended": "Journal of Difference Equations and Applications（可按验证计算支撑的离散捕获实例组织，先区分P059）",
+        "Competitive": "Numerical Algorithms（若突出可复用的严格数值认证方法）",
+        "Ambitious": "长时间算术验证本身不足以推荐更高刊"
+      },
+      "journal_fit": {
+        "area": "梯度映射的验证动力学",
+        "basis": "独立贡献为特定初值的有限前缀捕获认证，一般局部机制已归入P059。",
+        "checked_on": "2026-10-15",
+        "sources": ["JDEA", "NUMALG"]
+      },
+      "journal_names": {
         "Recommended": "Journal of Difference Equations and Applications",
-        "Competitive": "Discrete and Continuous Dynamical Systems",
-        "Ambitious": "SIAM Journal on Applied Dynamical Systems（需提高机制的一般性）"
+        "Competitive": "Numerical Algorithms",
+        "Ambitious": null
       }
     },
     {
@@ -1244,9 +1761,20 @@
       "core_contribution_level": "C-S3",
       "core_scope": "整体中最重要的已核理论结果",
       "journal_position": {
+        "Recommended": "Journal of Difference Equations and Applications（临界相位及簇集机制与差分动力学直接对应）",
+        "Competitive": "SIAM Journal on Applied Dynamical Systems（需解释机制的可迁移性并区分已证与猜测簇集）",
+        "Ambitious": "Nonlinearity（只有超出特定低维模型的结构意义充分时考虑）"
+      },
+      "journal_fit": {
+        "area": "临界梯度映射的相位簇集",
+        "basis": "捕获、平方根律和对数周期相位属于离散动力系统的精细渐近。",
+        "checked_on": "2026-10-15",
+        "sources": ["JDEA", "SIADS", "NON"]
+      },
+      "journal_names": {
         "Recommended": "Journal of Difference Equations and Applications",
-        "Competitive": "Discrete and Continuous Dynamical Systems",
-        "Ambitious": "SIAM Journal on Applied Dynamical Systems（需提高机制的一般性）"
+        "Competitive": "SIAM Journal on Applied Dynamical Systems",
+        "Ambitious": "Nonlinearity"
       }
     },
     {
@@ -1270,9 +1798,20 @@
       "core_contribution_level": "C-S3",
       "core_scope": "整体中最重要的已核理论结果",
       "journal_position": {
-        "Recommended": "Journal of Optimization Theory and Applications",
-        "Competitive": "SIAM Journal on Optimization",
-        "Ambitious": "Mathematical Programming（取决于核心结果的领域价值）"
+        "Recommended": "Journal of Theoretical Probability（随机矩阵谱与几乎必然逃逸的概率证明直接匹配）",
+        "Competitive": "Stochastic Processes and their Applications（需突出逃逸机制对随机过程与采样理论的更广意义）",
+        "Ambitious": "SIAM Journal on Numerical Analysis（仅在补强步长依赖、时间尺度或稳定离散化比较后考虑）"
+      },
+      "journal_fit": {
+        "area": "随机数值动力学与Langevin采样",
+        "basis": "核心是粒子协方差谱的几乎必然逃逸，结论针对随机离散化的长时间行为，而非优化复杂度。",
+        "checked_on": "2026-10-15",
+        "sources": ["JTP", "SPA", "SINUM"]
+      },
+      "journal_names": {
+        "Recommended": "Journal of Theoretical Probability",
+        "Competitive": "Stochastic Processes and their Applications",
+        "Ambitious": "SIAM Journal on Numerical Analysis"
       }
     },
     {
@@ -1296,9 +1835,20 @@
       "core_contribution_level": "C-S4",
       "core_scope": "整体中最重要的已核理论结果",
       "journal_position": {
-        "Recommended": "SIAM Journal on Optimization",
-        "Competitive": "Mathematical Programming",
-        "Ambitious": "Foundations of Computational Mathematics（需强化方法的一般影响）"
+        "Recommended": "Set-Valued and Variational Analysis（以不动点、算子迭代及变分结构为主线最直接）",
+        "Competitive": "SIAM Journal on Optimization（可作为明确优化交叉候选，需突出近端凸目标反例和算法意义）",
+        "Ambitious": "SIAM Journal on Numerical Analysis（若主线转向加速迭代与锐残差的数值分析，而非按分数升档）"
+      },
+      "journal_fit": {
+        "area": "非扩张算子迭代与变分分析",
+        "basis": "主定理针对一般Hilbert非扩张映射的收敛范围及边界率，凸近端优化是重要子情形。",
+        "checked_on": "2026-10-15",
+        "sources": ["SVVA", "SIOPT", "SINUM"]
+      },
+      "journal_names": {
+        "Recommended": "Set-Valued and Variational Analysis",
+        "Competitive": "SIAM Journal on Optimization",
+        "Ambitious": "SIAM Journal on Numerical Analysis"
       }
     },
     {
@@ -1322,9 +1872,20 @@
       "core_contribution_level": "C-S3",
       "core_scope": "整体中最重要的已核理论结果",
       "journal_position": {
-        "Recommended": "Journal of Optimization Theory and Applications",
-        "Competitive": "SIAM Journal on Optimization",
-        "Ambitious": "Mathematical Programming（取决于核心结果的领域价值）"
+        "Recommended": "Set-Valued and Variational Analysis（余强单调流与Mann迭代的算子结构直接匹配）",
+        "Competitive": "Numerical Algorithms（若突出离散逼近、步长及数值行为）",
+        "Ambitious": "奇性假设较强且无统一速率，不硬列优化顶刊"
+      },
+      "journal_fit": {
+        "area": "余强单调算子与不动点逼近",
+        "basis": "奇性下的Euler/Mann强收敛是算子与不动点问题，不依赖存在优化目标函数。",
+        "checked_on": "2026-10-15",
+        "sources": ["SVVA", "NUMALG"]
+      },
+      "journal_names": {
+        "Recommended": "Set-Valued and Variational Analysis",
+        "Competitive": "Numerical Algorithms",
+        "Ambitious": null
       }
     },
     {
@@ -1348,9 +1909,20 @@
       "core_contribution_level": "C-S2",
       "core_scope": "整体中最重要的已核理论结果",
       "journal_position": {
-        "Recommended": "Optimization Letters / Numerical Algorithms",
+        "Recommended": "Optimization Letters（标量步长区间与KKT选点宜压缩为优化短文）",
+        "Competitive": "Journal of Optimization Theory and Applications（若能说明顺序机制的独立价值及推广障碍）",
+        "Ambitious": "缺少高维替代机制，不设挑战刊"
+      },
+      "journal_fit": {
+        "area": "标量ADMM与凸分裂",
+        "basis": "核心是标量顺序支持的ADMM对偶步长收敛，属于受限维数优化算法理论。",
+        "checked_on": "2026-10-15",
+        "sources": ["OL", "JOTA"]
+      },
+      "journal_names": {
+        "Recommended": "Optimization Letters",
         "Competitive": "Journal of Optimization Theory and Applications",
-        "Ambitious": "SIAM Journal on Optimization（须有结构性升级）"
+        "Ambitious": null
       }
     },
     {
@@ -1374,9 +1946,20 @@
       "core_contribution_level": "C-S3",
       "core_scope": "整体中最重要的已核理论结果",
       "journal_position": {
+        "Recommended": "Journal of Optimization Theory and Applications（分裂顺序、锐性能与残差反例均匹配优化理论）",
+        "Competitive": "SIAM Journal on Optimization（需突出相对已知DR界的实质增量及达到机制）",
+        "Ambitious": "Set-Valued and Variational Analysis（若以余强单调算子与梯度结构的区别为主要贡献，可作方向替代）"
+      },
+      "journal_fit": {
+        "area": "凸Douglas–Rachford分裂的锐性能",
+        "basis": "目标值精确界及梯度/算子差异直接涉及凸分裂算法性能。",
+        "checked_on": "2026-10-15",
+        "sources": ["JOTA", "SIOPT", "SVVA"]
+      },
+      "journal_names": {
         "Recommended": "Journal of Optimization Theory and Applications",
         "Competitive": "SIAM Journal on Optimization",
-        "Ambitious": "Mathematical Programming（取决于核心结果的领域价值）"
+        "Ambitious": "Set-Valued and Variational Analysis"
       }
     },
     {
@@ -1400,9 +1983,20 @@
       "core_contribution_level": "C-S4",
       "core_scope": "整体中最重要的已核理论结果",
       "journal_position": {
-        "Recommended": "Journal of Optimization Theory and Applications",
-        "Competitive": "SIAM Journal on Optimization",
-        "Ambitious": "Mathematical Programming（取决于核心结果的领域价值）"
+        "Recommended": "International Journal of Game Theory（势博弈、学习规则与均衡选择直接匹配）",
+        "Competitive": "Mathematics of Operations Research（需说明对博弈学习与运筹决策理论的广泛意义）",
+        "Ambitious": "SIAM Journal on Applied Dynamical Systems（仅在随机激活和带符号记忆的动力学机制成为主线时考虑）"
+      },
+      "journal_fit": {
+        "area": "博弈学习与势博弈均衡选择",
+        "basis": "结果研究普通遗憾匹配的策略路径长度和Nash选点，优化能量仅是证明工具。",
+        "checked_on": "2026-10-15",
+        "sources": ["IJGT", "MOR", "SIADS"]
+      },
+      "journal_names": {
+        "Recommended": "International Journal of Game Theory",
+        "Competitive": "Mathematics of Operations Research",
+        "Ambitious": "SIAM Journal on Applied Dynamical Systems"
       }
     },
     {
@@ -1426,9 +2020,20 @@
       "core_contribution_level": "C-S4",
       "core_scope": "整体中最重要的已核理论结果",
       "journal_position": {
-        "Recommended": "Journal of Optimization Theory and Applications",
-        "Competitive": "SIAM Journal on Optimization",
-        "Ambitious": "Mathematical Programming（取决于核心结果的领域价值）"
+        "Recommended": "Mathematics of Operations Research（博弈学习与算法均衡主题匹配；需解释对运筹与博弈读者的意义）",
+        "Competitive": "International Journal of Game Theory（若以量子博弈均衡和学习规则为中心，可作同方向替代）",
+        "Ambitious": "SIAM Journal on Matrix Analysis and Applications（仅在谱泄漏和非交换矩阵分析形成独立主线时考虑）"
+      },
+      "journal_fit": {
+        "area": "量子零和博弈与矩阵学习动力学",
+        "basis": "对象是量子博弈中的矩阵乘法权重、Nash选点和熵极限，不能仅凭矩阵优化外观归类。",
+        "checked_on": "2026-10-15",
+        "sources": ["MOR", "IJGT", "SIMAX"]
+      },
+      "journal_names": {
+        "Recommended": "Mathematics of Operations Research",
+        "Competitive": "International Journal of Game Theory",
+        "Ambitious": "SIAM Journal on Matrix Analysis and Applications"
       }
     },
     {
@@ -1452,9 +2057,20 @@
       "core_contribution_level": "C-S3",
       "core_scope": "整体中最重要的已核理论结果",
       "journal_position": {
+        "Recommended": "Journal of Optimization Theory and Applications（近端实现、残差保护与算法保证直接匹配）",
+        "Competitive": "Set-Valued and Variational Analysis（若突出负共单调包含及其算子结构）",
+        "Ambitious": "SIAM Journal on Optimization（需增强对优化或鞍点问题的实际算法收益与适用性）"
+      },
+      "journal_fit": {
+        "area": "非单调包含与近端算法实现",
+        "basis": "负共单调结构、热启动Picard及二阶实现属于变分问题的可计算算法。",
+        "checked_on": "2026-10-15",
+        "sources": ["JOTA", "SVVA", "SIOPT"]
+      },
+      "journal_names": {
         "Recommended": "Journal of Optimization Theory and Applications",
-        "Competitive": "SIAM Journal on Optimization",
-        "Ambitious": "Mathematical Programming（取决于核心结果的领域价值）"
+        "Competitive": "Set-Valued and Variational Analysis",
+        "Ambitious": "SIAM Journal on Optimization"
       }
     },
     {
@@ -1478,9 +2094,20 @@
       "core_contribution_level": "C-S3",
       "core_scope": "整体中最重要的已核理论结果",
       "journal_position": {
-        "Recommended": "Journal of Optimization Theory and Applications",
-        "Competitive": "SIAM Journal on Optimization",
-        "Ambitious": "Mathematical Programming（取决于核心结果的领域价值）"
+        "Recommended": "Set-Valued and Variational Analysis（负共单调结构及最近零点选择直接匹配）",
+        "Competitive": "Journal of Optimization Theory and Applications（若突出复合优化或鞍点算法实现）",
+        "Ambitious": "SIAM Journal on Optimization（需说明可控误差和点选择对广泛优化问题的增量）"
+      },
+      "journal_fit": {
+        "area": "非单调变分问题的外梯度选点",
+        "basis": "负共单调零点、误差预算与锚点选择是算子包含问题的主线。",
+        "checked_on": "2026-10-15",
+        "sources": ["SVVA", "JOTA", "SIOPT"]
+      },
+      "journal_names": {
+        "Recommended": "Set-Valued and Variational Analysis",
+        "Competitive": "Journal of Optimization Theory and Applications",
+        "Ambitious": "SIAM Journal on Optimization"
       }
     },
     {
@@ -1504,9 +2131,20 @@
       "core_contribution_level": "C-S3",
       "core_scope": "整体中最重要的已核理论结果",
       "journal_position": {
+        "Recommended": "Journal of Optimization Theory and Applications（GRAAL调度与残差分析匹配变分算法理论）",
+        "Competitive": "Computational Optimization and Applications（需补充可检验的调度效果和有代表性的计算比较）",
+        "Ambitious": "对数损失与缺少末次结论尚未解决，不强列挑战刊"
+      },
+      "journal_fit": {
+        "area": "弱Minty变分问题的预设调度算法",
+        "basis": "未知弱Minty参数下的残差保证属于非单调变分算法，当前结果不是一般复杂度最优性。",
+        "checked_on": "2026-10-15",
+        "sources": ["JOTA", "COAP"]
+      },
+      "journal_names": {
         "Recommended": "Journal of Optimization Theory and Applications",
-        "Competitive": "SIAM Journal on Optimization",
-        "Ambitious": "Mathematical Programming（取决于核心结果的领域价值）"
+        "Competitive": "Computational Optimization and Applications",
+        "Ambitious": null
       }
     },
     {
@@ -1530,9 +2168,20 @@
       "core_contribution_level": "C-S3",
       "core_scope": "整体中最重要的已核理论结果",
       "journal_position": {
-        "Recommended": "Optimization Letters / Numerical Algorithms",
-        "Competitive": "Journal of Optimization Theory and Applications",
-        "Ambitious": "SIAM Journal on Optimization（须有结构性升级）"
+        "Recommended": "International Journal of Game Theory（零和矩阵博弈与遗憾匹配学习规则最匹配）",
+        "Competitive": "Mathematics of Operations Research（需说明去掉唯一性对算法博弈论的实质作用）",
+        "Ambitious": "特定实现与无速率结果不宜机械推向优化期刊"
+      },
+      "journal_fit": {
+        "area": "零和博弈学习与Nash点收敛",
+        "basis": "独立增量是IREG-PRM+在非唯一均衡下的整列策略收敛，主要读者是博弈学习研究者。",
+        "checked_on": "2026-10-15",
+        "sources": ["IJGT", "MOR"]
+      },
+      "journal_names": {
+        "Recommended": "International Journal of Game Theory",
+        "Competitive": "Mathematics of Operations Research",
+        "Ambitious": null
       }
     },
     {
@@ -1542,7 +2191,7 @@
       "core_score": 58,
       "future": 62,
       "label": "DR对数边界两步能量",
-      "main": "非凸Douglas–Rachford的特定直线/圆模型在对数能量边界仍具有两步严格下降。",
+      "main": "非凸Douglas–Rachford的两条仿射直线之并与第三条直线的投影模型在对数能量边界仍具有两步严格下降。",
       "proof": "33项符号重放通过；投影多值选择与接触点条件保留，没有用单值连续映射结论代替原关系。",
       "novelty": "非凸DR周期与Lyapunov分析已有长期研究，本稿主要补一个特殊边界的完整性。",
       "need": "本文提供局部精确补充，尚不足以支撑重要新机制的判断。",
@@ -1556,9 +2205,20 @@
       "core_contribution_level": "C-S1",
       "core_scope": "整体中最重要的已核理论结果",
       "journal_position": {
+        "Recommended": "Journal of Difference Equations and Applications（特定非凸迭代的严格能量与边界行为匹配）",
+        "Competitive": "Numerical Algorithms（若形成对DR数值实现有用的稳定分析）",
+        "Ambitious": "单模型有限步严格化不支撑挑战刊"
+      },
+      "journal_fit": {
+        "area": "非凸分裂映射的离散动力学",
+        "basis": "两条仿射直线之并与第三条直线构成的非凸投影模型，其两步Lyapunov下降是离散动力学事实。",
+        "checked_on": "2026-10-15",
+        "sources": ["JDEA", "NUMALG"]
+      },
+      "journal_names": {
         "Recommended": "Journal of Difference Equations and Applications",
-        "Competitive": "Discrete and Continuous Dynamical Systems",
-        "Ambitious": "SIAM Journal on Applied Dynamical Systems（需提高机制的一般性）"
+        "Competitive": "Numerical Algorithms",
+        "Ambitious": null
       }
     },
     {
@@ -1582,9 +2242,20 @@
       "core_contribution_level": "C-S3",
       "core_scope": "整体中最重要的已核理论结果",
       "journal_position": {
-        "Recommended": "Journal of Optimization Theory and Applications",
-        "Competitive": "SIAM Journal on Optimization",
-        "Ambitious": "Mathematical Programming（取决于核心结果的领域价值）"
+        "Recommended": "Journal of Difference Equations and Applications（能量衰减与非收敛极限集的并存直接匹配）",
+        "Competitive": "SIAM Journal on Applied Dynamical Systems（需突出对耗散算法动力学的可迁移机制）",
+        "Ambitious": "Journal of Optimization Theory and Applications（若以凸优化中的点收敛条件为主线，可作交叉候选）"
+      },
+      "journal_fit": {
+        "area": "阻尼迭代的能量与极限集",
+        "basis": "核心区别能量快降与轨道选点，区间簇集机制属于离散动力学。",
+        "checked_on": "2026-10-15",
+        "sources": ["JDEA", "SIADS", "JOTA"]
+      },
+      "journal_names": {
+        "Recommended": "Journal of Difference Equations and Applications",
+        "Competitive": "SIAM Journal on Applied Dynamical Systems",
+        "Ambitious": "Journal of Optimization Theory and Applications"
       }
     },
     {
@@ -1608,9 +2279,20 @@
       "core_contribution_level": "C-S3",
       "core_scope": "整体中最重要的已核理论结果",
       "journal_position": {
-        "Recommended": "Discrete and Continuous Dynamical Systems",
-        "Competitive": "SIAM Journal on Applied Dynamical Systems",
-        "Ambitious": "Nonlinearity（需一般机制或更强动力学结论）"
+        "Recommended": "SIAM Journal on Applied Dynamical Systems（算法诱导的分岔和吸引子直接匹配应用动力系统）",
+        "Competitive": "Nonlinearity（需突出强凸性与复杂动力学共存的普遍机制）",
+        "Ambitious": "Journal of Dynamics and Differential Equations（若以严谨分岔与局部吸引性为中心，可作动力学替代）"
+      },
+      "journal_fit": {
+        "area": "Heavy Ball映射的分岔与吸引不变曲线",
+        "basis": "主贡献是强凸势诱导的周期与吸引曲线，中心问题是非线性吸引子而非优化复杂度。",
+        "checked_on": "2026-10-15",
+        "sources": ["SIADS", "NON", "JDDE"]
+      },
+      "journal_names": {
+        "Recommended": "SIAM Journal on Applied Dynamical Systems",
+        "Competitive": "Nonlinearity",
+        "Ambitious": "Journal of Dynamics and Differential Equations"
       }
     },
     {
@@ -1634,9 +2316,20 @@
       "core_contribution_level": "C-S3",
       "core_scope": "整体中最重要的已核理论结果",
       "journal_position": {
+        "Recommended": "Journal of Difference Equations and Applications（平面投影递推的极限集与长期统计最贴合）",
+        "Competitive": "SIAM Journal on Applied Dynamical Systems（需把曲率控制的平均机制推广或解释得更具一般意义）",
+        "Ambitious": "Nonlinearity（仅在超出单一平面映射的机制得到支撑后考虑）"
+      },
+      "journal_fit": {
+        "area": "投影映射的边界循环与几何动力学",
+        "basis": "无阻尼惯性投影的边界流通和曲率平均是离散几何动力学，未建立优化收敛定理。",
+        "checked_on": "2026-10-15",
+        "sources": ["JDEA", "SIADS", "NON"]
+      },
+      "journal_names": {
         "Recommended": "Journal of Difference Equations and Applications",
-        "Competitive": "Discrete and Continuous Dynamical Systems",
-        "Ambitious": "SIAM Journal on Applied Dynamical Systems（需提高机制的一般性）"
+        "Competitive": "SIAM Journal on Applied Dynamical Systems",
+        "Ambitious": "Nonlinearity"
       }
     },
     {
@@ -1660,9 +2353,20 @@
       "core_contribution_level": "C-S1",
       "core_scope": "整体中最重要的已核理论结果",
       "journal_position": {
+        "Recommended": "Journal of Difference Equations and Applications（周期构造与单调递推直接对应）",
+        "Competitive": "Discrete and Continuous Dynamical Systems（需增加一般结构分类或周期数量结论）",
+        "Ambitious": "精细单例尚不支持更高挑战目标"
+      },
+      "journal_fit": {
+        "area": "单调递推的周期构造",
+        "basis": "固定严格凸递推中的三个二周期是离散动力系统反例，不是优化算法性能结论。",
+        "checked_on": "2026-10-15",
+        "sources": ["JDEA", "DCDS"]
+      },
+      "journal_names": {
         "Recommended": "Journal of Difference Equations and Applications",
         "Competitive": "Discrete and Continuous Dynamical Systems",
-        "Ambitious": "SIAM Journal on Applied Dynamical Systems（需提高机制的一般性）"
+        "Ambitious": null
       }
     },
     {
@@ -1686,9 +2390,20 @@
       "core_contribution_level": "C-S3",
       "core_scope": "整体中最重要的已核理论结果",
       "journal_position": {
-        "Recommended": "Numerical Algorithms / Applied Numerical Mathematics",
-        "Competitive": "SIAM Journal on Numerical Analysis",
-        "Ambitious": "Mathematics of Computation（当前需超越专门模型）"
+        "Recommended": "Journal of Difference Equations and Applications（摩擦幂、局部有限长度与离散稳定性匹配）",
+        "Competitive": "Numerical Algorithms（若重点是半隐式格式的稳定与长时间行为）",
+        "Ambitious": "SIAM Journal on Applied Dynamical Systems（需统一不同摩擦幂机制并提升多维解释）"
+      },
+      "journal_fit": {
+        "area": "非线性摩擦系统的数值动力学",
+        "basis": "半隐式摩擦迭代的Morse–Bott有限长度和幂次机制属于离散耗散动力学。",
+        "checked_on": "2026-10-15",
+        "sources": ["JDEA", "NUMALG", "SIADS"]
+      },
+      "journal_names": {
+        "Recommended": "Journal of Difference Equations and Applications",
+        "Competitive": "Numerical Algorithms",
+        "Ambitious": "SIAM Journal on Applied Dynamical Systems"
       }
     },
     {
@@ -1712,9 +2427,20 @@
       "core_contribution_level": "C-S1",
       "core_scope": "整体中最重要的已核理论结果",
       "journal_position": {
-        "Recommended": "Numerical Algorithms / Applied Numerical Mathematics",
-        "Competitive": "SIAM Journal on Numerical Analysis",
-        "Ambitious": "Mathematics of Computation（当前需超越专门模型）"
+        "Recommended": "Journal of Difference Equations and Applications（隐式映射的非收敛轨道与极限集直接匹配）",
+        "Competitive": "Numerical Algorithms（若说明其对结构保持离散化的含义）",
+        "Ambitious": "特制非解析势与单初值限制明显"
+      },
+      "journal_fit": {
+        "area": "隐式Euler的非收敛极限集",
+        "basis": "固定后向Euler映射的整圆极限集揭示离散长时间动力学，不是误差阶改进。",
+        "checked_on": "2026-10-15",
+        "sources": ["JDEA", "NUMALG"]
+      },
+      "journal_names": {
+        "Recommended": "Journal of Difference Equations and Applications",
+        "Competitive": "Numerical Algorithms",
+        "Ambitious": null
       }
     },
     {
@@ -1738,9 +2464,20 @@
       "core_contribution_level": "C-S3",
       "core_scope": "整体中最重要的已核理论结果",
       "journal_position": {
-        "Recommended": "Discrete and Continuous Dynamical Systems",
+        "Recommended": "Journal of Dynamics and Differential Equations（连续系统的冷启动轨道、渐近相位与极限圆最匹配）",
+        "Competitive": "SIAM Journal on Applied Dynamical Systems（需突出记忆反馈造成漂移的机制及应用解释）",
+        "Ambitious": "Nonlinearity（只有机制超出固定圆形极小流形时再考虑）"
+      },
+      "journal_fit": {
+        "area": "积分反馈梯度系统的连续动力学",
+        "basis": "解析势上的真实冷启动漂移及精确时间渐近是微分方程和极限集问题。",
+        "checked_on": "2026-10-15",
+        "sources": ["JDDE", "SIADS", "NON"]
+      },
+      "journal_names": {
+        "Recommended": "Journal of Dynamics and Differential Equations",
         "Competitive": "SIAM Journal on Applied Dynamical Systems",
-        "Ambitious": "Nonlinearity（需一般机制或更强动力学结论）"
+        "Ambitious": "Nonlinearity"
       }
     },
     {
@@ -1764,9 +2501,20 @@
       "core_contribution_level": "C-S3",
       "core_scope": "整体中最重要的已核理论结果",
       "journal_position": {
-        "Recommended": "Numerical Algorithms / Applied Numerical Mathematics",
+        "Recommended": "Numerical Algorithms（AVF格式、零耗散与周期分析直接匹配）",
+        "Competitive": "SIAM Journal on Numerical Analysis（需加强对一般几何积分稳定性的启示）",
+        "Ambitious": "SIAM Journal on Applied Dynamical Systems（若围绕离散周期机制组织，可作动力学交叉候选）"
+      },
+      "journal_fit": {
+        "area": "AVF几何积分与长期稳定性",
+        "basis": "零耗散周期说明离散能量性质不足以推出选点，中心是数值积分的长期结构。",
+        "checked_on": "2026-10-15",
+        "sources": ["NUMALG", "SINUM", "SIADS"]
+      },
+      "journal_names": {
+        "Recommended": "Numerical Algorithms",
         "Competitive": "SIAM Journal on Numerical Analysis",
-        "Ambitious": "Mathematics of Computation（当前需超越专门模型）"
+        "Ambitious": "SIAM Journal on Applied Dynamical Systems"
       }
     },
     {
@@ -1790,9 +2538,20 @@
       "core_contribution_level": "C-S1",
       "core_scope": "整体中最重要的已核理论结果",
       "journal_position": {
-        "Recommended": "Numerical Algorithms / Applied Numerical Mathematics",
-        "Competitive": "SIAM Journal on Numerical Analysis",
-        "Ambitious": "Mathematics of Computation（当前需超越专门模型）"
+        "Recommended": "Numerical Algorithms（算法稳定域与非线性反例属于直接主题）",
+        "Competitive": "Journal of Difference Equations and Applications（若作为解析映射二周期的简短动力学结果组织）",
+        "Ambitious": "单参数单势反例需精简，不设挑战刊"
+      },
+      "journal_fit": {
+        "area": "显式数值格式的非线性稳定反例",
+        "basis": "RKCD在强凸非线性势上的二周期限制其全局Lyapunov结构，是数值稳定性反例。",
+        "checked_on": "2026-10-15",
+        "sources": ["NUMALG", "JDEA"]
+      },
+      "journal_names": {
+        "Recommended": "Numerical Algorithms",
+        "Competitive": "Journal of Difference Equations and Applications",
+        "Ambitious": null
       }
     },
     {
@@ -1816,9 +2575,20 @@
       "core_contribution_level": "C-S2",
       "core_scope": "整体中最重要的已核理论结果",
       "journal_position": {
-        "Recommended": "Numerical Algorithms / Applied Numerical Mathematics",
+        "Recommended": "Numerical Algorithms（Patankar格式、平衡保持与稳定分析直接匹配）",
+        "Competitive": "SIAM Journal on Numerical Analysis（需推广生成元或分裂条件，突出方法层面的贡献）",
+        "Ambitious": "重置生成元限制较强，不机械上推更高刊"
+      },
+      "journal_fit": {
+        "area": "保正积分方法与Markov生成元",
+        "basis": "MPRK22(1)的比值收缩研究特定数值格式的平衡稳定性，非优化问题。",
+        "checked_on": "2026-10-15",
+        "sources": ["NUMALG", "SINUM"]
+      },
+      "journal_names": {
+        "Recommended": "Numerical Algorithms",
         "Competitive": "SIAM Journal on Numerical Analysis",
-        "Ambitious": "Mathematics of Computation（当前需超越专门模型）"
+        "Ambitious": null
       }
     },
     {
@@ -1842,9 +2612,20 @@
       "core_contribution_level": "C-S2",
       "core_scope": "整体中最重要的已核理论结果",
       "journal_position": {
+        "Recommended": "Journal of Difference Equations and Applications（特定共振映射与严格局部能量直接匹配）",
+        "Competitive": "Discrete and Continuous Dynamical Systems（需提炼可用于一类共振系统的构造原则）",
+        "Ambitious": "只排除指定能量族，不能声称一般障碍"
+      },
+      "journal_fit": {
+        "area": "共振映射的局部稳定与Lyapunov函数",
+        "basis": "1:4共振的角向修正与多项式衰减属于局部分岔和稳定性理论。",
+        "checked_on": "2026-10-15",
+        "sources": ["JDEA", "DCDS"]
+      },
+      "journal_names": {
         "Recommended": "Journal of Difference Equations and Applications",
         "Competitive": "Discrete and Continuous Dynamical Systems",
-        "Ambitious": "SIAM Journal on Applied Dynamical Systems（需提高机制的一般性）"
+        "Ambitious": null
       }
     },
     {
@@ -1868,9 +2649,20 @@
       "core_contribution_level": "C-S1",
       "core_scope": "整体中最重要的已核理论结果",
       "journal_position": {
+        "Recommended": "Journal of Difference Equations and Applications（Ricker差分模型与全局吸引直接匹配）",
+        "Competitive": "Discrete and Continuous Dynamical Systems（仅在扩展为参数区域或一般全局稳定机制后考虑）",
+        "Ambitious": "固定模型补证不宜强列挑战目标"
+      },
+      "journal_fit": {
+        "area": "离散种群模型与全局吸引",
+        "basis": "补充型Ricker映射的全局捕获属于离散种群动力学，数值算术是验证手段。",
+        "checked_on": "2026-10-15",
+        "sources": ["JDEA", "DCDS"]
+      },
+      "journal_names": {
         "Recommended": "Journal of Difference Equations and Applications",
         "Competitive": "Discrete and Continuous Dynamical Systems",
-        "Ambitious": "SIAM Journal on Applied Dynamical Systems（需提高机制的一般性）"
+        "Ambitious": null
       }
     },
     {
@@ -1894,9 +2686,20 @@
       "core_contribution_level": "C-S2",
       "core_scope": "整体中最重要的已核理论结果",
       "journal_position": {
-        "Recommended": "Numerical Algorithms / Applied Numerical Mathematics",
-        "Competitive": "SIAM Journal on Numerical Analysis",
-        "Ambitious": "Mathematics of Computation（当前需超越专门模型）"
+        "Recommended": "Journal of Difference Equations and Applications（固定力学映射的捕获和驻定对选择最匹配）",
+        "Competitive": "Numerical Algorithms（若突出极化格式的稳定性及可迁移能量修正）",
+        "Ambitious": "当前没有一般极化方法判据"
+      },
+      "journal_fit": {
+        "area": "Duffing离散化与捕获动力学",
+        "basis": "极化Duffing映射的紧捕获及奇偶驻定选择，重点为离散力学与能量几何。",
+        "checked_on": "2026-10-15",
+        "sources": ["JDEA", "NUMALG"]
+      },
+      "journal_names": {
+        "Recommended": "Journal of Difference Equations and Applications",
+        "Competitive": "Numerical Algorithms",
+        "Ambitious": null
       }
     },
     {
@@ -1920,9 +2723,20 @@
       "core_contribution_level": "C-S1",
       "core_scope": "整体中最重要的已核理论结果",
       "journal_position": {
+        "Recommended": "Journal of Difference Equations and Applications（时钟映射与全局严格能量的专门结果匹配）",
+        "Competitive": "Discrete and Continuous Dynamical Systems（需扩展网络规模或形成独立机制）",
+        "Ambitious": "三节点特定排序验证不足以支持挑战刊"
+      },
+      "journal_fit": {
+        "area": "时钟网络的离散Lyapunov稳定性",
+        "basis": "三时钟torus映射的排序与主序论证属于网络离散动力学，不是优化理论。",
+        "checked_on": "2026-10-15",
+        "sources": ["JDEA", "DCDS"]
+      },
+      "journal_names": {
         "Recommended": "Journal of Difference Equations and Applications",
         "Competitive": "Discrete and Continuous Dynamical Systems",
-        "Ambitious": "SIAM Journal on Applied Dynamical Systems（需提高机制的一般性）"
+        "Ambitious": null
       }
     },
     {
@@ -1946,9 +2760,20 @@
       "core_contribution_level": "C-S2",
       "core_scope": "整体中最重要的已核理论结果",
       "journal_position": {
-        "Recommended": "Numerical Algorithms / Applied Numerical Mathematics",
+        "Recommended": "Numerical Algorithms（多步格式及临界稳定性是直接主题）",
+        "Competitive": "SIAM Journal on Numerical Analysis（需说明端点处理对更广离散化的作用，或扩展变步长/PDE）",
+        "Ambitious": "Journal of Scientific Computing（仅在补强科学计算问题与可复现实验后考虑）"
+      },
+      "journal_fit": {
+        "area": "多步数值积分的端点稳定性",
+        "basis": "BDF3半凸退化端点与有限历史能量直接属于数值积分稳定理论。",
+        "checked_on": "2026-10-15",
+        "sources": ["NUMALG", "SINUM", "JSC"]
+      },
+      "journal_names": {
+        "Recommended": "Numerical Algorithms",
         "Competitive": "SIAM Journal on Numerical Analysis",
-        "Ambitious": "Mathematics of Computation（当前需超越专门模型）"
+        "Ambitious": "Journal of Scientific Computing"
       }
     },
     {
@@ -1972,9 +2797,20 @@
       "core_contribution_level": "C-S4",
       "core_scope": "整体中最重要的已核理论结果",
       "journal_position": {
+        "Recommended": "SIAM Journal on Optimization（边界优化、镜像几何和锐渐近均与该刊范围直接匹配）",
+        "Competitive": "Set-Valued and Variational Analysis（若重点是退化边界几何与法向旗标，可作同方向替代）",
+        "Ambitious": "Mathematical Programming（需进一步证明对一般镜像方法的影响，当前不视为已达投稿要求）"
+      },
+      "journal_fit": {
+        "area": "镜像下降的边界渐近与变分几何",
+        "basis": "Burg镜像法在单纯形边界的选点和锐速率直接涉及非欧优化算法理论。",
+        "checked_on": "2026-10-15",
+        "sources": ["SIOPT", "SVVA", "MP"]
+      },
+      "journal_names": {
         "Recommended": "SIAM Journal on Optimization",
-        "Competitive": "Mathematical Programming",
-        "Ambitious": "Foundations of Computational Mathematics（需强化方法的一般影响）"
+        "Competitive": "Set-Valued and Variational Analysis",
+        "Ambitious": "Mathematical Programming"
       }
     },
     {
@@ -2001,6 +2837,11 @@
         "Recommended": "SIAM Journal on Optimization",
         "Competitive": "Mathematical Programming / Nonlinearity",
         "Ambitious": "Journal of the European Mathematical Society（需进一步形成普遍理论）"
+      },
+      "journal_names": {
+        "Recommended": "SIAM Journal on Optimization",
+        "Competitive": "Mathematical Programming / Nonlinearity",
+        "Ambitious": "Journal of the European Mathematical Society"
       }
     },
     {
@@ -2024,9 +2865,20 @@
       "core_contribution_level": "C-S3",
       "core_scope": "仅第5节明确限定的已核子结果；不是整稿核心主张全部通过",
       "journal_position": {
-        "Recommended": "暂缓正式匹配；先闭合缺失证明材料",
-        "Competitive": "补件后按已证范围重新评定",
-        "Ambitious": "现阶段不指定挑战级期刊"
+        "Recommended": "暂不建议投稿；以下仅为补齐证明或拆出已核子稿后的方向候选：Journal of Difference Equations and Applications（补齐证明或拆出独立已核子稿后，可按离散耗散动力学定位）",
+        "Competitive": "待整稿通过核验后再评估：Numerical Algorithms（若形成完整AVF格式稳定性论文再考虑）",
+        "Ambitious": "阶段稿不设置挑战目标"
+      },
+      "journal_fit": {
+        "area": "离散耗散系统与结构保持积分",
+        "basis": "当前仅确认固定AVF模型的周期子结果，一般观测和耦合理论尚未闭合。",
+        "checked_on": "2026-10-15",
+        "sources": ["JDEA", "NUMALG"]
+      },
+      "journal_names": {
+        "Recommended": null,
+        "Competitive": null,
+        "Ambitious": null
       }
     },
     {
@@ -2058,9 +2910,20 @@
         "所声明主链闭合，新增能量渐近和捕获示例支撑应用；全局吸引域、偏离平衡阻尼及稳定性尚未解决。"
       ],
       "journal_position": {
-        "Recommended": "Nonlinearity / SIAM Journal on Applied Dynamical Systems（实质整理后）",
-        "Competitive": "Journal of Nonlinear Science（需进一步突出可迁移机制）",
-        "Ambitious": "Archive for Rational Mechanics and Analysis（当前不建议首投）"
+        "Recommended": "Nonlinearity（非线性力学、有限刚性与选择机制直接匹配；应压缩主线并整理长证明档案）",
+        "Competitive": "SIAM Journal on Applied Dynamical Systems（若以刚性导出的耗散选择及可检验捕获为叙述中心）",
+        "Ambitious": "Journal of Nonlinear Science（需证明超出指定齐次次数和模型邻域的普遍机制，当前不默认首投）"
+      },
+      "journal_fit": {
+        "area": "齐次Hamilton力学与有限形变刚性",
+        "basis": "共同不变力均值下的势阱刚性及受控修正项连接保守力学与耗散选择，优化是附加应用。",
+        "checked_on": "2026-10-15",
+        "sources": ["NON", "SIADS", "JNS"]
+      },
+      "journal_names": {
+        "Recommended": "Nonlinearity",
+        "Competitive": "SIAM Journal on Applied Dynamical Systems",
+        "Ambitious": "Journal of Nonlinear Science"
       }
     },
     {
@@ -2092,9 +2955,20 @@
         "所声明定理链闭合且边界明确；实际维数、迹分支及可实施证书仍待解决。"
       ],
       "journal_position": {
-        "Recommended": "Nonlinearity；Ergodic Theory and Dynamical Systems（需明确超出固定模型的意义）",
-        "Competitive": "SIAM Journal on Applied Dynamical Systems（需强化应用）；Journal of Nonlinear Science（需增强可迁移性）",
-        "Ambitious": "Archive for Rational Mechanics and Analysis（当前不按顶刊强稿推荐）"
+        "Recommended": "Journal of Dynamics and Differential Equations（不变平均核和形变相容性更适合专门动力学理论读者）",
+        "Competitive": "Nonlinearity（需突出奇异观测机制的一般意义，明确有限维不等于全核分类）",
+        "Ambitious": "Journal of Nonlinear Science（只有跨模型方法论价值得到增强后考虑；不因技术深度高自动推荐）"
+      },
+      "journal_fit": {
+        "area": "Hamilton动力系统的不变平均与形变障碍",
+        "basis": "核心为固定可积四次系统的平均核、共振观测与二阶可实现性，不是优化算法分析。",
+        "checked_on": "2026-10-15",
+        "sources": ["JDDE", "NON", "JNS"]
+      },
+      "journal_names": {
+        "Recommended": "Journal of Dynamics and Differential Equations",
+        "Competitive": "Nonlinearity",
+        "Ambitious": "Journal of Nonlinear Science"
       }
     }
   ],

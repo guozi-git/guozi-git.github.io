@@ -75,3 +75,54 @@ test('additional manuscripts have unique IDs, intact public PDFs and English ori
     assert.equal(createHash('sha256').update(pdf).digest('hex'), p.sha256);
   }
 });
+
+test('journal matching covers 79 manuscripts by subject, including conditional candidates', () => {
+  const matched = data.papers.filter((p) => p.id !== 89);
+  assert.equal(matched.length, 79);
+  for (const p of matched) {
+    assert(p.journal_fit?.area, `Missing direction for ${p.id}`);
+    assert(p.journal_fit.basis.length > 15);
+    assert.equal(p.journal_fit.checked_on, '2026-10-15');
+    assert(p.journal_fit.sources.length > 0);
+    if (!p.score_eligible) assert.match(p.journal_position.Recommended, /暂不建议投稿/);
+  }
+  const review = (id) => data.papers.find((p) => p.id === id);
+  assert.match(review(62).journal_position.Recommended, /Set-Valued and Variational Analysis/);
+  assert.match(review(66).journal_position.Recommended, /International Journal of Game Theory/);
+  assert.match(review(61).journal_position.Recommended, /Journal of Theoretical Probability/);
+  assert.match(review(46).journal_position.Recommended, /SIAM Journal on Optimization/);
+  for (const id of [61, 66, 74, 75, 79, 92, 93]) {
+    assert(
+      !Object.values(review(id).journal_position)
+        .join(' ')
+        .includes('SIAM Journal on Optimization'),
+      id,
+    );
+  }
+});
+
+test('all journal source keys resolve to official source records', () => {
+  const sources = JSON.parse(
+    readFileSync(new URL('../docs/journal-sources.json', import.meta.url)),
+  );
+  for (const p of data.papers.filter((p) => p.journal_fit)) {
+    for (const key of p.journal_fit.sources) {
+      assert(sources[key], `${p.id}: ${key}`);
+      assert.match(sources[key].url, /^https:\/\//);
+      assert(Object.values(p.journal_position).some((text) => text.includes(sources[key].name)));
+    }
+  }
+});
+
+test('journal display uses names only and suppresses empty candidates', () => {
+  for (const p of data.papers) {
+    for (const [key, name] of Object.entries(p.journal_names)) {
+      if (name === null) continue;
+      assert.equal(typeof name, 'string');
+      assert(name.length > 0);
+      assert(!/[\u4e00-\u9fff（）]/u.test(name));
+      assert(p.journal_position[key].includes(name));
+    }
+  }
+  assert.equal(data.papers.find((p) => p.id === 46).journal_names.Ambitious, null);
+});
