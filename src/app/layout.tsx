@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { preload } from 'react-dom';
 import { MotionToggle } from '@/components/motion-toggle';
 import { assetPath } from '@/lib/asset-path';
 import '@/styles/globals.css';
@@ -13,7 +14,7 @@ const siteUrl = new URL(
 const shareImage = new URL('share-cover.png', siteUrl).href;
 
 export const metadata: Metadata = {
-  title,
+  title: { default: title, template: '%s · 果子' },
   description,
   metadataBase: siteUrl,
   alternates: publicUrl ? { canonical: siteUrl.href } : undefined,
@@ -39,8 +40,16 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+  preload(assetPath('/fonts/factory-script-subset.otf'), {
+    as: 'font',
+    type: 'font/otf',
+    crossOrigin: 'anonymous',
+  });
   return (
     <html lang="zh-CN">
+      <head>
+        <style>{`@font-face{font-family:'Factory Script';src:url('${assetPath('/fonts/factory-script-subset.otf')}') format('opentype');font-display:swap;font-weight:400;font-style:normal;}`}</style>
+      </head>
       <body>
         {children}
         <MotionToggle />

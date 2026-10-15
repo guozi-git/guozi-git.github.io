@@ -1,51 +1,72 @@
-# 首次发布到 GitHub Pages
+# GitHub Pages 发布与回滚
 
-2026-10-10 本地准备记录：论文工厂已接入正式入口，尚未推送或部署。下方首次发布状态为历史记录，下一次发布前需重新确认实际 Pages 设置。新维护流程见 [论文维护流程](1010_论文维护流程_v1.txt)。
+截至 2026-10-15，正式网站为 https://guozi-git.github.io/guozi-website/ ，公开仓库为 guozi-git/guozi-website，默认分支 main，Pages Source 为 GitHub Actions。发布已启用。本轮工程改造尚未推送或上线；不能把本地检查视为线上验收。
 
-仓库：[guozi-git/guozi-website](https://github.com/guozi-git/guozi-website)，可见性 Public，默认分支 main。源码和工作流已上传，线上验证已通过。预定网站地址为 `https://guozi-git.github.io/guozi-website/`；Pages 尚未启用，此地址尚未发布。
+## 日常发布
 
-## 上传源码（已完成，保留作为迁移参考）
+1. 本地运行 `npm ci`、`npm run lint`、`npm run format:check`、`npm run content:check`、`npm run papers:test`。
+2. `npm run build` 后执行 `npm run typecheck`。静态产物在 out；构建自动检查 HTML 链接、公开资源、PDF 文件头、SEO 与版本文件。
+3. `npm start` 后运行 `npm run test:browser`、`npm run test:static`。浏览器检查必须使用与构建一致的路径；完整浏览器回归默认测试根路径，子路径用 test:static。
+4. 获得当次发布授权后，推送经验证的提交到 main。不要使用强制推送。
+5. Actions 的 Verify static website 检查根路径与项目路径；Publish GitHub Pages 独立构建通过后部署。只有 Publish 部署网站，两者不是重复部署。
+6. 发布后工作流核对 `version.json` 的提交 SHA、所有允许公开的资源、论文 PDF、主要页面和真实 404。最多等待传播重试4次；失败保留失败状态，不能当作发布成功。
+7. 最后人工打开首页、两个论文板块及原文，检查外观、切换、搜索、手机宽度。版本文件成功不替代视觉检查。
 
-1. 登录 GitHub，创建名为 guozi-website 的公开仓库。若通过 Git 推送，创建空仓库，不预先生成 README 或许可证。
-2. 上传本目录中的源码，保留 .github/workflows 等点开头的配置文件。不要把 ZIP 文件本身或整个外层目录作为网站代码上传；package.json 应处于仓库根目录。
-3. 建议使用 GitHub Desktop 的添加本地仓库及发布功能，或在本目录初始化 Git 后推送。首次提交使用你自己确认的 Git 姓名与邮箱，不使用环境中猜测的身份。
-4. 不要上传原开发目录的 .git；这个快照有意不携带旧历史。不要上传 node_modules、out、.next、.preview 或 .env。
+## 配置来源
 
-## 验证并发布
+- Node.js 24.21.0 / npm 11.19.0，使用锁文件和 npm ci。
+- `PAGES_ENABLED=true` 是仓库 Actions 变量。关闭只阻止新部署，不撤下现有网站。
+- 工作流从 configure-pages 读取 base_path/base_url，注入 `NEXT_PUBLIC_BASE_PATH`、`NEXT_PUBLIC_SITE_URL`，正式构建 `INDEX_SITE=true`。
+- 本地默认根路径，默认 noindex。`.env.example` 说明变量，不包含秘密。
+- 无需个人令牌，部署使用平台 GITHUB_TOKEN/OIDC；contents:read，只有部署作业增加 pages:write 和 id-token:write。
+- 部署并发串行，构建失败不会进入部署。静态站无需 next start、数据库或常驻Node服务。
+- robots.txt 在项目路径下不能代替域名根 `/robots.txt` 的作用；根域名迁移获准后才可控制根文件。当前索引规则主要由页面meta提供。
 
-以下启用 Pages、开启变量和运行发布工作流的步骤，只在网站所有者明确同意发布后执行。当前仅允许源码维护和验证；不要创建 Pages 站点或设置 PAGES_ENABLED=true。
-
-1. 上传后先查看 Actions → Verify static website，两个路径构建均应通过。
-2. Settings → Pages → Build and deployment → Source 选择 GitHub Actions。
-3. Settings → Secrets and variables → Actions → Variables 新建 PAGES_ENABLED，值设为 true。无需提供个人访问令牌。
-4. Actions → Publish GitHub Pages → Run workflow，选择 main。
-5. 发布成功后使用任务给出的真实网址访问。后续 main 提交会自动更新。
-
-工作流使用仓库自动提供的 GITHUB_TOKEN。若账号要求重新登录、双重验证或组织批准，由账号持有者在 GitHub 界面完成。
-
-## 本地模拟仓库路径（PowerShell）
+## 子路径模拟（PowerShell）
 
 ```powershell
-$env:NEXT_PUBLIC_BASE_PATH = '/guozi-website'
-$env:NEXT_TELEMETRY_DISABLED = '1'
+$env:NEXT_PUBLIC_BASE_PATH='/guozi-website'
+$env:NEXT_PUBLIC_SITE_URL='https://guozi-git.github.io/guozi-website'
+$env:INDEX_SITE='true'
 npm run build
-npm start -- --port 3100 --base-path /guozi-website
+npm start -- --port 3100
 ```
 
-另开终端运行：
+另一个终端使用相同环境运行：
 
 ```powershell
 npm run test:static -- http://127.0.0.1:3100/guozi-website/
+node scripts/check-deployed.mjs http://127.0.0.1:3100/guozi-website/
 ```
 
-切回根路径时清空 NEXT_PUBLIC_BASE_PATH 并重新构建。公开网址由发布流程注入 NEXT_PUBLIC_SITE_URL，INDEX_SITE=true 开启索引。本地默认 noindex。
+切回本地预览时清空三个变量并重新构建。本地version可标记dirty；正式检查要求SHA匹配且dirty=false。
 
-线上 Verify static website 已运行。根路径验证预览模式，仓库子路径还验证正式网址的 canonical、分享图 URL 与索引设置；构建这些文件不会发布网站。真实网站访问、第三方分享抓取和真实手机验收仍留待上线后完成。
+## 故障定位
 
-## 更新与回退
+- 构建失败：先看失败步骤，不发布旧out充当新版本。检查content/PDF哈希和导出资源错误。
+- 测试失败：Actions下载 verification-logs 或 pages-verification-logs，查看测试结果和预览服务日志。
+- 部署成功而验证失败：查看报告的具体URL、响应状态和版本SHA；检查CDN传播、basePath与公开资源白名单。
+- 缺失PDF：检查src/lib元数据及public原件；不要重命名ID或用首页掩盖404。
+- 论文排名编号只是展示标签；历史hash和PDF始终使用稳定ID。维护时按原题及稳定ID匹配，不按变化中的排名文件名匹配。
+- 搜索可匹配原ID或排名标签，若两者碰巧相同可能返回多篇，用英文标题进一步缩小。
 
-发布开关关闭期间，推送 main 只运行验证，Publish GitHub Pages 会跳过。启用后，每次 main 提交都会触发发布。
+## 回滚（不改写历史）
 
-若上线后需要回退，使用 git revert 撤销问题提交，再推送 main，让工作流重新部署；不改写仓库历史。关闭 PAGES_ENABLED 只停止后续部署，不会撤下已经上线的网站。需要下线时另行使用 Pages 设置中的取消发布操作。
+最近已验证旧版本：`a9285f4dc2629d5e6eba88eca23e5bb16e5a8347`，2026-10-14 Publish运行38564425194成功。
 
-参考：https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages
+1. 记录线上version.json、失败workflow和问题提交SHA。
+2. 对本次问题提交执行 `git revert <问题提交SHA>`；多个提交按从新到旧逐个撤销，解决冲突时保留论文/PDF原数据。
+3. 运行完整检查和正式构建，再经授权推送main。等待Publish以及发布后检查成功。
+4. 核对线上版本与关键页面。不得以本地revert成功代替线上恢复成功。
+
+若工作流本身有问题，可先关闭PAGES_ENABLED阻止后续部署，修复后重新开启；不要取消发布现有站点。不要删除仓库或改写Git历史。
+
+## 根域名迁移（未执行，需确认）
+
+目标 https://guozi-git.github.io/ 需要用户站仓库 guozi-git.github.io。当前只读查询未发现可访问的该仓库。
+
+获准后，从同一验证提交新建根站仓库并配置Pages，根站构建basePath为空、siteURL为根地址。旧项目站继续完整提供页面/PDF/hash兼容，不提前停止或重命名。验收新站后再统一canonical和正式入口；旧站逐步改canonical，不强制跳转PDF或丢弃hash。保留旧站作为回退。两仓库需确定唯一源码维护入口，不长期各自编辑。
+
+新增独立论文静态URL也是独立待确认项目，现有hash没有被伪装成可独立索引页面。论文运行时citation_title/pdf元数据只用于基础描述，不保证学术搜索收录，不补造作者、期刊或发表日期。
+
+官方说明：https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages

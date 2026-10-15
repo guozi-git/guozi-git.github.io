@@ -8,6 +8,8 @@ import s from './factory-preview.module.css';
 import { ResearchReviewPreview } from './research-review-preview';
 import { ResearchGradeGuide } from './research-grade-guide';
 import { researchReviews, mergedReviews } from '@/lib/research-reviews';
+import { rankLabel } from '@/lib/paper-label';
+import { PaperMetadata } from './paper-metadata';
 
 const availableGrades = ['S6', 'S5', 'S4', 'S3', 'S2', 'S1', 'S0'].filter((grade) =>
   factoryPapers.some((p) => researchReviews.get(p.id)?.academic_level === grade),
@@ -83,7 +85,8 @@ export function AbstractContent({ text }: { text: string }) {
 function fromHash() {
   if (typeof window === 'undefined') return 'overview';
   const id = window.location.hash.split('/')[1];
-  return id === 'scoring' || allFactoryPapers.some((paper) => paper.id === id) ? id : 'overview';
+  if (!id || id === 'workshop') return 'overview';
+  return id === 'scoring' || allFactoryPapers.some((paper) => paper.id === id) ? id : 'missing';
 }
 export function FactoryPreview({ embedded = false }: { embedded?: boolean }) {
   const [view, setView] = useState('overview');
@@ -101,12 +104,15 @@ export function FactoryPreview({ embedded = false }: { embedded?: boolean }) {
     allFactoryPapers.find((item) => item.id === view);
   const review = paper ? researchReviews.get(paper.id) : undefined;
   const mergedInto = paper ? mergedReviews.get(paper.id) : undefined;
+  useEffect(() => {
+    document.title = `${paper?.originalTitle ?? (view === 'scoring' ? '等级与评分说明' : view === 'missing' ? '未找到论文' : '小作坊')} · 果子`;
+  }, [paper, view]);
   const matching = factoryPapers.filter(
     (item) =>
       (reviewFilter === 'scored' ? item.level !== null : item.level === null) &&
       (filter === '全部方向' || item.topic === filter) &&
       (scoreFilter === 'all' || researchReviews.get(item.id)?.academic_level === scoreFilter) &&
-      `${item.originalTitle} ${item.id} ${item.msc.join(' ')}`
+      `${item.originalTitle} ${rankLabel(item.id, paperRanks)} ${item.id} ${item.msc.join(' ')}`
         .toLowerCase()
         .includes(query.trim().toLowerCase()),
   );
@@ -202,11 +208,12 @@ export function FactoryPreview({ embedded = false }: { embedded?: boolean }) {
       >
         {paper ? (
           <article className={s.paperDetail}>
+            <PaperMetadata title={paper.originalTitle} pdf={paper.pdf} />
             <button data-inner-back className={s.back} onClick={back}>
               <span aria-hidden="true">‹</span> 返回论文汇总
             </button>
             <p className={s.eyebrow}>
-              {paper.id} · {paper.topic}
+              {rankLabel(paper.id, paperRanks)} · {paper.topic}
             </p>
             <h3 lang={paper.id === 'P091' ? 'zh-CN' : 'en'}>{paper.originalTitle}</h3>
             {mergedInto && (
@@ -214,7 +221,7 @@ export function FactoryPreview({ embedded = false }: { embedded?: boolean }) {
                 此稿已归入后续成果，不再单独评分。
                 {mergedInto.map((id) => (
                   <button className={s.scoringLink} key={id} onClick={() => open(id)}>
-                    查看 {id}
+                    查看 {paperRanks.has(id) ? rankLabel(id, paperRanks) : id}
                   </button>
                 ))}
               </div>
@@ -250,6 +257,14 @@ export function FactoryPreview({ embedded = false }: { embedded?: boolean }) {
               )}
             </div>
           </article>
+        ) : view === 'missing' ? (
+          <section className={s.scoring}>
+            <h2>未找到这篇论文</h2>
+            <p>链接中的稿件标识不存在，请返回论文汇总查找。原有论文链接保持有效。</p>
+            <button data-inner-back className={s.back} onClick={back}>
+              返回论文汇总
+            </button>
+          </section>
         ) : view === 'scoring' ? (
           <section className={s.scoring}>
             <button data-inner-back className={s.back} onClick={back}>
@@ -374,7 +389,7 @@ export function FactoryPreview({ embedded = false }: { embedded?: boolean }) {
                   </span>
                   <span className={s.paperCopy}>
                     <span className={s.paperId}>
-                      {item.id} · {item.topic}
+                      {rankLabel(item.id, paperRanks)} · {item.topic}
                     </span>
                     <span className={s.paperTitle} lang={item.id === 'P091' ? 'zh-CN' : 'en'}>
                       {item.originalTitle}

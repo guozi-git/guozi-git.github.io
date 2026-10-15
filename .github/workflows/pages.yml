@@ -46,15 +46,38 @@ jobs:
       - uses: actions/upload-pages-artifact@v3
         with:
           path: out
+      - name: Preserve verification logs on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pages-verification-logs
+          path: |
+            /tmp/website-preview.log
+            .preview/test-results
   deploy:
     needs: build
     runs-on: ubuntu-latest
     permissions:
+      contents: read
       pages: write
       id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.21.0'
       - uses: actions/deploy-pages@v5
         id: deployment
+      - name: Verify deployed version and public resources
+        env:
+          PAGE_URL: ${{ steps.deployment.outputs.page_url }}
+        run: |
+          for attempt in 1 2 3 4; do
+            if node scripts/check-deployed.mjs "$PAGE_URL" "$GITHUB_SHA"; then exit 0; fi
+            sleep 15
+          done
+          echo "Deployment verification failed; inspect the resource URL above and follow docs/PUBLISH.md."
+          exit 1

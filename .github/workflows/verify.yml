@@ -37,3 +37,11 @@ jobs:
           npm run test:static -- "http://127.0.0.1:3000${NEXT_PUBLIC_BASE_PATH}/"
       - if: matrix.base_path == ''
         run: npm run test:browser
+      - name: Preserve failure logs
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: verification-logs-${{ strategy.job-index }}
+          path: |
+            /tmp/website-preview.log
+            .preview/test-results

@@ -61,7 +61,7 @@ try {
       '#factory',
     ]) {
       await page.goto(`${site}${hash}`);
-      await expect(page).toHaveTitle('果子 · 个人网站');
+      await expect(page).toHaveTitle(/果子/);
       if (hash) await expect(page.getByRole('dialog')).toBeVisible();
       else await expect(page.locator('.orbit')).toBeVisible();
       await page.reload();

@@ -6,6 +6,7 @@ import { researchReviews } from '@/lib/research-reviews';
 import { ResearchGradeGuide } from './research-grade-guide';
 import { ResearchReviewPreview } from './research-review-preview';
 import { assetPath } from '@/lib/asset-path';
+import { PaperMetadata } from './paper-metadata';
 import { AbstractContent } from './factory-preview';
 import s from './atelier-archive.module.css';
 
@@ -17,12 +18,17 @@ export function AtelierArchive({ onBack }: { onBack: () => void }) {
   const root = useRef<HTMLElement>(null);
   const paper = collection.find((entry) => entry.id === selected);
   useEffect(() => {
+    document.title = `${paper?.originalTitle ?? (selected === 'scoring' ? '匠心造等级说明' : selected === 'missing' ? '未找到论文' : '匠心造')} · 果子`;
+  }, [paper, selected]);
+  useEffect(() => {
     const sync = () => {
       const match = collection.find(
         (entry) => window.location.hash === `#factory/atelier/${entry.id}`,
       );
       setSelected(
-        window.location.hash === '#factory/atelier/scoring' ? 'scoring' : (match?.id ?? null),
+        window.location.hash === '#factory/atelier/scoring'
+          ? 'scoring'
+          : (match?.id ?? (window.location.hash.split('/')[2] ? 'missing' : null)),
       );
     };
     const timer = setTimeout(sync, 0);
@@ -75,7 +81,13 @@ export function AtelierArchive({ onBack }: { onBack: () => void }) {
           ‹ {selected ? '返回收藏目录' : '返回上一级'}
         </button>
       </nav>
-      {selected === 'scoring' ? (
+      {selected === 'missing' ? (
+        <section>
+          <h2>未找到这篇论文</h2>
+          <p>此档案链接不存在，请返回匠心造目录查找。</p>
+          <button onClick={close}>返回匠心造</button>
+        </section>
+      ) : selected === 'scoring' ? (
         <section className={s.guidePage} aria-label="匠心造等级说明">
           <header className={s.guideHeading}>
             <span>THE COLLECTION · READING GUIDE</span>
@@ -142,6 +154,7 @@ export function AtelierArchive({ onBack }: { onBack: () => void }) {
         </>
       ) : (
         <article className={s.dossier}>
+          <PaperMetadata title={paper.originalTitle} pdf={paper.pdf} />
           <header className={s.title}>
             <span>
               COLLECTION {accession(paper.collectionNumber)} · {paper.topic}

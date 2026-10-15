@@ -35,6 +35,8 @@ const types = {
   '.jpeg': 'image/jpeg',
   '.ico': 'image/x-icon',
   '.woff2': 'font/woff2',
+  '.otf': 'font/otf',
+  '.xml': 'application/xml; charset=utf-8',
   '.pdf': 'application/pdf',
 };
 createServer(async (req, res) => {

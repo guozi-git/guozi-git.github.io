@@ -34,11 +34,11 @@ npm run build
 
 ## 发布
 
-计划使用公开仓库 guozi-website 和 GitHub Pages 默认网址，完整网址由仓库所属账号决定。配置会从 GitHub 读取实际网址与路径，不需要在代码中填账号。
+正式网站：https://guozi-git.github.io/guozi-website/ 。配置从 GitHub Pages 读取实际网址与路径。根域名迁移尚未实施。
 
-发布默认关闭。启用方法见 [发布说明](docs/PUBLISH.md)，日常内容编辑见 [维护说明](docs/MAINTENANCE.md)。仓库公开前仍应检查所有准备公开的文字和图片。
+发布已启用；main 更新可触发自动部署，推送前须获得当次授权。构建、线上验证和回滚见 [发布说明](docs/PUBLISH.md)，日常内容编辑见 [维护说明](docs/MAINTENANCE.md)。仓库公开前仍应检查所有准备公开的文字和图片。
 
-本目录是一份可独立构建的公开源码快照，不包含原始开发历史、聊天记录、原始订单截图、未使用的个人原图或本地机器配置。并非已经发布的网站。
+本目录是一份可独立构建的公开源码快照，不包含原始开发历史、聊天记录、原始订单截图、未使用的个人原图或本地机器配置。此目录是当前网站的维护源码；未推送的本地修改不代表已上线。
 
 ## 内容与素材
 
@@ -51,3 +51,12 @@ npm run build
 2026-10-14 起，实际页面使用 `src/lib/research-reviews.json` 中的 78 项评价（匠心造 1 项、小作坊 77 项）。`factory-papers.json` 保留历史评分快照和原题、摘要、原文信息；页面覆盖历史评分，不展示旧分。`research-stage-paper.json` 保存新增阶段报告的原文信息。
 
 后续维护评分须更新 `research-reviews.json` 并运行 `content:check`；旧 `papers:update` 命令只维护历史格式与原文元数据，不能替代新版评价更新。报告归并关系在 `coverage` 中维护，旧链接显示归并提示。
+
+## 工程维护
+
+- src/app：真实静态页面与元数据；src/components：界面；src/lib：内容和评价。
+- public：公开资源；scripts/public-assets.json：发布白名单；scripts：维护与检查。
+- .github/workflows：验证与发布；docs：维护约定。out/.next/.preview 均为本地产物，不提交。
+- 评分展示编号按全局排名生成，稳定ID和旧PDF/链接不变。未评分项目无排名。
+- 字体仍使用原有本地子集，首页预载，不依赖第三方字体服务。
+- Sitemap仅包含实际静态页面；hash论文详情暂不具备独立索引URL。

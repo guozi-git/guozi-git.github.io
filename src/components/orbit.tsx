@@ -93,6 +93,10 @@ function getSection() {
 
 export function Orbit() {
   const [active, setActive] = useState<(typeof sections)[number] | null>(null);
+  useEffect(() => {
+    if (active?.id !== 'factory')
+      document.title = active ? `${active.title} · 果子` : '果子 · 个人网站';
+  }, [active]);
   const dialogRef = useRef<HTMLElement>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
   const triggerRef = useRef<HTMLButtonElement | null>(null);
@@ -265,6 +269,7 @@ export function Orbit() {
     <>
       <div className="site-shell" inert={!!active}>
         <main className="home" aria-label="个人空间">
+          <h1 className="visually-hidden">果子 · 个人网站</h1>
           <div className="orbit-wrap">
             <div className="orbit" aria-label="个人空间的五个入口">
               <span className="orbit-earth" aria-hidden="true" />

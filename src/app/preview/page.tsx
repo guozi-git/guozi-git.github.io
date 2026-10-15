@@ -1,6 +1,13 @@
 import Link from 'next/link';
 import { PreviewOrbit } from '@/components/preview-orbit';
-export const metadata = { title: '首页入口预览 · 果子', robots: { index: false, follow: false } };
+export const metadata = {
+  title: '首页入口预览',
+  description: '个人网站首页入口的设计预览。',
+  alternates: { canonical: './' },
+  openGraph: { title: '首页入口预览 · 果子', description: '个人网站设计预览。', url: './' },
+  twitter: { title: '首页入口预览 · 果子', description: '个人网站设计预览。' },
+  robots: { index: false, follow: true },
+};
 export default function Preview() {
   return (
     <>

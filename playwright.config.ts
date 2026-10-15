@@ -9,7 +9,7 @@ process.env.TMP = tempDirectory;
 
 export default defineConfig({
   testDir: '.',
-  testMatch: 'orbit.spec.ts',
+  testMatch: ['orbit.spec.ts', 'engineering.spec.ts'],
   outputDir: '.preview/test-results',
   workers: 1,
   use: {

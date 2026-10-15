@@ -1,8 +1,21 @@
 import { mkdir, readdir, readFile, stat, unlink, writeFile } from 'node:fs/promises';
 import { resolve, relative, sep } from 'node:path';
 import { log } from 'node:console';
+import { execFileSync } from 'node:child_process';
+import process from 'node:process';
 
 const root = resolve('out');
+const commit =
+  process.env.GITHUB_SHA || execFileSync('git', ['rev-parse', 'HEAD'], { encoding: 'utf8' }).trim();
+await writeFile(
+  resolve(root, 'version.json'),
+  JSON.stringify({
+    commit,
+    dirty: execFileSync('git', ['status', '--porcelain'], { encoding: 'utf8' }).trim().length > 0,
+    builtAt: new Date().toISOString(),
+    site: process.env.NEXT_PUBLIC_SITE_URL || null,
+  }),
+);
 const allow = new Set(JSON.parse(await readFile('scripts/public-assets.json', 'utf8')));
 async function files(dir) {
   const entries = await readdir(dir, { withFileTypes: true });

@@ -507,7 +507,8 @@ test('factory gateway, collection dossier and workshop preserve layered navigati
     rightBox!.y + rightBox!.height * 0.48,
   );
   await page.getByLabel('搜索论文').fill('P045');
-  await expect(page.locator('[data-paper]')).toHaveCount(1);
+  // A rank label can coincide with a historical ID; both matches remain discoverable.
+  await expect(page.locator('[data-paper="P045"]')).toBeVisible();
   await page.locator('[data-paper="P045"]').click();
   await expect(page.getByRole('link', { name: /阅读原文/ })).toBeVisible();
   await page.keyboard.press('Escape');

@@ -16,6 +16,9 @@ export function FactoryGateway({ embedded = false }: { embedded?: boolean }) {
   const root = useRef<HTMLDivElement>(null);
   const previous = useRef<View>('gate');
   useEffect(() => {
+    if (view === 'gate') document.title = '论文工厂 · 果子';
+  }, [view]);
+  useEffect(() => {
     const sync = () => setView(readView());
     const initial = window.setTimeout(sync, 0);
     window.addEventListener('popstate', sync);
