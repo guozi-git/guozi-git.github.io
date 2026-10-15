@@ -2,6 +2,7 @@
 import { useEffect, useId, useRef, useState } from 'react';
 import dynamic from 'next/dynamic';
 import { SectionLoading } from './section-loading';
+import { SectionErrorBoundary } from './section-error-boundary';
 import { FactoryParticles } from './factory-particles';
 import { assetPath } from '@/lib/asset-path';
 import s from './factory-gateway.module.css';
@@ -149,7 +150,9 @@ export function FactoryGateway({ embedded = false }: { embedded?: boolean }) {
           </div>
         </div>
       ) : view === 'atelier' ? (
-        <AtelierArchive onBack={back} />
+        <SectionErrorBoundary name="匠心造" onBack={back}>
+          <AtelierArchive onBack={back} />
+        </SectionErrorBoundary>
       ) : (
         <div className={s.workshop}>
           <div className={s.workshopNav}>
@@ -162,7 +165,9 @@ export function FactoryGateway({ embedded = false }: { embedded?: boolean }) {
               ‹ 返回上一级
             </button>
           </div>
-          <FactoryPreview embedded />
+          <SectionErrorBoundary name="小作坊" onBack={back}>
+            <FactoryPreview embedded />
+          </SectionErrorBoundary>
         </div>
       )}
     </div>

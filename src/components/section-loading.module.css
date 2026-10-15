@@ -11,6 +11,42 @@
   background: #09090f;
   color: #aecbd8;
 }
+.recovery {
+  min-height: 240px;
+  padding: 80px 24px 48px;
+  display: grid;
+  align-content: center;
+  gap: 24px;
+  color: inherit;
+}
+.recovery h3 {
+  margin: 0 0 12px;
+  font-size: 20px;
+}
+.recovery p {
+  margin: 0;
+  line-height: 1.8;
+  font-size: 14px;
+}
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.actions button {
+  min-height: 44px;
+  padding: 10px 18px;
+  border: 1px solid currentColor;
+  border-radius: 12px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+.actions button:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 4px;
+}
 @media (max-width: 600px) {
   .factory {
     height: max(650px, 90svh);

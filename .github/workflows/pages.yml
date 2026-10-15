@@ -43,6 +43,8 @@ jobs:
             sleep 1
           done
           npm run test:static -- "http://127.0.0.1:3000${NEXT_PUBLIC_BASE_PATH}/"
+      - name: Require complete interaction regression before deployment
+        run: npm run test:browser
       - uses: actions/upload-pages-artifact@v3
         with:
           path: out

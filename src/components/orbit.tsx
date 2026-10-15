@@ -10,6 +10,7 @@ import { profile } from '@/lib/profile';
 import dynamic from 'next/dynamic';
 import earth from '../../public/scenes/photos/nasa-earth.webp';
 import { SectionLoading } from './section-loading';
+import { SectionErrorBoundary } from './section-error-boundary';
 import { scheduleIdlePreload } from '@/lib/idle-preload';
 import factoryStyles from './factory-preview.module.css';
 const loadPublications = () => import('@/components/publications');
@@ -311,13 +312,18 @@ export function Orbit() {
                 data-section="about"
                 aria-label="打开自我介绍"
               >
-                <Image
+                {/* Static srcset avoids a server image optimizer on GitHub Pages. */}
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
                   className="portrait-photo"
                   src={assetPath(profile.photo)}
+                  srcSet={`${assetPath('/portrait-320.webp')} 320w, ${assetPath('/portrait-640.webp')} 640w, ${assetPath(profile.photo)} 1280w`}
                   alt={profile.photoAlt}
-                  fill
-                  sizes="(max-width: 600px) 32vw, 250px"
-                  priority
+                  width={1280}
+                  height={1707}
+                  sizes="min(372.4px, calc(38vw - 18.24px), calc(38svh - 42.56px))"
+                  fetchPriority="high"
+                  decoding="async"
                 />
                 <span className="portrait-copy">
                   <span>ABOUT ME</span>
@@ -387,7 +393,9 @@ export function Orbit() {
                   </svg>
                   Home
                 </button>
-                <FactoryPreview embedded />
+                <SectionErrorBoundary name="论文工厂" onBack={close}>
+                  <FactoryPreview embedded />
+                </SectionErrorBoundary>
               </>
             ) : (
               <>
@@ -432,43 +440,45 @@ export function Orbit() {
                   </span>
                 </div>
                 <div className={`detail-body${active.id === 'about' ? ' about-body' : ''}`}>
-                  {active.id === 'about' ? (
-                    <div className="detail-lead">
-                      <span className="eyebrow">SELF INTRODUCTION</span>
-                      <h3>{profile.introduction}</h3>
-                      <div className="about-prose">
-                        {profile.paragraphs.map((paragraph) => (
-                          <p key={paragraph}>{paragraph}</p>
-                        ))}
-                      </div>
-                    </div>
-                  ) : active.id === 'publications' ? (
-                    <Publications />
-                  ) : active.id === 'interests' ? (
-                    <Interests />
-                  ) : active.id === 'projects' ? (
-                    <Projects />
-                  ) : (
-                    <>
+                  <SectionErrorBoundary key={active.id} name={active.title} onBack={close}>
+                    {active.id === 'about' ? (
                       <div className="detail-lead">
-                        <span className="eyebrow">A SPACE FOR {active.english}</span>
-                        <h3>留一个位置，给未来的内容。</h3>
-                        <p>{active.note}</p>
+                        <span className="eyebrow">SELF INTRODUCTION</span>
+                        <h3>{profile.introduction}</h3>
+                        <div className="about-prose">
+                          {profile.paragraphs.map((paragraph) => (
+                            <p key={paragraph}>{paragraph}</p>
+                          ))}
+                        </div>
                       </div>
-                      <div className="content-slots">
-                        {active.items.map((item, index) => (
-                          <div className="content-slot" key={item}>
-                            <span>0{index + 1}</span>
-                            <h4>{item}</h4>
-                            <span className="slot-status">待加入</span>
-                          </div>
-                        ))}
-                      </div>
-                      <p className="prototype-note">
-                        当前只体验构图与展开动效；这里没有真实个人资料。
-                      </p>
-                    </>
-                  )}
+                    ) : active.id === 'publications' ? (
+                      <Publications />
+                    ) : active.id === 'interests' ? (
+                      <Interests />
+                    ) : active.id === 'projects' ? (
+                      <Projects />
+                    ) : (
+                      <>
+                        <div className="detail-lead">
+                          <span className="eyebrow">A SPACE FOR {active.english}</span>
+                          <h3>留一个位置，给未来的内容。</h3>
+                          <p>{active.note}</p>
+                        </div>
+                        <div className="content-slots">
+                          {active.items.map((item, index) => (
+                            <div className="content-slot" key={item}>
+                              <span>0{index + 1}</span>
+                              <h4>{item}</h4>
+                              <span className="slot-status">待加入</span>
+                            </div>
+                          ))}
+                        </div>
+                        <p className="prototype-note">
+                          当前只体验构图与展开动效；这里没有真实个人资料。
+                        </p>
+                      </>
+                    )}
+                  </SectionErrorBoundary>
                 </div>
               </>
             )}

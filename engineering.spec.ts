@@ -241,3 +241,89 @@ test('both grade guides are fixed open and ordered from high to low', async ({ p
     }
   }
 });
+
+test('failed section keeps navigation and offers explicit recovery', async ({ page }) => {
+  await page.goto('/');
+  await page.route('**/_next/static/chunks/*.js', (route) => route.abort('failed'));
+  await page.locator('[data-section="projects"]').press('Enter');
+  await expect(page.getByRole('alert', { name: '内容加载失败' })).toContainText(
+    '兴趣造物暂时无法载入',
+  );
+  await expect(page.getByRole('button', { name: '重新加载此页' })).toBeFocused();
+  await page.getByRole('button', { name: '返回上一级', exact: true }).click();
+  await expect(page.getByRole('dialog')).toHaveCount(0);
+  await page.locator('[data-section="projects"]').press('Enter');
+  await expect(page.getByRole('alert', { name: '内容加载失败' })).toBeVisible();
+  await page.unroute('**/_next/static/chunks/*.js');
+  await page.getByRole('button', { name: '重新加载此页' }).click();
+  await expect(page).toHaveURL(/#projects$/);
+  await expect(page.getByRole('alert', { name: '内容加载失败' })).toHaveCount(0);
+  await expect(page.locator('[role=status]')).toHaveCount(0);
+  await expect(page.getByRole('dialog')).toBeVisible();
+});
+
+for (const [room, name] of [
+  ['atelier', '匠心造'],
+  ['workshop', '小作坊'],
+]) {
+  test(`failed ${room} keeps factory navigation`, async ({ page }) => {
+    await page.goto('/#factory');
+    await expect(page.locator(`[data-door="${room}"]`)).toBeVisible();
+    await page.route('**/_next/static/chunks/*.js', (route) => route.abort('failed'));
+    await page.locator(`[data-door="${room}"]`).press('Enter');
+    await expect(page.getByRole('alert', { name: '内容加载失败' })).toContainText(
+      `${name}暂时无法载入`,
+    );
+    await page.keyboard.press('Escape');
+    await expect(page.locator(`[data-door="${room}"]`)).toBeFocused();
+  });
+}
+
+test('portrait uses a smaller responsive source and retains the original detail photo', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/');
+  const photo = page.locator('.portrait-photo');
+  await expect(photo).toHaveAttribute('srcset', /320w/);
+  await expect
+    .poll(() => photo.evaluate((e) => (e as HTMLImageElement).naturalWidth))
+    .toBeGreaterThan(0);
+  expect(await photo.evaluate((e) => (e as HTMLImageElement).currentSrc)).toContain('portrait-320');
+  await page.locator('[data-section="about"]').press('Enter');
+  await expect(page.locator('.about-hero-photo')).toHaveAttribute('src', /guozi.jpg/);
+});
+
+test('large high density portrait retains enough source pixels', async ({ browser }) => {
+  const context = await browser.newContext({
+    viewport: { width: 1440, height: 1200 },
+    deviceScaleFactor: 3,
+  });
+  const page = await context.newPage();
+  try {
+    await page.goto('/');
+    await expect
+      .poll(() =>
+        page.locator('.portrait-photo').evaluate((e) => (e as HTMLImageElement).currentSrc),
+      )
+      .toContain('guozi.jpg');
+  } finally {
+    await context.close();
+  }
+});
+
+test('factory download error clears the Home control on mobile', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/');
+  await page.route('**/_next/static/chunks/*.js', (route) => route.abort('failed'));
+  await page.locator('[data-section="factory"]').press('Enter');
+  const error = page.getByRole('alert', { name: '内容加载失败' });
+  await expect(error).toContainText('论文工厂暂时无法载入');
+  await expect
+    .poll(async () => {
+      const heading = await error.getByRole('heading').boundingBox();
+      const home = await page.getByRole('button', { name: 'Home', exact: true }).boundingBox();
+      return heading!.y - home!.y - home!.height;
+    })
+    .toBeGreaterThanOrEqual(8);
+});

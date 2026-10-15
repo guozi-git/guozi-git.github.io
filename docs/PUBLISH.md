@@ -8,7 +8,7 @@
 2. `npm run build` 后执行 `npm run typecheck`。静态产物在 out；构建自动检查 HTML 链接、公开资源、PDF 文件头、SEO 与版本文件。
 3. `npm start` 后运行 `npm run test:browser`、`npm run test:static`。浏览器检查必须使用与构建一致的路径；完整浏览器回归默认测试根路径，子路径用 test:static。
 4. 获得当次发布授权后，推送经验证的提交到 main。不要使用强制推送。
-5. Actions 的 Verify static website 检查根路径与项目路径；Publish GitHub Pages 独立构建通过后部署。只有 Publish 部署网站，两者不是重复部署。
+5. Actions 的 Verify static website 检查根路径与项目路径；Publish GitHub Pages 在独立构建、静态检查及完整交互回归全部通过后才上传产物并部署。完整交互测试在发布工作流内执行，失败会中止 build，deploy 因 needs: build 被跳过；不能依赖并行 Verify 工作流作为发布门槛。只有 Publish 部署网站，两者不是重复部署。
 6. 发布后工作流核对 `version.json` 的提交 SHA、所有允许公开的资源、论文 PDF、主要页面和真实 404。最多等待传播重试4次；失败保留失败状态，不能当作发布成功。
 7. 最后人工打开首页、两个论文板块及原文，检查外观、切换、搜索、手机宽度。版本文件成功不替代视觉检查。
 
