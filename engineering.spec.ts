@@ -1,5 +1,81 @@
 import { test, expect } from '@playwright/test';
 
+test('nested swimming and CS text retain readable contrast on dark surfaces', async ({ page }) => {
+  const luminance = (color: string) => {
+    const channels = color
+      .match(/[\d.]+/g)!
+      .slice(0, 3)
+      .map(Number)
+      .map((value) => {
+        const c = value / 255;
+        return c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4;
+      });
+    return channels[0] * 0.2126 + channels[1] * 0.7152 + channels[2] * 0.0722;
+  };
+  for (const section of ['swimming', 'gaming']) {
+    await page.goto(`/#interests/${section}`);
+    if (section === 'gaming') await page.locator('.game-cs > summary').click();
+    const targets =
+      section === 'swimming'
+        ? ['.swim-heading h3', '.swim-record-heading h4', '.swim-record summary']
+        : ['.cs-favorite h6'];
+    const surface = section === 'swimming' ? '.swim-chart-card' : '.cs-favorite';
+    const background = await page
+      .locator(surface)
+      .evaluate((el) => getComputedStyle(el).backgroundColor);
+    for (const selector of targets) {
+      const text = await page
+        .locator(selector)
+        .first()
+        .evaluate((el) => getComputedStyle(el).color);
+      expect(
+        (Math.max(luminance(text), luminance(background)) + 0.05) /
+          (Math.min(luminance(text), luminance(background)) + 0.05),
+        selector,
+      ).toBeGreaterThanOrEqual(4.5);
+    }
+  }
+});
+
+test('three interior pages keep readable titles and fit narrow screens', async ({ page }) => {
+  for (const width of [320, 390, 768, 1440]) {
+    await page.setViewportSize({ width, height: 1000 });
+    for (const section of ['interests', 'publications', 'projects']) {
+      await page.goto(`/#${section}`);
+      const panel = page.getByRole('dialog');
+      await expect(
+        panel.locator('.hobby-row, .publication-card, .project-card').first(),
+      ).toBeVisible();
+      expect(await panel.evaluate((el) => el.scrollWidth <= el.clientWidth + 1)).toBe(true);
+      if (section === 'publications') {
+        if (width >= 768) {
+          const positions = await panel.locator('.publication-card').evaluateAll((cards) =>
+            cards.map((card) => ({
+              x: card.getBoundingClientRect().x,
+              y: card.getBoundingClientRect().y,
+            })),
+          );
+          expect(Math.abs(positions[0].y - positions[2].y)).toBeLessThan(1);
+          expect(positions[0].x).toBeLessThan(positions[1].x);
+          expect(positions[1].x).toBeLessThan(positions[2].x);
+        }
+        await expect(
+          panel.getByRole('heading', {
+            name: '棋盘上，有多少种选法？',
+            exact: true,
+          }),
+        ).toBeVisible();
+        const title = panel.locator('.publication-card h3').last();
+        expect(await title.evaluate((el) => el.scrollWidth <= el.clientWidth + 1)).toBe(true);
+        expect(
+          await title.evaluate((el) => parseFloat(getComputedStyle(el).fontSize)),
+        ).toBeGreaterThanOrEqual(18);
+        await expect(panel.getByText('预印本 · 已投稿', { exact: true })).toBeVisible();
+      }
+    }
+  }
+});
+
 for (const section of ['interests', 'publications', 'projects', 'factory']) {
   test(`entrance stays stable while ${section} finishes loading`, async ({ page }) => {
     await page.goto('/');

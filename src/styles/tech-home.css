@@ -1,0 +1,111 @@
+/* B: deep-space observatory. Decorative layers are static and never intercept input. */
+.site-shell {
+  position: relative;
+  isolation: isolate;
+  background:
+    radial-gradient(ellipse at 12% 64%, #12366b50, transparent 38%),
+    radial-gradient(ellipse at 90% 38%, #123a7040, transparent 36%),
+    radial-gradient(ellipse at 50% 45%, #0b2036, #020914 75%);
+}
+.deep-space-stars {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  fill: #bbddff;
+  pointer-events: none;
+  z-index: -1;
+}
+.site-shell .orbit::before {
+  inset: -1%;
+  border-color: #9bdbff55;
+  box-shadow:
+    -9px -7px 26px #77c9ff35,
+    9px 7px 24px #02071388;
+}
+.site-shell .orbit-earth {
+  opacity: 0.95;
+  filter: saturate(1.18) contrast(1.06);
+}
+.site-shell .orbit::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: 50%;
+  background: linear-gradient(125deg, #c5e9ff15 5%, transparent 38%, #01071582 94%);
+  z-index: 0;
+}
+.earth-sunrise {
+  position: absolute;
+  left: 14.6%;
+  top: 14.6%;
+  width: 16%;
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle, #fff9e5d9 0%, #fff1cc66 7%, #cdeaff28 25%, transparent 67%);
+  pointer-events: none;
+  z-index: 2;
+}
+.deep-space-orbit {
+  position: absolute;
+  inset: -16%;
+  width: 132%;
+  height: 132%;
+  fill: none;
+  stroke: #a9d8f5;
+  stroke-width: 1;
+  pointer-events: none;
+}
+.orbit-rear {
+  opacity: 0.42;
+  z-index: -1;
+}
+.orbit-front {
+  opacity: 0.78;
+  z-index: 2;
+}
+.orbit-satellite-halo {
+  fill: #8ecfff20;
+  stroke: none;
+}
+.orbit-satellite {
+  fill: #e5f7ff;
+  stroke: #c0e9ff;
+}
+.site-shell .sector {
+  border-color: #b8def244;
+  background: #0c29400a;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  z-index: 1;
+}
+.site-shell .sector:hover {
+  background: #8ad5ff17;
+}
+.site-shell .sector-shade {
+  background: linear-gradient(125deg, #04152710, #020b1e28);
+}
+.site-shell .sector-copy::before {
+  background: radial-gradient(ellipse, #03132680 10%, #03132630 52%, transparent 76%);
+}
+.site-shell .portrait {
+  z-index: 3;
+  border-color: #adddf5;
+  box-shadow:
+    0 0 0 1px #d1efff55,
+    0 0 22px #67caff2b;
+}
+@media (max-width: 600px) {
+  .deep-space-orbit {
+    inset: -5%;
+    width: 110%;
+    height: 110%;
+  }
+  .deep-space-stars {
+    opacity: 0.7;
+  }
+  .earth-sunrise {
+    opacity: 0.7;
+  }
+}

@@ -277,15 +277,39 @@ export function Orbit() {
   return (
     <>
       <div className="site-shell" inert={!!active}>
+        <svg
+          className="deep-space-stars"
+          viewBox="0 0 1440 1000"
+          preserveAspectRatio="xMidYMid slice"
+          aria-hidden="true"
+        >
+          {Array.from({ length: 145 }, (_, i) => (
+            <circle
+              key={i}
+              cx={(i * 347 + 53) % 1440}
+              cy={(i * 211 + 29) % 1000}
+              r={i % 13 === 0 ? 1.3 : 0.6}
+              opacity={0.2 + (i % 5) * 0.12}
+            />
+          ))}
+        </svg>
         <main className="home" aria-label="个人空间">
           <h1 className="visually-hidden">果子 · 个人网站</h1>
           <div className="orbit-wrap">
+            <svg
+              className="deep-space-orbit orbit-rear"
+              viewBox="-160 -160 1320 1320"
+              aria-hidden="true"
+            >
+              <ellipse cx="500" cy="500" rx="645" ry="208" transform="rotate(-25 500 500)" />
+            </svg>
             <div className="orbit" aria-label="个人空间的五个入口">
               <span
                 className="orbit-earth"
                 style={{ backgroundImage: `url("${earth.src}")` }}
                 aria-hidden="true"
               />
+              <span className="earth-sunrise" aria-hidden="true" />
               {sections.slice(0, 4).map((section, index) => (
                 <button
                   key={section.id}
@@ -331,6 +355,15 @@ export function Orbit() {
                 </span>
               </button>
             </div>
+            <svg
+              className="deep-space-orbit orbit-front"
+              viewBox="-160 -160 1320 1320"
+              aria-hidden="true"
+            >
+              <path d="M -145 500 A 645 208 0 0 0 1145 500" transform="rotate(-25 500 500)" />
+              <circle className="orbit-satellite-halo" cx="1085" cy="227" r="12" />
+              <circle className="orbit-satellite" cx="1085" cy="227" r="3" />
+            </svg>
           </div>
         </main>
       </div>
@@ -348,7 +381,7 @@ export function Orbit() {
             aria-modal="true"
             aria-label={active.id === 'factory' ? '论文工厂' : undefined}
             aria-labelledby={active.id === 'factory' ? undefined : 'detail-title'}
-            className={`detail theme-${active.id} ${active.id === 'factory' ? factoryStyles.orbitPanel : ''}`}
+            className={`detail theme-${active.id} ${['interests', 'publications', 'projects'].includes(active.id) ? 'tech-interior' : ''} ${active.id === 'factory' ? factoryStyles.orbitPanel : ''}`}
             onKeyDown={(event) => {
               if (event.key === 'Escape') {
                 event.preventDefault();

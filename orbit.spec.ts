@@ -173,13 +173,22 @@ test('three publication cards, sources, nested history and keyboard return', asy
   await page.getByRole('button', { name: '打开论文发表', exact: true }).click();
   const cards = page.locator('.publication-card');
   await expect(cards).toHaveCount(3);
+  // Move off the entrance's old position before measuring the hoverable cards.
+  await page.mouse.move(0, 0);
+  await expect
+    .poll(async () =>
+      cards.evaluateAll((elements) =>
+        Math.abs(elements[0].getBoundingClientRect().y - elements[2].getBoundingClientRect().y),
+      ),
+    )
+    .toBeLessThan(0.1);
   const boxes = await cards.evaluateAll((elements) =>
     elements.map((element) => ({
       x: element.getBoundingClientRect().x,
       y: element.getBoundingClientRect().y,
     })),
   );
-  expect(boxes[0].y).toBe(boxes[2].y);
+  expect(Math.abs(boxes[0].y - boxes[2].y)).toBeLessThan(0.1);
   expect(boxes[0].x).toBeLessThan(boxes[1].x);
   expect(boxes[1].x).toBeLessThan(boxes[2].x);
   await page.screenshot({ path: '.preview/publications-desktop.png' });

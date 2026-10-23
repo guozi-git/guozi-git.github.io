@@ -1,5 +1,8 @@
 # 素材说明
 
+- 2026-10-23 兴趣分类入口改用为本项目生成并经作者确认的球拍、泳道、键鼠手柄示意图，三处通过 SVG 视窗复用 `interests/1023-concept-photos-v1.png`；不是作者的真实装备或场馆照片。原 Unsplash 配图保留。
+- `personal-website-preview-20261023.jpg` 为本网站本地首页截图。深空封面继续使用下述 NASA 地球原图，星点、轨道和日光使用 SVG/CSS 绘制。
+
 - 首页照片及游戏截图：由网站作者提供，游戏饰品截图仅保留展示区域。
 - 地球背景：NASA / DSCOVR EPIC，来源 https://www.nasa.gov/image-article/nasa-captures-epic-earth-image/ 。
 - 几何论文背景、网站图标与分享封面：为本项目制作的图形。

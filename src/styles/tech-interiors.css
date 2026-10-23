@@ -1,0 +1,509 @@
+/* A-style interiors only. The homepage sectors and factory retain their themes. */
+.detail.tech-interior {
+  --ink: #edf5fc;
+  --muted: #b0c4d6;
+  --line: #37576c;
+  --surface: #102637;
+  --paper: #07121f;
+  width: min(1180px, 100%);
+  color: var(--ink);
+  background: radial-gradient(ellipse at 50% 0, #122c40, #07121f 70%);
+  border-color: #37576c;
+  box-shadow: 0 24px 80px #0005;
+  scrollbar-color: #52768d #07121f;
+  font-family: Arial, 'Microsoft YaHei', sans-serif;
+  color-scheme: dark;
+}
+.tech-interior .detail-hero {
+  height: 195px;
+  background-image: radial-gradient(circle, #a1cde41a 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+.tech-interior .detail-hero > :is(.scene, .detail-tint, .hero-decoration) {
+  display: none;
+}
+.tech-interior .detail-heading {
+  inset: auto 24px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+.tech-interior .detail-heading h2 {
+  order: -1;
+  margin: 0 0 14px;
+  font:
+    600 clamp(28px, 4vw, 40px)/1.3 Arial,
+    'Microsoft YaHei',
+    sans-serif;
+  letter-spacing: 0.1em;
+}
+.tech-interior .detail-heading p {
+  margin: 0;
+  color: #a9c5d8;
+  font-size: 12px;
+  letter-spacing: 0.16em;
+}
+.tech-interior .detail-heading > span {
+  display: none;
+}
+.tech-interior .detail-body {
+  background: transparent;
+  padding: 8px 36px 36px;
+  color: var(--ink);
+}
+.tech-interior :is(.interests-content, .projects-content, .publications-content) {
+  display: flex;
+  flex-direction: column;
+}
+.tech-interior :is(.hobbies-heading, .papers-intro) {
+  order: 2;
+  border-top: 1px solid var(--line);
+  margin: 28px 0 0;
+  padding-top: 20px;
+}
+.tech-interior :is(.projects-footnote, .papers-footnote) {
+  order: 3;
+}
+.tech-interior .hobbies-heading > .eyebrow,
+.tech-interior .papers-intro .eyebrow {
+  display: none;
+}
+.tech-interior :is(.hobbies-heading, .papers-intro) h3 {
+  font-size: 18px;
+  margin: 0;
+}
+.tech-interior :is(.hobbies-intro, .projects-intro) {
+  max-width: 850px;
+  margin-bottom: 0;
+}
+.tech-interior .detail-body :is(.hobby-row, .publication-card, .project-card) {
+  background: linear-gradient(115deg, #102a3e, #0c1e2e);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  box-shadow: inset 0 1px 0 #d2ebff08;
+  color: var(--ink);
+  min-width: 0;
+}
+.tech-interior :is(.hobby-row, .publication-card, .project-card):hover {
+  transform: translateY(-2px);
+  border-color: #75b9dc;
+  box-shadow: 0 8px 22px #0002;
+}
+.tech-interior :is(button, a, summary):focus-visible {
+  outline: 2px solid #9ddfff;
+  outline-offset: 4px;
+}
+.tech-interior .hobby-stack {
+  gap: 18px;
+}
+.tech-interior .hobby-row {
+  gap: 28px;
+  padding: 14px 24px 14px 14px;
+}
+.tech-interior .hobby-symbol {
+  width: 28%;
+  height: 145px;
+  flex: 0 0 28%;
+  border-radius: 9px;
+  overflow: hidden;
+}
+.tech-interior .hobby-row-copy {
+  min-width: 0;
+  flex: 1;
+  gap: 10px;
+}
+.tech-interior .hobby-row-copy strong {
+  font-size: 26px;
+  font-weight: 600;
+}
+.tech-interior .hobby-row-copy > span:first-child {
+  color: #99bed5;
+  font-size: 11px;
+}
+.tech-interior .hobby-row-copy > span:last-child {
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.6;
+}
+.tech-interior .interior-card-action,
+.tech-interior .project-card-link {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+  border: 1px solid #638fa9;
+  border-radius: 9px;
+  padding: 11px 19px;
+  min-height: 44px;
+  font-size: 14px;
+  color: #e5f4ff;
+  background: #17364a;
+  white-space: nowrap;
+}
+.tech-interior .paper-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+.detail.tech-interior.theme-publications {
+  width: min(1120px, 100%);
+}
+.tech-interior .papers-intro {
+  order: 0;
+  border: 0;
+  padding-top: 0;
+  margin: 12px 0 24px;
+}
+.tech-interior .papers-intro h3 {
+  font-size: clamp(22px, 2.3vw, 30px);
+}
+.tech-interior .publication-card {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0;
+  padding: 0;
+}
+.tech-interior .paper-cover {
+  height: 150px;
+  width: 100%;
+  border-bottom: 1px solid var(--line);
+  border-radius: 13px 13px 0 0;
+  overflow: hidden;
+}
+.tech-interior .paper-art {
+  background: #294b48;
+  stroke: #b1d7cd70;
+  fill: #b8d9d2;
+}
+.tech-interior .paper-art-1 {
+  background: #294656;
+  fill: #bed7e5;
+}
+.tech-interior .paper-art-2 {
+  background: #504b40;
+  fill: #e0d4b5;
+}
+.tech-interior .paper-art .art-highlight {
+  fill: #f0dfac;
+  stroke: #f0dfac;
+}
+.tech-interior :is(.paper-index, .paper-year) {
+  display: block;
+}
+.tech-interior .paper-card-body {
+  padding: 20px;
+  flex: 1;
+  min-width: 0;
+}
+.tech-interior .paper-card-body h3 {
+  order: 0;
+  font:
+    600 clamp(18px, 1.6vw, 23px)/1.45 Arial,
+    sans-serif;
+  letter-spacing: 0;
+  min-height: 0;
+  margin: 16px 0 0;
+  overflow-wrap: anywhere;
+}
+.tech-interior .paper-card-bottom {
+  order: 0;
+  border-top: 1px solid var(--line);
+  padding: 14px 0 0;
+  margin: auto 0 0;
+  font-size: 11px;
+  color: #b9d3e6;
+}
+.tech-interior :is(.paper-status, .project-status) {
+  color: #a8e5f5;
+  background: #153748;
+  border: 1px solid #3c7389;
+  border-radius: 6px;
+  font-size: 12px;
+}
+.tech-interior .paper-status.is-preprint {
+  color: #e8d1a4;
+  background: #343025;
+  border-color: #706345;
+}
+.tech-interior .paper-summary {
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.85;
+  margin: 16px 0 23px;
+}
+.tech-interior .project-card {
+  grid-template-columns: 1.15fr 1fr;
+  align-items: center;
+  padding: 24px;
+  gap: 28px;
+}
+.tech-interior .project-cover {
+  background: transparent;
+  padding: 0;
+}
+.tech-interior .project-cover img {
+  border-color: var(--line);
+  box-shadow: none;
+  border-radius: 10px;
+}
+.tech-interior .project-cover-label {
+  display: none;
+}
+.tech-interior .project-card-copy {
+  padding: 12px 0;
+}
+.tech-interior .project-card-copy h3 {
+  font-size: clamp(23px, 2.5vw, 30px);
+  margin: 18px 0;
+}
+.tech-interior .project-card-copy p {
+  color: var(--muted);
+  font-size: 16px;
+  line-height: 1.8;
+}
+.tech-interior .project-card-link {
+  width: auto;
+  margin-top: 8px;
+}
+.tech-interior .project-status > span {
+  background: #8fd6f9;
+}
+.tech-interior :is(.papers-intro > span, .projects-footnote, .papers-footnote) {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.7;
+}
+/* Existing nested reading views keep their content and gain the same palette. */
+.tech-interior
+  :is(.paper-back, .back-button, .paper-primary-link, .paper-source-link, .game-bottom-back) {
+  color: #e5f4ff;
+  background: #163247;
+  border: 1px solid #5a819a;
+  box-shadow: none;
+  backdrop-filter: none;
+}
+.tech-interior
+  :is(
+    .paper-authors,
+    .paper-citation,
+    .paper-access,
+    .paper-identifier,
+    .paper-detail-top,
+    .project-introduction,
+    .project-story section > p:last-child,
+    .project-progress li,
+    .project-next,
+    .equipment-heading > span,
+    .equipment-description p,
+    .equipment-description dt,
+    .equipment-description dd,
+    .kit-copy p,
+    .kit-copy a,
+    .gaming-heading p,
+    .game-card-hint,
+    .game-return,
+    .game-sections p,
+    .cs-combination span,
+    .cs-combination small,
+    .cs-items p,
+    .cs-item-type,
+    .cs-item-number,
+    .cs-item-info dt,
+    .cs-item-info dd,
+    .devices-specs dt,
+    .devices-specs dd,
+    .devices-specs small,
+    .devices-photo figcaption,
+    .swim-heading > p:last-child,
+    .swim-stats span,
+    .swim-stats small,
+    .swim-chart-heading p,
+    .swim-record-heading > span,
+    .swim-record summary time,
+    .swim-record dt
+  ) {
+  color: var(--muted);
+}
+.tech-interior :is(.paper-explanation p, .project-story p) {
+  color: var(--muted);
+  font-size: 16px;
+  line-height: 1.85;
+}
+.tech-interior
+  :is(
+    .paper-explanation h4,
+    .project-story h4,
+    .project-progress h4,
+    .swim-stats strong,
+    .swim-record dd,
+    .cs-items h6,
+    .cs-combination strong
+  ) {
+  color: var(--ink);
+}
+.tech-interior
+  :is(.paper-explanation, .project-progress, .project-next, .swim-record, .devices-specs > div) {
+  border-color: var(--line);
+}
+.tech-interior .detail-body :is(.game-card, .swim-chart-card, .kit-item),
+.tech-interior
+  :is(
+    .equipment-description,
+    .swim-stats > div,
+    .swim-selected,
+    .cs-favorite,
+    .cs-items li,
+    .devices-specs,
+    .game-sections > section
+  ) {
+  background: #102637;
+  color: var(--ink);
+  border-color: var(--line);
+  box-shadow: none;
+}
+.tech-interior :is(.swim-toggle button, .swim-dates button) {
+  background: #163247;
+  color: #d4e7f4;
+  border: 1px solid #52768d;
+}
+.tech-interior :is(.swim-toggle button, .swim-dates button)[aria-pressed='true'] {
+  background: #a2dff7;
+  color: #092132;
+}
+.tech-interior .swim-chart text {
+  fill: #c5dbea;
+}
+.tech-interior .swim-chart line {
+  stroke: #37576c;
+}
+.tech-interior .swim-chart path {
+  stroke: #8edaf4;
+}
+.tech-interior .swim-chart circle {
+  stroke: #8edaf4;
+}
+.tech-interior .swim-toggle {
+  background: #091c2a;
+}
+.tech-interior :is(.devices-specs > div, .devices-photo, .hearthstone-preface) {
+  background: #102637;
+}
+.tech-interior .devices-peripherals article:not(.peripheral-card) {
+  background: #102637;
+}
+.tech-interior .hearthstone-preface {
+  color: #d7e7f5;
+  border-color: #638fa9;
+}
+.tech-interior .paper-explanation {
+  grid-template-columns: minmax(0, 1fr);
+}
+.tech-interior .swim-page,
+.tech-interior .cs-favorite h6 {
+  color: var(--ink);
+}
+.tech-interior .paper-back {
+  align-self: flex-start;
+}
+.tech-interior .game-art {
+  background: linear-gradient(125deg, #132d43, #0b1c2c);
+  color: #c5dfef;
+}
+.tech-interior .game-art i {
+  border-color: #55798f;
+  outline-color: #37576c;
+}
+.tech-interior .eyebrow {
+  color: #a1bed2;
+}
+@media (max-width: 760px) {
+  .tech-interior .paper-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+@media (max-width: 800px) {
+  .tech-interior .detail-body {
+    padding: 8px 22px 28px;
+  }
+  .tech-interior .publication-card {
+    gap: 0;
+  }
+  .tech-interior .publication-card > .interior-card-action {
+    grid-column: 2;
+    justify-self: start;
+  }
+  .tech-interior .project-card {
+    gap: 20px;
+    padding: 20px;
+  }
+  .tech-interior .hobby-row {
+    gap: 18px;
+    padding-right: 18px;
+  }
+}
+@media (max-width: 600px) {
+  .tech-interior .detail-hero {
+    height: 175px;
+  }
+  .tech-interior .detail-heading {
+    bottom: 20px;
+  }
+  .tech-interior .back-button {
+    top: 14px;
+    left: 16px;
+  }
+  .tech-interior .detail-body {
+    padding: 8px 14px 24px;
+  }
+  .tech-interior .hobby-row {
+    display: grid;
+    grid-template-columns: 85px minmax(0, 1fr);
+    gap: 12px;
+    padding: 12px;
+  }
+  .tech-interior .hobby-symbol {
+    width: 85px;
+    height: 110px;
+  }
+  .tech-interior .hobby-row-copy strong {
+    font-size: 22px;
+  }
+  .tech-interior .hobby-row-copy > span:last-child {
+    font-size: 14px;
+  }
+  .tech-interior .hobby-row-copy > span:first-child {
+    font-size: 10px;
+    letter-spacing: 0.06em;
+  }
+  .tech-interior .hobby-row .interior-card-action {
+    grid-column: 2;
+    justify-self: start;
+  }
+  .tech-interior .publication-card {
+    padding: 0;
+    gap: 0;
+  }
+  .tech-interior .paper-cover {
+    width: 100%;
+    height: 150px;
+  }
+  .tech-interior .publication-card > .interior-card-action {
+    grid-column: 1;
+  }
+  .tech-interior .project-card {
+    grid-template-columns: minmax(0, 1fr);
+    padding: 16px;
+  }
+  .tech-interior .project-card-copy {
+    padding: 0;
+  }
+  .tech-interior .project-card-copy h3 {
+    font-size: 25px;
+  }
+  .tech-interior .papers-intro {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 8px;
+  }
+}

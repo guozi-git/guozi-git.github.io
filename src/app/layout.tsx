@@ -3,6 +3,8 @@ import { preload } from 'react-dom';
 import { MotionToggle } from '@/components/motion-toggle';
 import { assetPath } from '@/lib/asset-path';
 import '@/styles/globals.css';
+import '@/styles/tech-interiors.css';
+import '@/styles/tech-home.css';
 
 const title = '果子 · 个人网站';
 const description =

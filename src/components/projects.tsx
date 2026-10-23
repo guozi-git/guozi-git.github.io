@@ -78,8 +78,8 @@ export function Projects() {
           <p className="project-introduction">你正在浏览的，就是我的第一件作品。</p>
           <Image
             className="project-detail-image"
-            src={assetPath('/personal-website-preview.webp')}
-            alt="个人网站的圆环首页：中心照片与兴趣、论文、造物、随笔四个入口"
+            src={assetPath('/personal-website-preview-20261023.jpg')}
+            alt="个人网站的地球首页：中心照片与兴趣爱好、论文发表、兴趣造物、论文工厂四个入口"
             width={1440}
             height={1000}
             sizes="(max-width: 600px) 85vw, 790px"
@@ -126,7 +126,7 @@ export function Projects() {
           <button className="project-card" onClick={open} aria-label="查看作品：果子的个人网站">
             <div className="project-cover">
               <Image
-                src={assetPath('/personal-website-preview.webp')}
+                src={assetPath('/personal-website-preview-20261023.jpg')}
                 alt="果子的个人网站首页预览"
                 width={1440}
                 height={1000}

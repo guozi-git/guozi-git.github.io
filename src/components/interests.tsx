@@ -130,12 +130,19 @@ export function Interests() {
                 onClick={() => open(hobby)}
               >
                 <span className="hobby-symbol">
-                  <Image
-                    src={assetPath(`/interests/${hobby.id}.webp`)}
-                    alt=""
-                    fill
-                    sizes="(max-width: 600px) 110px, 200px"
-                  />
+                  <svg
+                    viewBox={`96 ${{ badminton: 234, swimming: 486, gaming: 738 }[hobby.id]} 474 198`}
+                    preserveAspectRatio="xMidYMid slice"
+                    width="100%"
+                    height="100%"
+                    aria-hidden="true"
+                  >
+                    <image
+                      href={assetPath('/interests/1023-concept-photos-v1.png')}
+                      width="1536"
+                      height="1024"
+                    />
+                  </svg>
                 </span>
                 <span className="hobby-row-copy">
                   <span>
@@ -143,6 +150,9 @@ export function Interests() {
                   </span>
                   <strong>{hobby.name}</strong>
                   <span>{hobby.note}</span>
+                </span>
+                <span className="interior-card-action" aria-hidden="true">
+                  查看
                 </span>
               </button>
             ))}
