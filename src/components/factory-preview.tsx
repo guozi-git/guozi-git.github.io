@@ -9,6 +9,7 @@ import { ResearchReviewPreview } from './research-review-preview';
 import { ResearchGradeGuide } from './research-grade-guide';
 import { researchReviews, mergedReviews } from '@/lib/research-reviews';
 import { rankLabel } from '@/lib/paper-label';
+import { PaperShare } from './paper-share';
 import { PaperMetadata } from './paper-metadata';
 import { AbstractContent } from './abstract-content';
 
@@ -172,7 +173,11 @@ export function FactoryPreview({ embedded = false }: { embedded?: boolean }) {
       >
         {paper ? (
           <article className={s.paperDetail}>
-            <PaperMetadata title={paper.originalTitle} pdf={paper.pdf} />
+            <PaperMetadata
+              title={paper.originalTitle}
+              pdf={paper.pdf}
+              description={paper.abstract}
+            />
             <button data-inner-back className={s.back} onClick={back}>
               <span aria-hidden="true">‹</span> 返回论文汇总
             </button>
@@ -202,6 +207,7 @@ export function FactoryPreview({ embedded = false }: { embedded?: boolean }) {
               )}
             </section>
             {review && <ResearchReviewPreview review={review} workshop />}
+            <PaperShare key={paper.id} />
             <div className={s.pdfLinks}>
               <a
                 href={`${assetPath(paper.pdf)}?v=${paper.sha256.slice(0, 16)}`}

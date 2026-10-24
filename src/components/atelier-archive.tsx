@@ -6,6 +6,7 @@ import { researchReviews } from '@/lib/research-reviews';
 import { ResearchGradeGuide } from './research-grade-guide';
 import { ResearchReviewPreview } from './research-review-preview';
 import { assetPath } from '@/lib/asset-path';
+import { PaperShare } from './paper-share';
 import { PaperMetadata } from './paper-metadata';
 import { AbstractContent } from './abstract-content';
 import s from './atelier-archive.module.css';
@@ -154,7 +155,7 @@ export function AtelierArchive({ onBack }: { onBack: () => void }) {
         </>
       ) : (
         <article className={s.dossier}>
-          <PaperMetadata title={paper.originalTitle} pdf={paper.pdf} />
+          <PaperMetadata title={paper.originalTitle} pdf={paper.pdf} description={paper.abstract} />
           <header className={s.title}>
             <span>
               COLLECTION {accession(paper.collectionNumber)} · {paper.topic}
@@ -168,6 +169,7 @@ export function AtelierArchive({ onBack }: { onBack: () => void }) {
             <p className={s.msc}>MSC {paper.msc.join(' · ')}</p>
           </section>
           <ResearchReviewPreview review={researchReviews.get(paper.id)!} />
+          <PaperShare key={paper.id} />
           <footer className={s.footer}>
             <span>THE COLLECTION · {accession(paper.collectionNumber)}</span>
             <a

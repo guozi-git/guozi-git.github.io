@@ -130,19 +130,12 @@ export function Interests() {
                 onClick={() => open(hobby)}
               >
                 <span className="hobby-symbol">
-                  <svg
-                    viewBox={`96 ${{ badminton: 234, swimming: 486, gaming: 738 }[hobby.id]} 474 198`}
-                    preserveAspectRatio="xMidYMid slice"
-                    width="100%"
-                    height="100%"
-                    aria-hidden="true"
-                  >
-                    <image
-                      href={assetPath('/interests/1023-concept-photos-v1.png')}
-                      width="1536"
-                      height="1024"
-                    />
-                  </svg>
+                  <Image
+                    src={assetPath('/interests/1024-' + hobby.id + '-v1.webp')}
+                    alt=""
+                    fill
+                    sizes="(max-width: 600px) 264px, 474px"
+                  />
                 </span>
                 <span className="hobby-row-copy">
                   <span>

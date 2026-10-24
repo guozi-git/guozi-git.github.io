@@ -1,4 +1,6 @@
 'use client';
+import { PaperMetadata } from './paper-metadata';
+import { PaperShare } from './paper-share';
 import { reducedMotion } from '@/lib/motion';
 
 import { useEffect, useRef, useState } from 'react';
@@ -68,6 +70,9 @@ function PaperArt({ index }: { index: number }) {
 
 export function Publications() {
   const [selected, setSelected] = useState<Publication | null>(selectedFromHash);
+  useEffect(() => {
+    document.title = (selected?.title ?? '论文发表') + ' · 果子';
+  }, [selected]);
   const regionRef = useRef<HTMLDivElement>(null);
   const previousIdRef = useRef<string | null>(null);
   const scrollRef = useRef(0);
@@ -136,6 +141,11 @@ export function Publications() {
     >
       {selected ? (
         <article className="paper-detail" aria-labelledby="paper-title">
+          <PaperMetadata
+            title={selected.title}
+            pdf={selected.fullText ?? undefined}
+            description={selected.summary}
+          />
           <button className="paper-back" onClick={back}>
             返回论文列表
           </button>
@@ -178,6 +188,7 @@ export function Publications() {
               {selected.id === 'bipartite-stability' ? 'arXiv 页面' : '出版社页面'}
             </a>
           </div>
+          <PaperShare key={selected.id} />
           <p className="paper-access">{selected.access}</p>
           <p className="paper-identifier">{selected.identifier}</p>
         </article>

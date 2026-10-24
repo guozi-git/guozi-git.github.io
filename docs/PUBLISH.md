@@ -70,6 +70,6 @@ node scripts/check-deployed.mjs http://127.0.0.1:3100/guozi-website/
 当前旧站canonical仍指向旧地址，保留它有利于原站独立回退，但短期可能出现重复索引。后续若统一旧站canonical或设置重定向，应另行验证完整hash/PDF兼容，不把这一操作混入根站首次上线。
 
 本地Git remote：origin指向新权威仓库，legacy指向旧仓库。执行推送前检查git remote -v，避免误更新历史兼容站。
-新增独立论文静态URL也是独立待确认项目，现有hash没有被伪装成可独立索引页面。论文运行时citation_title/pdf元数据只用于基础描述，不保证学术搜索收录，不补造作者、期刊或发表日期。
+新增独立论文静态URL也是独立待确认项目，现有hash没有被伪装成可独立索引页面。论文详情在浏览器中更新标题、description、OG/Twitter 描述和 citation_title/pdf，退出详情时恢复描述。复制论文链接保留现有 hash；这些运行时元数据不等于爬虫可读的独立分享卡片，也不保证学术搜索收录，不补造作者、期刊或发表日期。
 
 官方说明：https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages

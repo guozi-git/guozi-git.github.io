@@ -1,5 +1,103 @@
 import { test, expect } from '@playwright/test';
 
+test('paper metadata and copy link follow the current paper and reset on return', async ({
+  page,
+}) => {
+  await page.addInitScript(() => {
+    Object.defineProperty(navigator, 'clipboard', {
+      value: {
+        writeText: async (text: string) => {
+          document.documentElement.dataset.copied = text;
+        },
+      },
+    });
+  });
+  for (const [hash, heading, back] of [
+    ['#publications/grid-dissociation', '.paper-detail h3', '返回论文列表'],
+    ['#factory/P062', 'article > h3', '返回论文汇总'],
+    ['#factory/atelier/P089', 'article header h2', '返回收藏目录'],
+  ]) {
+    await page.goto('/');
+    const defaultDescription = await page
+      .locator('meta[name="description"]')
+      .getAttribute('content');
+    await page.goto('/' + hash);
+    const title = await page.locator(heading).first().textContent();
+    await expect(page).toHaveTitle(title!.trim() + ' · 果子');
+    await expect(page.locator('meta[name="citation_title"]')).toHaveAttribute(
+      'content',
+      title!.trim(),
+    );
+    await expect(page.locator('meta[name="description"]')).not.toHaveAttribute(
+      'content',
+      defaultDescription!,
+    );
+    await page.getByRole('button', { name: '复制论文链接', exact: true }).click();
+    await expect(page.getByRole('status').filter({ hasText: '论文链接已复制' })).toBeVisible();
+    await expect(page.locator('html')).toHaveAttribute('data-copied', page.url());
+    await page.getByRole('button', { name: back, exact: false }).first().click();
+    await expect(page.locator('meta[name="citation_title"]')).toHaveCount(0);
+    await expect(page.locator('meta[name="description"]')).toHaveAttribute(
+      'content',
+      defaultDescription!,
+    );
+  }
+});
+
+test('copy failure provides a selectable link', async ({ page }) => {
+  await page.addInitScript(() =>
+    Object.defineProperty(navigator, 'clipboard', {
+      value: {
+        writeText: async () => {
+          throw new Error('denied');
+        },
+      },
+    }),
+  );
+  await page.goto('/#publications/grid-dissociation');
+  await page.getByRole('button', { name: '复制论文链接', exact: true }).click();
+  await expect(page.getByRole('textbox', { name: '论文链接', exact: true })).toHaveValue(
+    page.url(),
+  );
+});
+
+test('long mobile pages keep an operable return action at the bottom', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  for (const [hash, label, destination] of [
+    ['#interests/swimming', '返回兴趣列表', '#interests'],
+    ['#factory/P062', '返回论文汇总', '#factory/workshop'],
+  ]) {
+    await page.goto(`/${hash}`);
+    await expect(page.getByRole('button', { name: label, exact: false }).first()).toBeVisible();
+    await page.locator('.detail').evaluate((el) => {
+      el.scrollTop = el.scrollHeight;
+    });
+    const bar = page.getByRole('navigation', { name: '阅读导航' });
+    await expect(bar).toBeVisible();
+    await bar.getByRole('button', { name: label, exact: false }).click();
+    await expect(page).toHaveURL(new RegExp(`${destination}$`));
+  }
+});
+
+test('mobile chart labels remain readable and heading leaves room for content', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/#interests/swimming');
+  await expect(page.locator('.swim-chart')).toBeVisible();
+  await expect
+    .poll(() =>
+      page
+        .locator('.swim-chart text')
+        .first()
+        .evaluate((el) => el.getBoundingClientRect().height),
+    )
+    .toBeGreaterThanOrEqual(12);
+  expect(
+    await page.locator('.detail-hero').evaluate((el) => el.getBoundingClientRect().height),
+  ).toBeLessThanOrEqual(135);
+});
+
 test('nested swimming and CS text retain readable contrast on dark surfaces', async ({ page }) => {
   const luminance = (color: string) => {
     const channels = color

@@ -32,7 +32,6 @@
   "hearthstone/battlegrounds.webp",
   "hearthstone/ranked.webp",
   "interests/badminton.webp",
-  "interests/1023-concept-photos-v1.png",
   "interests/gaming.webp",
   "interests/swimming.webp",
   "devices/peripherals/headset-white.webp",
@@ -133,5 +132,8 @@
   "portrait-320.webp",
   "portrait-640.webp",
   "papers/P092.pdf",
-  "papers/P093.pdf"
+  "papers/P093.pdf",
+  "interests/1024-badminton-v1.webp",
+  "interests/1024-swimming-v1.webp",
+  "interests/1024-gaming-v1.webp"
 ]

@@ -9,6 +9,7 @@ import Image from 'next/image';
 import { profile } from '@/lib/profile';
 import dynamic from 'next/dynamic';
 import earth from '../../public/scenes/photos/nasa-earth.webp';
+import { ReadingNavigation } from './reading-navigation';
 import { SectionLoading } from './section-loading';
 import { SectionErrorBoundary } from './section-error-boundary';
 import { scheduleIdlePreload } from '@/lib/idle-preload';
@@ -101,7 +102,10 @@ export function Orbit() {
     if (!active) return scheduleIdlePreload(loadFactory, () => !window.location.hash);
   }, [active]);
   useEffect(() => {
-    if (active?.id !== 'factory')
+    if (
+      active?.id !== 'factory' &&
+      !(active?.id === 'publications' && window.location.hash.includes('/'))
+    )
       document.title = active ? `${active.title} · 果子` : '果子 · 个人网站';
   }, [active]);
   const dialogRef = useRef<HTMLElement>(null);
@@ -408,6 +412,7 @@ export function Orbit() {
               }
             }}
           >
+            <ReadingNavigation panelRef={dialogRef} onHome={close} />
             {active.id === 'factory' ? (
               <>
                 <button

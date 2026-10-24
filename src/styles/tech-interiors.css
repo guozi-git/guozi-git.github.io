@@ -102,11 +102,15 @@
   padding: 14px 24px 14px 14px;
 }
 .tech-interior .hobby-symbol {
+  position: relative;
   width: 28%;
   height: 145px;
   flex: 0 0 28%;
   border-radius: 9px;
   overflow: hidden;
+}
+.tech-interior .hobby-symbol img {
+  object-fit: cover;
 }
 .tech-interior .hobby-row-copy {
   min-width: 0;
@@ -444,10 +448,14 @@
 }
 @media (max-width: 600px) {
   .tech-interior .detail-hero {
-    height: 175px;
+    height: 135px;
   }
   .tech-interior .detail-heading {
-    bottom: 20px;
+    bottom: 10px;
+  }
+  .tech-interior .detail-heading h2 {
+    font-size: 28px;
+    margin-bottom: 6px;
   }
   .tech-interior .back-button {
     top: 14px;
@@ -505,5 +513,17 @@
     align-items: flex-start;
     flex-direction: column;
     gap: 8px;
+  }
+}
+
+@media (min-width: 601px) and (max-height: 850px) {
+  .tech-interior .detail-hero {
+    height: 150px;
+  }
+  .tech-interior .detail-heading {
+    bottom: 16px;
+  }
+  .tech-interior .detail-heading h2 {
+    margin-bottom: 8px;
   }
 }

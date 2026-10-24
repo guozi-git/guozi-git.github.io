@@ -1806,6 +1806,7 @@ h1 span {
   color: white;
 }
 .swim-chart {
+  height: 245px;
   width: 100%;
   display: block;
   margin: 18px 0 8px;
@@ -1813,7 +1814,7 @@ h1 span {
 }
 .swim-chart text {
   font:
-    11px Arial,
+    12px Arial,
     sans-serif;
   fill: #70898e;
 }
@@ -3313,4 +3314,68 @@ body:not(:has(.orbit)) .motion-toggle {
   border: 1px solid #aecfd766;
   border-radius: 12px;
   color: #c5eeef;
+}
+
+/* Keep reading controls reachable without changing the initial page layout. */
+.detail {
+  scroll-padding-top: 72px;
+}
+.detail :is(button, a, input, select, summary) {
+  scroll-margin-top: 72px;
+}
+.reading-navigation-anchor {
+  position: sticky;
+  top: 0;
+  height: 0;
+  z-index: 60;
+}
+.reading-navigation {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 6px 16px;
+  background: #0b1c2cf5;
+  color: #edf5fc;
+  border-bottom: 1px solid #37576c;
+  box-shadow: 0 4px 16px #0003;
+}
+.reading-navigation button,
+.paper-share button {
+  min-height: 44px;
+  padding: 8px 14px;
+  border-radius: 8px;
+  border: 1px solid currentColor;
+  color: inherit;
+  background: transparent;
+  font: inherit;
+  cursor: pointer;
+}
+.reading-navigation button:focus-visible,
+.paper-share :is(button, input):focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 3px;
+}
+.detail:has([data-factory-view='atelier']) .reading-navigation {
+  background: #17140ff5;
+  color: #e8d5a6;
+  border-color: #63543a;
+}
+.paper-share {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 20px 0;
+  font-size: 14px;
+}
+.paper-share input {
+  width: 100%;
+  min-width: 0;
+  padding: 10px;
+  color: inherit;
+  background: transparent;
+  border: 1px solid currentColor;
+}
+.paper-share span {
+  font-size: 13px;
 }

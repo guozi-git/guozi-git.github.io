@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { swims as sourceSwims, paceLabel } from '@/lib/swimming';
 
 const swims = [...sourceSwims].sort((a, b) => a.date.localeCompare(b.date));
@@ -18,6 +18,25 @@ export function Swimming() {
 function SwimmingRecords() {
   const [metric, setMetric] = useState<'pace' | 'distance' | 'seconds' | 'strokes'>('pace');
   const [selected, setSelected] = useState(swims.length - 1);
+  const chartRef = useRef<SVGSVGElement>(null);
+  const [chartWidth, setChartWidth] = useState(620);
+  useEffect(() => {
+    const chart = chartRef.current;
+    if (!chart) return;
+    const observer = new ResizeObserver(([entry]) =>
+      setChartWidth(Math.max(1, entry.contentRect.width)),
+    );
+    observer.observe(chart);
+    return () => observer.disconnect();
+  }, []);
+  const left = 55;
+  const right = chartWidth - 24;
+  const dateCount = Math.min(swims.length, chartWidth < 480 ? 3 : 6);
+  const dateIndices = new Set(
+    Array.from({ length: dateCount }, (_, i) =>
+      Math.round((i * (swims.length - 1)) / Math.max(1, dateCount - 1)),
+    ),
+  );
   const current = swims[selected];
   const records = swims.map((entry) => ({
     ...entry,
@@ -49,7 +68,9 @@ function SwimmingRecords() {
   const start = Date.parse(swims[0].date);
   const span = Date.parse(swims.at(-1)!.date) - start;
   const points = records.map((entry) => ({
-    x: span ? 65 + ((Date.parse(entry.date) - start) / span) * 520 : 325,
+    x: span
+      ? left + ((Date.parse(entry.date) - start) / span) * (right - left)
+      : (left + right) / 2,
     y: 205 - ((entry[metric] - min) / (max - min)) * 170,
   }));
   const value = (n: number) =>
@@ -136,21 +157,24 @@ function SwimmingRecords() {
         </div>
         <svg
           className="swim-chart"
-          viewBox="0 0 620 245"
+          ref={chartRef}
+          viewBox={`0 0 ${chartWidth} 245`}
           role="img"
           aria-label={`${captions[metric]}，按日期排列，下方可选择记录查看数值`}
         >
-          {ticks.map((tick) => {
-            const y = 205 - ((tick - min) / (max - min)) * 170;
-            return (
-              <g key={tick}>
-                <line x1="65" y1={y} x2="585" y2={y} stroke="#dce8e8" strokeDasharray="3 6" />
-                <text x="52" y={y + 4} textAnchor="end">
-                  {value(tick)}
-                </text>
-              </g>
-            );
-          })}
+          {ticks
+            .filter((_, i) => i === ticks.length - 1 || i % Math.ceil((ticks.length - 1) / 4) === 0)
+            .map((tick) => {
+              const y = 205 - ((tick - min) / (max - min)) * 170;
+              return (
+                <g key={tick}>
+                  <line x1={left} y1={y} x2={right} y2={y} stroke="#dce8e8" strokeDasharray="3 6" />
+                  <text x={left - 10} y={y + 4} textAnchor="end">
+                    {value(tick)}
+                  </text>
+                </g>
+              );
+            })}
           <path
             d={`M${points.map((p) => `${p.x},${p.y}`).join(' L')}`}
             fill="none"
@@ -167,7 +191,7 @@ function SwimmingRecords() {
                 stroke="#528e9a"
                 strokeWidth="2"
               />
-              {(i === 0 || i === swims.length - 1 || i % Math.ceil(swims.length / 5) === 0) && (
+              {dateIndices.has(i) && (
                 <text x={p.x} y="233" textAnchor="middle">
                   {swims[i].date.slice(5).replace('-', '/')}
                 </text>

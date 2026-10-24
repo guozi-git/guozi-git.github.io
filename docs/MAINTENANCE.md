@@ -12,6 +12,6 @@
 
 构建会排除 public 中未列入清单的导出副本，源文件不会被删除。发布的仅为 out；源码本身也可能公开，因此不要向仓库添加私密原始文件。
 
-修改后运行 README 中的检查。原始素材优化脚本未包含在此快照中，当前使用已经处理好的图片。
+修改后运行 README 中的检查。兴趣分类图保留原始示意图，可运行 `node scripts/generate-interest-images.mjs` 按已确认裁切重新生成三张 WebP；其他历史素材沿用已处理的图片。
 
 提交前用 git diff --stat 和 git diff --cached 检查修改范围，确认未包含原始订单、价格截图、凭据或生成缓存。上传后查看 Actions → Verify static website，两个路径均通过才算验证完成。PAGES_ENABLED 关闭时上传源码不会发布网站；开启后 main 更新会自动部署。
