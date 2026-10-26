@@ -1,4 +1,4 @@
-import { academicLevels, levelDescriptions } from '@/lib/research-reviews';
+import { academicLevels, levelDescriptions } from '@/lib/research-levels';
 import { scoreDimensions } from '@/lib/score-dimensions';
 import s from './research-review-preview.module.css';
 

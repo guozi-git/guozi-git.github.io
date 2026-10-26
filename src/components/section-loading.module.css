@@ -2,6 +2,8 @@
   min-height: 240px;
   display: grid;
   place-items: center;
+  align-content: center;
+  gap: 16px;
   padding: 24px;
   color: inherit;
   font-size: 13px;
@@ -51,4 +53,13 @@
   .factory {
     height: max(650px, 90svh);
   }
+}
+
+.slow {
+  max-width: 460px;
+  font-size: 14px;
+  line-height: 1.8;
+}
+.slow p {
+  margin: 0 0 16px;
 }

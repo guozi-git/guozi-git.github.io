@@ -1,0 +1,51 @@
+.orbitPanel:global(.detail) {
+  width: min(980px, 100%);
+  background: radial-gradient(ellipse at 45% 20%, #183649ed, #071320f7 85%);
+  border-color: #d8efff42;
+  box-shadow:
+    inset 0 1px 0 #ffffff22,
+    0 30px 100px #00000042;
+  position: relative;
+  color: #eaf3fc;
+  scrollbar-color: #536c80 transparent;
+}
+.orbitBackdrop:global(.detail-backdrop) {
+  background: #071221;
+}
+.orbitPanel .outerBack {
+  position: absolute;
+  z-index: 4;
+  left: 29px;
+  top: 23px;
+  min-height: var(--glass-control-height);
+  font-size: 13px;
+  padding: 9px 16px;
+  color: #c2d7e6;
+  background: linear-gradient(145deg, #dceeff19, #b2d6ff08);
+  border-color: #e1f2ff33;
+  box-shadow: var(--glass-control-shadow);
+}
+.orbitPanel .outerBack:hover {
+  background: #dceeff26;
+}
+@media (max-width: 600px) {
+  .orbitPanel .outerBack {
+    left: 19px;
+    top: 18px;
+    padding: 8px 12px;
+    font-size: 13px;
+  }
+}
+.orbitPanel:has([data-factory-view='atelier'], [data-factory-view='workshop']) .outerBack {
+  left: auto;
+  right: 38px;
+  min-height: 44px;
+  font-size: 12px;
+  background: transparent;
+  box-shadow: none;
+}
+@media (max-width: 600px) {
+  .orbitPanel:has([data-factory-view='atelier'], [data-factory-view='workshop']) .outerBack {
+    right: 20px;
+  }
+}

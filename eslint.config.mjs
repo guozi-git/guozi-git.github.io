@@ -12,5 +12,13 @@ export default defineConfig([
     ...nextPlugin.configs['core-web-vitals'],
   },
   prettier,
-  globalIgnores(['trash/**', '.next/**', '.preview/**', 'out/**', 'coverage/**', 'next-env.d.ts']),
+  globalIgnores([
+    'src/lib/.generated/**',
+    'trash/**',
+    '.next/**',
+    '.preview/**',
+    'out/**',
+    'coverage/**',
+    'next-env.d.ts',
+  ]),
 ]);

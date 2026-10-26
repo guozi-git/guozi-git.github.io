@@ -2,7 +2,8 @@
 import { useEffect, useRef, useState } from 'react';
 import papers from '@/lib/atelier-papers.json';
 import { orderAtelierPapers } from '@/lib/atelier-order';
-import { researchReviews } from '@/lib/research-reviews';
+import { usePaperDetail } from '@/lib/use-paper-detail';
+import { PaperDeliveryStatus } from './paper-delivery-status';
 import { ResearchGradeGuide } from './research-grade-guide';
 import { ResearchReviewPreview } from './research-review-preview';
 import { assetPath } from '@/lib/asset-path';
@@ -18,6 +19,7 @@ export function AtelierArchive({ onBack }: { onBack: () => void }) {
   const [selected, setSelected] = useState<string | null>(null);
   const root = useRef<HTMLElement>(null);
   const paper = collection.find((entry) => entry.id === selected);
+  const { detail, error } = usePaperDetail(paper?.id);
   useEffect(() => {
     document.title = `${paper?.originalTitle ?? (selected === 'scoring' ? '匠心造等级说明' : selected === 'missing' ? '未找到论文' : '匠心造')} · 果子`;
   }, [paper, selected]);
@@ -168,7 +170,11 @@ export function AtelierArchive({ onBack }: { onBack: () => void }) {
             <AbstractContent text={paper.abstract} />
             <p className={s.msc}>MSC {paper.msc.join(' · ')}</p>
           </section>
-          <ResearchReviewPreview review={researchReviews.get(paper.id)!} />
+          {detail?.review ? (
+            <ResearchReviewPreview review={detail.review} />
+          ) : (
+            <PaperDeliveryStatus error={error} />
+          )}
           <PaperShare key={paper.id} />
           <footer className={s.footer}>
             <span>THE COLLECTION · {accession(paper.collectionNumber)}</span>

@@ -1,7 +1,9 @@
 'use client';
+import '@/styles/section-content.css';
 import { PaperMetadata } from './paper-metadata';
 import { PaperShare } from './paper-share';
-import { reducedMotion } from '@/lib/motion';
+import { useContentTransition } from '@/lib/use-content-transition';
+import { useListPosition } from '@/lib/use-list-position';
 
 import { useEffect, useRef, useState } from 'react';
 import { publications, type Publication } from '@/lib/publications';
@@ -75,7 +77,8 @@ export function Publications() {
   }, [selected]);
   const regionRef = useRef<HTMLDivElement>(null);
   const previousIdRef = useRef<string | null>(null);
-  const scrollRef = useRef(0);
+  useContentTransition(regionRef, selected?.id ?? 'list', 180, 'cubic-bezier(.2,.7,.2,1)');
+  useListPosition(regionRef, 'publications', !selected);
 
   useEffect(() => {
     const sync = () => setSelected(selectedFromHash());
@@ -95,22 +98,10 @@ export function Publications() {
       region
         .querySelector<HTMLButtonElement>(`[data-paper="${previousIdRef.current}"]`)
         ?.focus({ preventScroll: true });
-      if (panel) panel.scrollTop = scrollRef.current;
-    }
-    if (!reducedMotion()) {
-      const animation = region.animate(
-        [
-          { opacity: 0, transform: 'translateY(12px)' },
-          { opacity: 1, transform: 'none' },
-        ],
-        { duration: 180, easing: 'cubic-bezier(.2,.7,.2,1)' },
-      );
-      return () => animation.cancel();
     }
   }, [selected]);
 
   function open(paper: Publication) {
-    scrollRef.current = regionRef.current?.closest('.detail')?.scrollTop ?? 0;
     window.history.pushState(
       { ...window.history.state, publicationDetail: true },
       '',

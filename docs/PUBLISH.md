@@ -52,7 +52,7 @@ node scripts/check-deployed.mjs http://127.0.0.1:3100/guozi-website/
 
 ## 回滚（不改写历史）
 
-最近已验证旧版本：`a9285f4dc2629d5e6eba88eca23e5bb16e5a8347`，2026-10-14 Publish运行38564425194成功。
+2026-10-26 本轮发布前核对的根站版本：`bd928a0f79395dd2270d46e11f863dcc94960976`，Publish 运行40051138636成功，线上 version.json 的 SHA 一致且 dirty=false。后续回滚前须重新核对当时的线上版本；旧项目兼容站仍使用下文记录的历史版本。
 
 1. 记录线上version.json、失败workflow和问题提交SHA。
 2. 对本次问题提交执行 `git revert <问题提交SHA>`；多个提交按从新到旧逐个撤销，解决冲突时保留论文/PDF原数据。

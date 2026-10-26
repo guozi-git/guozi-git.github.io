@@ -1,13 +1,16 @@
 'use client';
+import { usePaperDetail } from '@/lib/use-paper-detail';
+import { useListPosition } from '@/lib/use-list-position';
+import { PaperDeliveryStatus } from './paper-delivery-status';
 import { reducedMotion } from '@/lib/motion';
 
 import { assetPath } from '@/lib/asset-path';
 import { useEffect, useRef, useState } from 'react';
-import { factoryPapers, allFactoryPapers, factoryTopics, reviewBatch } from '@/lib/factory-papers';
+import { factoryPapers, allFactoryPapers, factoryTopics, reviewBatch } from '@/lib/factory-catalog';
 import s from './factory-preview.module.css';
 import { ResearchReviewPreview } from './research-review-preview';
 import { ResearchGradeGuide } from './research-grade-guide';
-import { researchReviews, mergedReviews } from '@/lib/research-reviews';
+import { researchReviews, mergedReviews } from '@/lib/factory-catalog';
 import { rankLabel } from '@/lib/paper-label';
 import { PaperShare } from './paper-share';
 import { PaperMetadata } from './paper-metadata';
@@ -18,6 +21,13 @@ const availableGrades = ['S6', 'S5', 'S4', 'S3', 'S2', 'S1', 'S0'].filter((grade
 );
 const rankedPapers = factoryPapers.filter((paper) => paper.level !== null);
 const paperRanks = new Map(rankedPapers.map((paper, index) => [paper.id, index + 1]));
+let workshopSession = {
+  visibleCount: 20,
+  query: '',
+  filter: '全部方向',
+  scoreFilter: 'all',
+  reviewFilter: 'scored' as 'scored' | 'pending',
+};
 
 // Level sets of a positive definite quadratic form: a quiet mathematical backdrop.
 function ContourField() {
@@ -55,23 +65,28 @@ function fromHash() {
 }
 export function FactoryPreview({ embedded = false }: { embedded?: boolean }) {
   const [view, setView] = useState('overview');
-  const [visibleCount, setVisibleCount] = useState(20);
-  const [query, setQuery] = useState('');
-  const [filter, setFilter] = useState('全部方向');
-  const [scoreFilter, setScoreFilter] = useState('all');
-  const [reviewFilter, setReviewFilter] = useState<'scored' | 'pending'>('scored');
+  const [visibleCount, setVisibleCount] = useState(() => workshopSession.visibleCount);
+  const [query, setQuery] = useState(() => workshopSession.query);
+  const [filter, setFilter] = useState(() => workshopSession.filter);
+  const [scoreFilter, setScoreFilter] = useState(() => workshopSession.scoreFilter);
+  const [reviewFilter, setReviewFilter] = useState(() => workshopSession.reviewFilter);
   const region = useRef<HTMLDivElement>(null);
   const lastTrigger = useRef<string | null>(null);
-  const scroll = useRef(0);
+  useListPosition(region, 'workshop', view === 'overview' && fromHash() === 'overview');
+  useEffect(() => {
+    workshopSession = { visibleCount, query, filter, scoreFilter, reviewFilter };
+  }, [visibleCount, query, filter, scoreFilter, reviewFilter]);
   const first = useRef(true);
-  const paper =
+  const entry =
     factoryPapers.find((item) => item.id === view) ??
     allFactoryPapers.find((item) => item.id === view);
-  const review = paper ? researchReviews.get(paper.id) : undefined;
+  const { detail, error } = usePaperDetail(entry?.id);
+  const paper = detail?.paper;
+  const review = detail?.review;
   const mergedInto = paper ? mergedReviews.get(paper.id) : undefined;
   useEffect(() => {
-    document.title = `${paper?.originalTitle ?? (view === 'scoring' ? '等级与评分说明' : view === 'missing' ? '未找到论文' : '小作坊')} · 果子`;
-  }, [paper, view]);
+    document.title = `${entry?.originalTitle ?? (view === 'scoring' ? '等级与评分说明' : view === 'missing' ? '未找到论文' : '小作坊')} · 果子`;
+  }, [entry, view]);
   const matching = factoryPapers.filter(
     (item) =>
       (reviewFilter === 'scored' ? item.level !== null : item.level === null) &&
@@ -113,7 +128,6 @@ export function FactoryPreview({ embedded = false }: { embedded?: boolean }) {
             : `[data-paper="${lastTrigger.current}"]`,
         )
         ?.focus({ preventScroll: true });
-      if (panel) panel.scrollTop = scroll.current;
     } else {
       current.querySelector<HTMLElement>('[data-inner-back]')?.focus({ preventScroll: true });
       if (panel) panel.scrollTop = 0;
@@ -131,7 +145,6 @@ export function FactoryPreview({ embedded = false }: { embedded?: boolean }) {
   }, [view]);
   function open(next: string) {
     lastTrigger.current = next;
-    scroll.current = region.current?.closest('.detail')?.scrollTop ?? 0;
     window.history.pushState(
       {
         ...window.history.state,
@@ -149,6 +162,15 @@ export function FactoryPreview({ embedded = false }: { embedded?: boolean }) {
       window.history.replaceState(null, '', '#factory/workshop');
       setView('overview');
     }
+  }
+  function resetFilters() {
+    setQuery('');
+    setFilter('全部方向');
+    setScoreFilter('all');
+    setReviewFilter('scored');
+    setVisibleCount(20);
+    const panel = region.current?.closest<HTMLElement>('.detail');
+    if (panel) panel.scrollTop = 0;
   }
   return (
     <div className={`${s.factory} ${embedded ? s.embedded : ''}`}>
@@ -171,61 +193,67 @@ export function FactoryPreview({ embedded = false }: { embedded?: boolean }) {
           }
         }}
       >
-        {paper ? (
+        {entry ? (
           <article className={s.paperDetail}>
-            <PaperMetadata
-              title={paper.originalTitle}
-              pdf={paper.pdf}
-              description={paper.abstract}
-            />
             <button data-inner-back className={s.back} onClick={back}>
               <span aria-hidden="true">‹</span> 返回论文汇总
             </button>
-            <p className={s.eyebrow}>
-              {rankLabel(paper.id, paperRanks)} · {paper.topic}
-            </p>
-            <h3 lang={paper.id === 'P091' ? 'zh-CN' : 'en'}>{paper.originalTitle}</h3>
-            {mergedInto && (
-              <div className={s.reviewNotice}>
-                此稿已归入后续成果，不再单独评分。
-                {mergedInto.map((id) => (
-                  <button className={s.scoringLink} key={id} onClick={() => open(id)}>
-                    查看 {paperRanks.has(id) ? rankLabel(id, paperRanks) : id}
-                  </button>
-                ))}
-              </div>
+            {!paper ? (
+              <PaperDeliveryStatus error={error} />
+            ) : (
+              <>
+                <PaperMetadata
+                  title={paper.originalTitle}
+                  pdf={paper.pdf}
+                  description={paper.abstract}
+                />
+                <p className={s.eyebrow}>
+                  {rankLabel(paper.id, paperRanks)} · {paper.topic}
+                </p>
+                <h3 lang={paper.id === 'P091' ? 'zh-CN' : 'en'}>{paper.originalTitle}</h3>
+                {mergedInto && (
+                  <div className={s.reviewNotice}>
+                    此稿已归入后续成果，不再单独评分。
+                    {mergedInto.map((id) => (
+                      <button className={s.scoringLink} key={id} onClick={() => open(id)}>
+                        查看 {paperRanks.has(id) ? rankLabel(id, paperRanks) : id}
+                      </button>
+                    ))}
+                  </div>
+                )}
+                <p className={s.mscLine}>MSC {paper.msc.join(' · ')}</p>
+                <section className={s.abstract}>
+                  <div className={s.subheading}>
+                    <h4>{paper.abstract ? 'Abstract' : '原稿说明'}</h4>
+                  </div>
+                  {paper.abstract ? (
+                    <AbstractContent text={paper.abstract} />
+                  ) : (
+                    <p>此稿为阶段研究报告，未设独立摘要；已核结果与待完成部分见下方评价。</p>
+                  )}
+                </section>
+                {review && <ResearchReviewPreview review={review} workshop />}
+                <PaperShare key={paper.id} />
+                <div className={s.pdfLinks}>
+                  <a
+                    href={`${assetPath(paper.pdf)}?v=${paper.sha256.slice(0, 16)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    阅读原文
+                  </a>
+                  {paper.supplement && (
+                    <a
+                      href={`${assetPath(paper.supplement.pdf)}?v=${paper.supplement.sha256.slice(0, 16)}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      阅读证明补充
+                    </a>
+                  )}
+                </div>
+              </>
             )}
-            <p className={s.mscLine}>MSC {paper.msc.join(' · ')}</p>
-            <section className={s.abstract}>
-              <div className={s.subheading}>
-                <h4>{paper.abstract ? 'Abstract' : '原稿说明'}</h4>
-              </div>
-              {paper.abstract ? (
-                <AbstractContent text={paper.abstract} />
-              ) : (
-                <p>此稿为阶段研究报告，未设独立摘要；已核结果与待完成部分见下方评价。</p>
-              )}
-            </section>
-            {review && <ResearchReviewPreview review={review} workshop />}
-            <PaperShare key={paper.id} />
-            <div className={s.pdfLinks}>
-              <a
-                href={`${assetPath(paper.pdf)}?v=${paper.sha256.slice(0, 16)}`}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                阅读原文
-              </a>
-              {paper.supplement && (
-                <a
-                  href={`${assetPath(paper.supplement.pdf)}?v=${paper.supplement.sha256.slice(0, 16)}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  阅读证明补充
-                </a>
-              )}
-            </div>
           </article>
         ) : view === 'missing' ? (
           <section className={s.scoring}>
@@ -340,6 +368,18 @@ export function FactoryPreview({ embedded = false }: { embedded?: boolean }) {
                   ))}
                 </select>
               </div>
+              {matching.length > 0 &&
+                (query ||
+                  filter !== '全部方向' ||
+                  scoreFilter !== 'all' ||
+                  reviewFilter !== 'scored' ||
+                  visibleCount > 20) && (
+                  <div className={s.filterActions}>
+                    <button className={s.scoringLink} onClick={resetFilters}>
+                      重置筛选
+                    </button>
+                  </div>
+                )}
               {reviewFilter === 'pending' && (
                 <div className={s.sortCaption}>
                   4 项关键证书待核验 · 1 项阶段稿存在重要证明缺口 · 不参与综合排名
@@ -397,16 +437,7 @@ export function FactoryPreview({ embedded = false }: { embedded?: boolean }) {
               {!matching.length && (
                 <div className={s.empty}>
                   <p>尚无此类论文</p>
-                  <button
-                    onClick={() => {
-                      setQuery('');
-                      setFilter('全部方向');
-                      setScoreFilter('all');
-                      setVisibleCount(20);
-                    }}
-                  >
-                    重置筛选
-                  </button>
+                  <button onClick={resetFilters}>重置筛选</button>
                 </div>
               )}
             </div>

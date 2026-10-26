@@ -10,6 +10,7 @@ coverage/
 Thumbs.db
 .vercel/
 .preview/
+src/lib/.generated/
 playwright-report/
 
 trash/

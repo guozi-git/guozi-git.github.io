@@ -1,5 +1,7 @@
 'use client';
-import { reducedMotion } from '@/lib/motion';
+import '@/styles/section-content.css';
+import { useContentTransition } from '@/lib/use-content-transition';
+import { useListPosition } from '@/lib/use-list-position';
 
 import { assetPath } from '@/lib/asset-path';
 
@@ -12,6 +14,8 @@ export function Projects() {
   const [expanded, setExpanded] = useState(() => window.location.hash === detailHash);
   const regionRef = useRef<HTMLDivElement>(null);
   const openedRef = useRef(false);
+  useContentTransition(regionRef, expanded);
+  useListPosition(regionRef, 'projects', !expanded);
 
   useEffect(() => {
     const sync = () => setExpanded(window.location.hash === detailHash);
@@ -23,20 +27,12 @@ export function Projects() {
     const region = regionRef.current;
     if (!region) return;
     if (expanded) {
+      const panel = region.closest<HTMLElement>('.detail');
+      if (panel) panel.scrollTop = 0;
       openedRef.current = true;
       region.querySelector<HTMLButtonElement>('.project-back')?.focus({ preventScroll: true });
     } else if (openedRef.current)
       region.querySelector<HTMLButtonElement>('.project-card')?.focus({ preventScroll: true });
-    if (!reducedMotion()) {
-      const animation = region.animate(
-        [
-          { opacity: 0, transform: 'translateY(12px)' },
-          { opacity: 1, transform: 'none' },
-        ],
-        { duration: 175, easing: 'ease-out' },
-      );
-      return () => animation.cancel();
-    }
   }, [expanded]);
 
   function open() {

@@ -1,3 +1,4 @@
+import { StartupRecovery } from '@/components/startup-recovery';
 import type { Metadata } from 'next';
 import { FactoryGateway as FactoryPreview } from '@/components/factory-gateway';
 export const metadata: Metadata = {
@@ -18,5 +19,10 @@ export const metadata: Metadata = {
   },
 };
 export default function PaperFactory() {
-  return <FactoryPreview />;
+  return (
+    <>
+      <StartupRecovery />
+      <FactoryPreview />
+    </>
+  );
 }

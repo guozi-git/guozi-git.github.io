@@ -1,4 +1,5 @@
 'use client';
+import { markSiteReady } from '@/lib/site-ready';
 import { useEffect, useId, useRef, useState } from 'react';
 import dynamic from 'next/dynamic';
 import { SectionLoading } from './section-loading';
@@ -23,6 +24,7 @@ function readView(): View {
   return !part ? 'gate' : part === 'atelier' ? 'atelier' : 'workshop';
 }
 export function FactoryGateway({ embedded = false }: { embedded?: boolean }) {
+  useEffect(markSiteReady, []);
   const clipId = useId().replace(/:/g, '');
   const [view, setView] = useState<View>('gate');
   const root = useRef<HTMLDivElement>(null);
@@ -46,7 +48,8 @@ export function FactoryGateway({ embedded = false }: { embedded?: boolean }) {
     const last = previous.current;
     previous.current = view;
     const panel = root.current?.closest('.detail');
-    if (panel) panel.scrollTop = 0;
+    // The workshop restores its own list position after its lazy module mounts.
+    if (panel && view !== 'workshop') panel.scrollTop = 0;
     const focusTarget = () => {
       const target = root.current?.querySelector<HTMLElement>(
         view === 'gate' ? `[data-door="${last}"]` : '[data-gateway-back]',

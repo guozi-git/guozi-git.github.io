@@ -1,3 +1,4 @@
+import { StartupRecovery } from '@/components/startup-recovery';
 import { Orbit } from '@/components/orbit';
 import { preload } from 'react-dom';
 import earth from '../../public/scenes/photos/nasa-earth.webp';
@@ -7,6 +8,7 @@ export default function Home() {
   const site = process.env.NEXT_PUBLIC_SITE_URL;
   return (
     <>
+      <StartupRecovery />
       {site && (
         <script
           type="application/ld+json"

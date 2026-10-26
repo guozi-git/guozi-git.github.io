@@ -14,10 +14,26 @@ export function FactoryParticles({ mode }: { mode: 'divider' | 'star' }) {
     let height = 0;
     let time = 0;
     let last = 0;
+    let visible = true;
+    let generation = 0;
     const lanes = Array.from({ length: 1500 }, (_, i) => {
       const seed = Math.sin(i * 127.1 + 31.7) * 43758.5453;
       const lane = (seed - Math.floor(seed)) * 2 - 1;
       return Math.sign(lane) * lane * lane;
+    });
+    // Reuse constants and full-opacity paint strings; keep the original order and blending.
+    const divider = lanes.map((lane, i) => {
+      const alpha = 0.24 + (i % 7) * 0.085;
+      const color = i % 4 ? '212,207,243' : '245,224,188';
+      return {
+        lane,
+        seed: i * 0.61803398875,
+        speed: 0.009 + (i % 5) * 0.0008,
+        radius: i % 23 === 0 ? 1 : 0.45 + (i % 3) * 0.12,
+        alpha,
+        color,
+        paint: `rgba(${color},${alpha})`,
+      };
     });
     const resize = new ResizeObserver(() => {
       // Layout dimensions stay sharp while the parent expands with a CSS transform.
@@ -88,15 +104,20 @@ export function FactoryParticles({ mode }: { mode: 'divider' | 'star' }) {
       const spread = compact ? 13 : 22;
       ctx.shadowBlur = 0;
       for (let i = 0; i < count; i++) {
-        const t = (i * 0.61803398875 + time * (0.009 + (i % 5) * 0.0008)) % 1;
+        const particle = divider[i];
+        const t = (particle.seed + time * particle.speed) % 1;
         // Concentrate crisp stars around the curve, with a sparse outer fringe.
-        const offset = lanes[i] * spread;
-        const p = point(t, offset + Math.sin(t * 18 + time * 0.2) * 2);
+        const offset = particle.lane * spread + Math.sin(t * 18 + time * 0.2) * 2;
+        const u = 1 - t;
+        const x =
+          (u * u * u * 0.59 + 3 * u * u * t * 0.15 + 3 * u * t * t * 0.87 + t * t * t * 0.43) *
+            width +
+          offset;
         const fade = Math.min(1, t * 18, (1 - t) * 18);
-        const alpha = (0.24 + (i % 7) * 0.085) * fade;
-        ctx.fillStyle = `rgba(${i % 4 ? '212,207,243' : '245,224,188'},${alpha})`;
+        ctx.fillStyle =
+          fade === 1 ? particle.paint : `rgba(${particle.color},${particle.alpha * fade})`;
         ctx.beginPath();
-        ctx.arc(p.x, p.y, i % 23 === 0 ? 1 : 0.45 + (i % 3) * 0.12, 0, Math.PI * 2);
+        ctx.arc(x, t * height, particle.radius, 0, Math.PI * 2);
         ctx.fill();
       }
       // Thin tapered strokes avoid the overexposed blobs of overlapping glowing circles.
@@ -199,24 +220,48 @@ export function FactoryParticles({ mode }: { mode: 'divider' | 'star' }) {
       ctx.shadowBlur = 0;
     }
     function tick(now: number) {
+      if (document.hidden || !visible || reducedMotion()) return;
       if (last && !document.hidden) time += Math.min((now - last) / 1000, 0.05);
       last = now;
       if (!document.hidden) draw();
       frame = requestAnimationFrame(tick);
     }
     function start() {
+      const current = ++generation;
       cancelAnimationFrame(frame);
       last = 0;
       draw();
-      if (!reducedMotion()) frame = requestAnimationFrame(tick);
+      if (reducedMotion() || document.hidden || !visible) return;
+      // Keep a sharp still frame during the panel transform; animate only once it settles.
+      frame = requestAnimationFrame(() => {
+        const animations = canvas?.closest('.detail')?.getAnimations() ?? [];
+        void Promise.all(
+          animations.map((animation) => animation.finished.catch(() => undefined)),
+        ).then(() => {
+          if (current === generation && !document.hidden && visible && !reducedMotion())
+            frame = requestAnimationFrame(tick);
+        });
+      });
     }
+    const visibility = new IntersectionObserver(([entry]) => {
+      if (visible === entry.isIntersecting) return;
+      visible = entry.isIntersecting;
+      start();
+    });
+    visibility.observe(canvas);
     resize.observe(canvas);
     window.addEventListener('site-motion-change', start);
+    window.addEventListener('site-transition-start', start);
+    document.addEventListener('visibilitychange', start);
     start();
     return () => {
+      generation++;
       cancelAnimationFrame(frame);
+      visibility.disconnect();
       resize.disconnect();
       window.removeEventListener('site-motion-change', start);
+      window.removeEventListener('site-transition-start', start);
+      document.removeEventListener('visibilitychange', start);
     };
   }, [mode]);
   return (

@@ -1,11 +1,7 @@
+import type { ResearchReview } from '@/lib/research-reviews';
 import { scoreDimensions } from '@/lib/score-dimensions';
 import { ScoreRadar } from './score-radar';
-import {
-  academicLevels,
-  levelDescriptions,
-  originalityLabels,
-  type ResearchReview,
-} from '@/lib/research-reviews';
+import { academicLevels, levelDescriptions, originalityLabels } from '@/lib/research-levels';
 import { p089Dimensions } from '@/lib/research-p089-notes';
 import s from './research-review-preview.module.css';
 

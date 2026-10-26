@@ -1,5 +1,8 @@
 'use client';
+import '@/styles/section-content.css';
 import { reducedMotion } from '@/lib/motion';
+import { useContentTransition } from '@/lib/use-content-transition';
+import { useListPosition } from '@/lib/use-list-position';
 
 import { assetPath } from '@/lib/asset-path';
 
@@ -33,6 +36,8 @@ export function Interests() {
   const regionRef = useRef<HTMLDivElement>(null);
   const previousHobby = useRef<string | null>(null);
   const previousGear = useRef<string | null>(null);
+  useContentTransition(regionRef, selected?.id ?? 'list');
+  useListPosition(regionRef, 'interests', !selected);
 
   useEffect(() => {
     const sync = () => {
@@ -47,22 +52,14 @@ export function Interests() {
     const region = regionRef.current;
     if (!region) return;
     if (selected) {
+      const panel = region.closest<HTMLElement>('.detail');
+      if (panel) panel.scrollTop = 0;
       previousHobby.current = selected.id;
       region.querySelector<HTMLButtonElement>('.hobby-back')?.focus({ preventScroll: true });
     } else if (previousHobby.current)
       region
         .querySelector<HTMLButtonElement>(`[data-hobby="${previousHobby.current}"]`)
         ?.focus({ preventScroll: true });
-    if (!reducedMotion()) {
-      const animation = region.animate(
-        [
-          { opacity: 0, transform: 'translateY(12px)' },
-          { opacity: 1, transform: 'none' },
-        ],
-        { duration: 175, easing: 'ease-out' },
-      );
-      return () => animation.cancel();
-    }
   }, [selected]);
 
   useEffect(() => {

@@ -1,3 +1,4 @@
+import { StartupRecovery } from '@/components/startup-recovery';
 import Link from 'next/link';
 import { PreviewOrbit } from '@/components/preview-orbit';
 export const metadata = {
@@ -11,6 +12,7 @@ export const metadata = {
 export default function Preview() {
   return (
     <>
+      <StartupRecovery />
       <aside
         style={{
           background: '#a9e9e5',

@@ -1,4 +1,5 @@
 'use client';
+import { markSiteReady } from '@/lib/site-ready';
 import { reducedMotion } from '@/lib/motion';
 
 import { assetPath } from '@/lib/asset-path';
@@ -13,7 +14,7 @@ import { ReadingNavigation } from './reading-navigation';
 import { SectionLoading } from './section-loading';
 import { SectionErrorBoundary } from './section-error-boundary';
 import { scheduleIdlePreload } from '@/lib/idle-preload';
-import factoryStyles from './factory-preview.module.css';
+import factoryStyles from './factory-shell.module.css';
 const loadPublications = () => import('@/components/publications');
 const loadInterests = () => import('@/components/interests');
 const loadProjects = () => import('@/components/projects');
@@ -97,6 +98,7 @@ function getSection() {
 }
 
 export function Orbit() {
+  useEffect(markSiteReady, []);
   const [active, setActive] = useState<(typeof sections)[number] | null>(null);
   useEffect(() => {
     if (!active) return scheduleIdlePreload(loadFactory, () => !window.location.hash);
@@ -201,6 +203,7 @@ export function Orbit() {
       next ? [{ opacity: 0 }, { opacity: 1 }] : [{ opacity: 1 }, { opacity: 0 }],
       { duration: next ? 135 : 90, delay: next ? 375 : 0 },
     );
+    window.dispatchEvent(new Event('site-transition-start'));
     await Promise.all(
       animationsRef.current.map((animation) => animation.finished.catch(() => undefined)),
     );

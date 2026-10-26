@@ -30,7 +30,7 @@ jobs:
           NEXT_PUBLIC_BASE_PATH: ${{ steps.pages.outputs.base_path }}
           NEXT_PUBLIC_SITE_URL: ${{ steps.pages.outputs.base_url }}
           INDEX_SITE: 'true'
-      - run: npx playwright install --with-deps chromium
+      - run: npx playwright install --with-deps chromium firefox webkit
       - name: Verify actual Pages path
         env:
           NEXT_PUBLIC_BASE_PATH: ${{ steps.pages.outputs.base_path }}
@@ -45,6 +45,8 @@ jobs:
           npm run test:static -- "http://127.0.0.1:3000${NEXT_PUBLIC_BASE_PATH}/"
       - name: Require complete interaction regression before deployment
         run: npm run test:browser
+      - name: Check loading recovery and cross-engine interactions
+        run: npm run test:compat
       - uses: actions/upload-pages-artifact@v3
         with:
           path: out
@@ -56,6 +58,7 @@ jobs:
           path: |
             /tmp/website-preview.log
             .preview/test-results
+            .preview/compat-results
   deploy:
     needs: build
     runs-on: ubuntu-latest
